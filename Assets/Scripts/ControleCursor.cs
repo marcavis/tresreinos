@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ControleCursor : MonoBehaviour
 {
@@ -14,8 +15,10 @@ public class ControleCursor : MonoBehaviour
     private float velCursor = 5f;
     // Start is called before the first frame update
     private bool podeMover = true;
+
+    public Tilemap _tilemap;
     void Start()
-    {
+    {   
         
     }
 
@@ -29,7 +32,12 @@ public class ControleCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(_tilemap.GetSprite(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
+        if(Input.GetButtonDown("Fire1")) {
+                print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
+            }
         if(podeMover) {
+            
             float deslocX = Input.GetAxisRaw("Horizontal");
             float deslocY = Input.GetAxisRaw("Vertical");
             //float addX = deslocX * velocidade * Time.deltaTime;
