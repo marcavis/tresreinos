@@ -12,6 +12,7 @@ public class GerenciadorScript : MonoBehaviour
     void Start()
     {
         persNovo = Instantiate<Personagem>(prefabPersonagem, new Vector3(1.5f, 1.5f, 0), Quaternion.identity);
+        personagens = new List<Personagem>();
         personagens.Add(persNovo);
         persNovo.nome = "Jim";
         persNovo.GetComponent<Personagem>().nome = "Joe";
