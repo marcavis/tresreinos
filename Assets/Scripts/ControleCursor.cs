@@ -17,9 +17,12 @@ public class ControleCursor : MonoBehaviour
     private bool podeMover = true;
 
     public Tilemap _tilemap;
+    public GerenciadorScript gs;
     void Start()
     {   
-        
+        gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+        //print(gs);
+
     }
 
     void FixedUpdate () {
@@ -32,10 +35,14 @@ public class ControleCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(_tilemap.GetSprite(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
+        //print(_tilemap.GetSprite(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
         if(Input.GetButtonDown("Fire1")) {
-                print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
+            foreach (Personagem p in gs.personagens)
+            {
+                print(p.transform.position);
             }
+            //print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
+        }
         if(podeMover) {
             
             float deslocX = Input.GetAxisRaw("Horizontal");
@@ -69,4 +76,5 @@ public class ControleCursor : MonoBehaviour
         //     transform.localScale = new Vector3(escalaX, transform.localScale.y, transform.localScale.z);
         // }
     }
+    
 }
