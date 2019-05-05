@@ -17,7 +17,9 @@ public class ControleCursor : MonoBehaviour
     private bool podeMover = true;
 
     public Tilemap _tilemap;
-    public GerenciadorScript gs;
+    private GerenciadorScript gs;
+
+    public Transform blueSquare;
     void Start()
     {   
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
@@ -39,8 +41,25 @@ public class ControleCursor : MonoBehaviour
         if(Input.GetButtonDown("Fire1")) {
             foreach (Personagem p in gs.personagens)
             {
-                print(p.transform.position);
+                //print(p.transform.position);
+                //print(arredPosicao(transform.position));
+                if(p.transform.position == arredPosicao(transform.position)) {
+                    print(p.transform.position);
+                    p.Piscar();
+                    for (int x = (int) -p.movimento; x <= (p.movimento); x++)
+                    {
+                        for (int y = (int) -p.movimento; y <= (p.movimento); y++) {
+                            Vector3 estaPosicao = new Vector3(p.transform.position.x + x, p.transform.position.y + y, 0);
+                            if(p.PodeAlcancar(estaPosicao)) {
+                                Instantiate(blueSquare, estaPosicao, Quaternion.identity);
+                            }
+                            //print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(p.transform.position.x + x - 0.5f), Mathf.RoundToInt(p.transform.position.y + y - 0.5f), 0) ));
+                        }
+                    }
+                }
+                
             }
+            //print (transform.position);
             //print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
         }
         if(podeMover) {
@@ -75,6 +94,10 @@ public class ControleCursor : MonoBehaviour
         //     float escalaX = transform.localScale.x * -1;
         //     transform.localScale = new Vector3(escalaX, transform.localScale.y, transform.localScale.z);
         // }
+    }
+
+    private Vector3 arredPosicao(Vector3 v) {
+        return new Vector3(Mathf.Floor(v.x) + 0.5f, Mathf.Floor(v.y) + 0.5f, 0.0f);
     }
     
 }
