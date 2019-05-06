@@ -43,19 +43,31 @@ public class ControleCursor : MonoBehaviour
             {
                 //print(p.transform.position);
                 //print(arredPosicao(transform.position));
-                if(p.transform.position == arredPosicao(transform.position)) {
-                    print(p.transform.position);
+                if(p.transform.position == transform.position) {
+                    //print(p.transform.position);
                     p.Piscar();
-                    for (int x = (int) -p.movimento; x <= (p.movimento); x++)
-                    {
+                    
+                    //se personagem p tiver 5 tiles de alcance, criar um quadrado 11 x 11 de tiles para ser considerado acessível ou não
+                    int dimensaoMatriz = (int) ((p.movimento * 2 + 1));
+                    string[,] matrizDeTiles = new string[dimensaoMatriz,dimensaoMatriz];
+                    
+                    
+                    for (int x = (int) -p.movimento; x <= (p.movimento); x++) {
                         for (int y = (int) -p.movimento; y <= (p.movimento); y++) {
                             Vector3 estaPosicao = new Vector3(p.transform.position.x + x, p.transform.position.y + y, 0);
+                            //listaDeTiles[indice] = estaPosicao;
                             if(p.PodeAlcancar(estaPosicao)) {
                                 Instantiate(blueSquare, estaPosicao, Quaternion.identity);
                             }
-                            //print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(p.transform.position.x + x - 0.5f), Mathf.RoundToInt(p.transform.position.y + y - 0.5f), 0) ));
+                            TileBase esteTile = _tilemap.GetTile(new Vector3Int((int) p.transform.position.x + x, (int) p.transform.position.y + y, 0));
+                            if(esteTile != null) {
+                                string nomeDoTile = esteTile.name;
+                                matrizDeTiles[(int) (x+p.movimento), (int) (y+p.movimento)] = nomeDoTile;
+                            }
                         }
                     }
+                    // print(matrizDeTiles.Length);
+                    p.TilesAcessiveis(matrizDeTiles, _tilemap);
                 }
                 
             }
@@ -96,8 +108,8 @@ public class ControleCursor : MonoBehaviour
         // }
     }
 
-    private Vector3 arredPosicao(Vector3 v) {
-        return new Vector3(Mathf.Floor(v.x) + 0.5f, Mathf.Floor(v.y) + 0.5f, 0.0f);
-    }
+    // private Vector3 arredPosicao(Vector3 v) {
+    //     return new Vector3(Mathf.Floor(v.x) + 0.5f, Mathf.Floor(v.y) + 0.5f, 0.0f);
+    // }
     
 }
