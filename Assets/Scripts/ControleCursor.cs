@@ -39,35 +39,21 @@ public class ControleCursor : MonoBehaviour
     {
         //print(_tilemap.GetSprite(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
         if(Input.GetButtonDown("Fire1")) {
+            //acho que apagar depois?
+            GameObject[] overlays = GameObject.FindGameObjectsWithTag("HelperOverlay");
+            foreach(GameObject obj in overlays) {
+                Destroy(obj);
+            }
             foreach (Personagem p in gs.personagens)
             {
-                //print(p.transform.position);
-                //print(arredPosicao(transform.position));
                 if(p.transform.position == transform.position) {
-                    //print(p.transform.position);
                     p.Piscar();
                     
-                    //se personagem p tiver 5 tiles de alcance, criar um quadrado 11 x 11 de tiles para ser considerado acessível ou não
-                    int dimensaoMatriz = (int) ((p.movimento * 2 + 1));
-                    string[,] matrizDeTiles = new string[dimensaoMatriz,dimensaoMatriz];
-                    
-                    
-                    for (int x = (int) -p.movimento; x <= (p.movimento); x++) {
-                        for (int y = (int) -p.movimento; y <= (p.movimento); y++) {
-                            Vector3 estaPosicao = new Vector3(p.transform.position.x + x, p.transform.position.y + y, 0);
-                            //listaDeTiles[indice] = estaPosicao;
-                            if(p.PodeAlcancar(estaPosicao)) {
-                                Instantiate(blueSquare, estaPosicao, Quaternion.identity);
-                            }
-                            TileBase esteTile = _tilemap.GetTile(new Vector3Int((int) p.transform.position.x + x, (int) p.transform.position.y + y, 0));
-                            if(esteTile != null) {
-                                string nomeDoTile = esteTile.name;
-                                matrizDeTiles[(int) (x+p.movimento), (int) (y+p.movimento)] = nomeDoTile;
-                            }
-                        }
+                    List<Vector3> aPintar = p.TilesAcessiveis(_tilemap);
+                    foreach (Vector3 t in aPintar)
+                    {
+                        Instantiate(blueSquare, t, Quaternion.identity);
                     }
-                    // print(matrizDeTiles.Length);
-                    p.TilesAcessiveis(matrizDeTiles, _tilemap);
                 }
                 
             }
