@@ -44,6 +44,7 @@ public class ControleCursor : MonoBehaviour
             foreach(GameObject obj in overlays) {
                 Destroy(obj);
             }
+
             foreach (Personagem p in gs.personagens)
             {
                 if(p.transform.position == transform.position) {
@@ -64,10 +65,8 @@ public class ControleCursor : MonoBehaviour
             
             float deslocX = Input.GetAxisRaw("Horizontal");
             float deslocY = Input.GetAxisRaw("Vertical");
-            //float addX = deslocX * velocidade * Time.deltaTime;
             novoX = transform.position.x + deslocX;
             novoY = transform.position.y + deslocY;
-            //transform.position = new Vector3(novoX, novoY, transform.position.z);
             novaPosicao = new Vector3(novoX, novoY, transform.position.z);
             podeMover = false;
             if (velhoDeslocX == deslocX && velhoDeslocY == deslocY) {
@@ -87,15 +86,6 @@ public class ControleCursor : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, novaPosicao, velCursor * Time.deltaTime * segurando);
         }
         
-        // if ((ladoAnterior != deslocX) && (deslocX != 0f)){
-        //     ladoAnterior = deslocX;
-        //     float escalaX = transform.localScale.x * -1;
-        //     transform.localScale = new Vector3(escalaX, transform.localScale.y, transform.localScale.z);
-        // }
     }
 
-    // private Vector3 arredPosicao(Vector3 v) {
-    //     return new Vector3(Mathf.Floor(v.x) + 0.5f, Mathf.Floor(v.y) + 0.5f, 0.0f);
-    // }
-    
 }
