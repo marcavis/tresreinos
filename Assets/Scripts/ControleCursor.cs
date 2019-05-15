@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class ControleCursor : MonoBehaviour
 {
+    //informa se está recebendo comandos do controle
+    public bool ativo;
     private float novoX;
     private float novoY;
     private float velhoDeslocX, velhoDeslocY;
@@ -12,7 +14,7 @@ public class ControleCursor : MonoBehaviour
     //para aumentar a velocidade do cursor
     private int segurando = 1; 
     private Vector3 novaPosicao;
-    private float velCursor = 5f;
+    private float velCursor = 6f;
     // Start is called before the first frame update
     private bool podeMover = true;
 
@@ -38,7 +40,8 @@ public class ControleCursor : MonoBehaviour
     void Update()
     {
         //print(_tilemap.GetSprite(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
-        if(Input.GetButtonDown("Fire1")) {
+        if(ativo && Input.GetButtonDown("Fire1")) {
+            
             //acho que apagar depois?
             GameObject[] overlays = GameObject.FindGameObjectsWithTag("HelperOverlay");
             foreach(GameObject obj in overlays) {
@@ -49,19 +52,20 @@ public class ControleCursor : MonoBehaviour
             {
                 if(p.transform.position == transform.position) {
                     p.Piscar();
-                    
+                    gs.EntrarMenuBatalha(this.gameObject);
                     List<Vector3> aPintar = p.TilesAcessiveis(_tilemap);
                     foreach (Vector3 t in aPintar)
                     {
                         Instantiate(blueSquare, t, Quaternion.identity);
                     }
                 }
-                
             }
+
+            
             //print (transform.position);
             //print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
         }
-        if(podeMover) {
+        if(ativo && podeMover) {
             
             float deslocX = Input.GetAxisRaw("Horizontal");
             float deslocY = Input.GetAxisRaw("Vertical");
