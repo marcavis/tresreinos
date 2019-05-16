@@ -14,12 +14,16 @@ public class ControleCursor : MonoBehaviour
     //para aumentar a velocidade do cursor
     private int segurando = 1; 
     private Vector3 novaPosicao;
+    public int cooldown;
+    public bool movendoUnidade = false;
     private float velCursor = 6f;
     // Start is called before the first frame update
     private bool podeMover = true;
 
     public Tilemap _tilemap;
     private GerenciadorScript gs;
+    private List<Vector3> acessiveisUltimaUnidade;
+    private Personagem ultimaUnidade;
 
     public Transform blueSquare;
     void Start()
@@ -39,32 +43,42 @@ public class ControleCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(_tilemap.GetSprite(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
+        if(cooldown > 0) {
+            cooldown--;
+            return;
+        }
         if(ativo && Input.GetButtonDown("Fire1")) {
-            
-            //acho que apagar depois?
-            GameObject[] overlays = GameObject.FindGameObjectsWithTag("HelperOverlay");
-            foreach(GameObject obj in overlays) {
-                Destroy(obj);
-            }
+            if(!movendoUnidade) {
+                //acho que apagar depois?
+                GameObject[] overlays = GameObject.FindGameObjectsWithTag("HelperOverlay");
+                foreach(GameObject obj in overlays) {
+                    Destroy(obj);
+                }
 
-            foreach (Personagem p in gs.personagens)
-            {
-                if(p.transform.position == transform.position) {
-                    p.Piscar();
-                    gs.EntrarMenuBatalha(this.gameObject);
-                    List<Vector3> aPintar = p.TilesAcessiveis(_tilemap);
-                    foreach (Vector3 t in aPintar)
-                    {
-                        Instantiate(blueSquare, t, Quaternion.identity);
+                //seria bom substituir por algum tipo de Find
+                foreach (Personagem p in gs.personagens)
+                {
+                    if(p.transform.position == transform.position) {
+                        ultimaUnidade = p;
+                        p.Piscar();
+                        gs.EntrarMenuBatalha();
+                        acessiveisUltimaUnidade = p.TilesAcessiveis(_tilemap);
+                        foreach (Vector3 t in acessiveisUltimaUnidade)
+                        {
+                            Instantiate(blueSquare, t, Quaternion.identity);
+                        }
                     }
                 }
-            }
+            } else {
+                if(acessiveisUltimaUnidade.Contains(transform.position)) {
+                    ultimaUnidade.MoverPara(transform.position);
+                    
+                } else {
 
-            
-            //print (transform.position);
-            //print(_tilemap.GetTile(new Vector3Int(Mathf.RoundToInt(transform.position.x - 0.5f), Mathf.RoundToInt(transform.position.y - 0.5f), 0) ));
+                }
+            }
         }
+    
         if(ativo && podeMover) {
             
             float deslocX = Input.GetAxisRaw("Horizontal");

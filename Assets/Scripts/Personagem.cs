@@ -12,6 +12,8 @@ public class Personagem : MonoBehaviour
     private int chp, mhp;
 
     public int movimento; 
+    private Vector3 destinoFinal, destinoIntermediario;
+    private List<Vector3> rota;
     
     //matriz usada para saber como a unidade vai percorrer o caminho para
     //chegar na celula selecionada
@@ -20,11 +22,20 @@ public class Personagem : MonoBehaviour
     void Start()
     {
         movimento = 50;
+        destinoFinal = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(transform.position != destinoFinal) {
+            PararDePiscar(); //voltar depois?
+            
+            // if(transform.position != destinoIntermediario) {
+            //     destinoIntermediario = cameFrom
+            // }
+            transform.position = Vector3.MoveTowards(transform.position, destinoIntermediario, 2f * Time.deltaTime);
+        }
         if(piscando) {
             blinkFrames--;
             if(blinkFrames == 0) {
@@ -41,8 +52,36 @@ public class Personagem : MonoBehaviour
         piscando = true;
     }
 
+    public void PararDePiscar() {
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        blinkFrames = 6;
+        piscando = false;
+    }
+
     public bool PodeAlcancar(Vector3 posicao) {
         return Vector3.Distance(this.transform.position, posicao) <= movimento;
+    }
+
+    //tem q arrumar
+    public void MoverPara(Vector3 destino) {
+        destinoFinal = destino;
+        rota = new List<Vector3>();
+        Vector3 ponto = destinoFinal;
+        int x0 = (int) transform.position.x;
+        int y0 = (int) transform.position.x;
+        print("X" + ponto);
+        print(cameFrom.Length);
+        while(ponto != transform.position) {
+            print("X" + ponto);
+            print(cameFrom.Length);
+            ponto = cameFrom[(int) ponto.x - x0, (int) ponto.y - y0];
+            print("|" + ponto);
+            rota.Add(ponto);
+        }
+        foreach (Vector3 p in rota)
+        {
+            print(p);
+        }
     }
 
     public List<Vector3> TilesAcessiveis(Tilemap tilemap) {

@@ -14,8 +14,9 @@ public class GerenciadorScript : MonoBehaviour
     
     public GameObject canvas;
     public int opcaoMenuBatalha;
+    private int cooldownMenuBatalha = 5;
     private bool menuAtivo;
-    private bool podeMover;
+    
     public Text[] menuBatalha;
     private string[] textoMenuBatalha = {"Mover", "Atacar", "Habilidades", "Itens", "Parar"};
     // Start is called before the first frame update
@@ -36,11 +37,14 @@ public class GerenciadorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(menuAtivo && podeMover) {
+        cooldownMenuBatalha++;
+        if(menuAtivo && cooldownMenuBatalha > 4) {
             float deslocY = Input.GetAxisRaw("Vertical");
+            if(deslocY != 0) {
+                cooldownMenuBatalha = 0;
+            }
             opcaoMenuBatalha -= (int) deslocY;
             opcaoMenuBatalha = (menuBatalha.Length + opcaoMenuBatalha) % menuBatalha.Length;
-            print(opcaoMenuBatalha);
             for (int i = 0; i < menuBatalha.Length; i++)
             {
                 menuBatalha[i].text = textoMenuBatalha[i];
@@ -48,16 +52,38 @@ public class GerenciadorScript : MonoBehaviour
             menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
             
         }
-        //print(persNovo.nome);
+        if(menuAtivo) {
+            if(Input.GetButtonDown("Cancel")) {
+                SairMenuBatalha();
+            }
+            else if(Input.GetButtonDown("Fire1")) {
+                //mover 
+                if(opcaoMenuBatalha == 0){
+                    cursor.GetComponent<ControleCursor>().cooldown = 6;
+                    //dizer ao cursor que está no modo de escolher posição para mover alguém
+                    cursor.GetComponent<ControleCursor>().movendoUnidade = true;
+                    SairMenuBatalha();
+                }
+            }
+        }
     }
 
-    public void EntrarMenuBatalha(GameObject origem) {
-        origem.GetComponent<ControleCursor>().ativo = false;
+    public void EntrarMenuBatalha() {
+        cursor.GetComponent<ControleCursor>().ativo = false;
         canvas.GetComponent<Canvas>().enabled = true;
         menuAtivo = true;
-        podeMover = true;
+        for (int i = 0; i < menuBatalha.Length; i++)
+        {
+            menuBatalha[i].text = textoMenuBatalha[i];
+        }
         // menuBatalha[0].text = "fdsfs";
         // menuBatalha[0].text = textoMenuBatalha[0];
 
+    }
+
+    public void SairMenuBatalha() {
+        cursor.GetComponent<ControleCursor>().ativo = true;
+        canvas.GetComponent<Canvas>().enabled = false;
+        menuAtivo = false;
     }
 }
