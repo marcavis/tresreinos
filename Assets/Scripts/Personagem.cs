@@ -66,10 +66,11 @@ public class Personagem : MonoBehaviour
     public void MoverPara(Vector3 destino) {
         destinoFinal = destino;
         rota = new List<Vector3>();
-        Vector3 ponto = destinoFinal;
+        Vector3 ponto = PosicaoNaMatrizMov(destinoFinal);
         int x0 = (int) transform.position.x;
         int y0 = (int) transform.position.x;
         print("X" + ponto);
+        print("P" + transform.position);
         print(cameFrom.Length);
         while(ponto != transform.position) {
             print("X" + ponto);
@@ -82,6 +83,18 @@ public class Personagem : MonoBehaviour
         {
             print(p);
         }
+    }
+
+    //converte entre coordenadas do mapa em coordenadas na matriz de movimentos possíveis
+    public Vector3 PosicaoNaMatrizMov(Vector3 entrada) {
+        int m = movimento/10;
+        return new Vector3(m + entrada.x - transform.position.x, m + entrada.y - transform.position.y, 0);
+    }
+
+    //converte entre coordenadas da matriz de movimentos possíveis em coordenadas no mapa
+    public Vector3 PosicaoNoMapa(Vector3 entrada) {
+        int m = movimento/10;
+        return new Vector3(-m + entrada.x + transform.position.x, -m + entrada.y + transform.position.y, 0);
     }
 
     public List<Vector3> TilesAcessiveis(Tilemap tilemap) {
@@ -117,7 +130,7 @@ public class Personagem : MonoBehaviour
             Vector3 atual = openSet[0];
             openSet.Remove(atual);
             closedSet.Add(atual);
-            foreach (Vector3 vizinho in vizinhos(atual.x, atual.y, dimensaoMat))
+            foreach (Vector3 vizinho in Vizinhos(atual.x, atual.y, dimensaoMat))
             {
                 if(closedSet.Contains(vizinho)) {
                     continue;
@@ -127,7 +140,7 @@ public class Personagem : MonoBehaviour
                 float esteTileX = transform.position.x + vizinho.x - (movimento/10);
                 float esteTileY = transform.position.y + vizinho.y - (movimento/10);
                 Vector3Int posRealVizinho = new Vector3Int((int) esteTileX, (int) esteTileY, 0);
-                float possivel_gScore = gScore[(int) atual.x, (int) atual.y] + custoParaAndar(posRealVizinho, tilemap);// + custo(vizinho)
+                float possivel_gScore = gScore[(int) atual.x, (int) atual.y] + CustoParaAndar(posRealVizinho, tilemap);// + custo(vizinho)
                 if(!openSet.Contains(vizinho)) {
                     openSet.Add(vizinho);
                 } else if (possivel_gScore >= gScore[(int) vizinho.x, (int) vizinho.y]) {
@@ -156,7 +169,7 @@ public class Personagem : MonoBehaviour
         return acessiveis;
     }
 
-    private List<Vector3> vizinhos(float posX, float posY, int tamanho) {
+    private List<Vector3> Vizinhos(float posX, float posY, int tamanho) {
         List<Vector3> saida = new List<Vector3>();
         //vizinho à esquerda
         if(posX - 1 >= 0) saida.Add(new Vector3(posX - 1, posY, 0));
@@ -169,7 +182,7 @@ public class Personagem : MonoBehaviour
         return saida;
     }
 
-    private int custoParaAndar(Vector3Int alvo, Tilemap tilemap) {
+    private int CustoParaAndar(Vector3Int alvo, Tilemap tilemap) {
         //custo padrão, portanto muitos tiles não precisarão ter seu custo definido
         //TODO: tirar daqui pois unidades diferentes terão perfis de custo diferentes por terreno
         int custo = 10;

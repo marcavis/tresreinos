@@ -2623,6 +2623,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ativo: 0
+  cooldown: 0
+  movendoUnidade: 0
   _tilemap: {fileID: 633598800}
   blueSquare: {fileID: 393677462908681899, guid: c41cf3f318aa48d5cb0a70958b8dd4fb,
     type: 3}
