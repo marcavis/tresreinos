@@ -60,7 +60,7 @@ public class ControleCursor : MonoBehaviour
                 {
                     if(p.transform.position == transform.position) {
                         ultimaUnidade = p;
-                        p.Piscar();
+                        p.ComecarAPiscar();
                         gs.EntrarMenuBatalha();
                         acessiveisUltimaUnidade = p.TilesAcessiveis(_tilemap);
                         foreach (Vector3 t in acessiveisUltimaUnidade)
@@ -71,8 +71,8 @@ public class ControleCursor : MonoBehaviour
                 }
             } else {
                 if(acessiveisUltimaUnidade.Contains(transform.position)) {
-                    ultimaUnidade.MoverPara(transform.position);
-                    
+                    ultimaUnidade.destinoFinal = transform.position;
+                    ultimaUnidade.PrepararCaminho();
                 } else {
 
                 }

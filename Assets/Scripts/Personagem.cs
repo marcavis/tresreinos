@@ -12,7 +12,8 @@ public class Personagem : MonoBehaviour
     private int chp, mhp;
 
     public int movimento; 
-    private Vector3 destinoFinal, destinoIntermediario;
+    public Vector3 destinoFinal;
+    private Vector3 destinoIntermediario;
     private List<Vector3> rota;
     
     //matriz usada para saber como a unidade vai percorrer o caminho para
@@ -21,6 +22,7 @@ public class Personagem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rota = new List<Vector3>();
         movimento = 50;
         destinoFinal = transform.position;
     }
@@ -28,13 +30,21 @@ public class Personagem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.position != destinoFinal) {
+        
+        print(rota.Count);
+        //if(transform.position != destinoFinal) {
+        if(rota.Count > 0) {
             PararDePiscar(); //voltar depois?
-            
-            // if(transform.position != destinoIntermediario) {
-            //     destinoIntermediario = cameFrom
+            // foreach (var item in rota)
+            // {
+            //     print(item);
             // }
-            transform.position = Vector3.MoveTowards(transform.position, destinoIntermediario, 2f * Time.deltaTime);
+            if(transform.position == rota[0]) {
+                rota.RemoveAt(0);
+            }
+            if(rota.Count > 0) {
+                transform.position = Vector3.MoveTowards(transform.position, rota[0], 10f * Time.deltaTime);
+            }
         }
         if(piscando) {
             blinkFrames--;
@@ -46,7 +56,7 @@ public class Personagem : MonoBehaviour
         }
     }
 
-    public void Piscar() {
+    public void ComecarAPiscar() {
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         blinkFrames = 6;
         piscando = true;
@@ -62,27 +72,20 @@ public class Personagem : MonoBehaviour
         return Vector3.Distance(this.transform.position, posicao) <= movimento;
     }
 
-    //tem q arrumar
-    public void MoverPara(Vector3 destino) {
-        destinoFinal = destino;
+    //retorna o caminho que a unidade percorrerá graficamente ao mover-se
+    public void PrepararCaminho() {
+        Vector3 destino = destinoFinal;
         rota = new List<Vector3>();
-        Vector3 ponto = PosicaoNaMatrizMov(destinoFinal);
-        int x0 = (int) transform.position.x;
-        int y0 = (int) transform.position.x;
-        print("X" + ponto);
-        print("P" + transform.position);
-        print(cameFrom.Length);
-        while(ponto != transform.position) {
-            print("X" + ponto);
-            print(cameFrom.Length);
-            ponto = cameFrom[(int) ponto.x - x0, (int) ponto.y - y0];
-            print("|" + ponto);
-            rota.Add(ponto);
+        Vector3 ponto = PosicaoNaMatrizMov(destino);
+        rota.Add(destino);
+
+        while(ponto != new Vector3(movimento/10, movimento/10, 0)) {
+            ponto = cameFrom[(int) ponto.x, (int) ponto.y];
+            rota.Add(PosicaoNoMapa(ponto));
         }
-        foreach (Vector3 p in rota)
-        {
-            print(p);
-        }
+        rota.Reverse();
+        //remover o primeiro item da rota, que é a própria posição atual
+        rota.RemoveAt(0);
     }
 
     //converte entre coordenadas do mapa em coordenadas na matriz de movimentos possíveis
