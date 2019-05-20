@@ -15,6 +15,8 @@ public class Personagem : MonoBehaviour
     public Vector3 destinoFinal;
     private Vector3 destinoIntermediario;
     private List<Vector3> rota;
+    //manter salva uma rota inversa se o jogador desistir de mover-se
+    private List<Vector3> rotaBacktrack;
     
     //matriz usada para saber como a unidade vai percorrer o caminho para
     //chegar na celula selecionada
@@ -22,23 +24,23 @@ public class Personagem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //valores auxiliares para movimentação no campo de batalha
         rota = new List<Vector3>();
-        movimento = 50;
+        rotaBacktrack = new List<Vector3>();
         destinoFinal = transform.position;
+        
+        //atributos
+        movimento = 50; 
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        print(rota.Count);
-        //if(transform.position != destinoFinal) {
+        //mover-se para algum tile, se houver essa ordem
         if(rota.Count > 0) {
             PararDePiscar(); //voltar depois?
-            // foreach (var item in rota)
-            // {
-            //     print(item);
-            // }
+
             if(transform.position == rota[0]) {
                 rota.RemoveAt(0);
             }
@@ -46,16 +48,18 @@ public class Personagem : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, rota[0], 10f * Time.deltaTime);
             }
         }
-        if(piscando) {
-            blinkFrames--;
-            if(blinkFrames == 0) {
-                blinkFrames = 6;
-                //inverte a variável enabled, apagando ou redesenhando o objeto
-                gameObject.GetComponent<SpriteRenderer>().enabled ^= true;
-            }
-        }
+
+        if(piscando) Piscar();
     }
 
+    public void Piscar() {
+        blinkFrames--;
+        if(blinkFrames == 0) {
+            blinkFrames = 6;
+            //inverte a variável enabled, apagando ou redesenhando o objeto
+            gameObject.GetComponent<SpriteRenderer>().enabled ^= true;
+        }
+    }
     public void ComecarAPiscar() {
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         blinkFrames = 6;
@@ -83,9 +87,12 @@ public class Personagem : MonoBehaviour
             ponto = cameFrom[(int) ponto.x, (int) ponto.y];
             rota.Add(PosicaoNoMapa(ponto));
         }
+        rotaBacktrack = new List<Vector3>(rota);
         rota.Reverse();
         //remover o primeiro item da rota, que é a própria posição atual
         rota.RemoveAt(0);
+        print(rotaBacktrack[0]);
+        print(rota[0]);
     }
 
     //converte entre coordenadas do mapa em coordenadas na matriz de movimentos possíveis
@@ -105,7 +112,6 @@ public class Personagem : MonoBehaviour
         //st.Start();
         int dimensaoMat = (int) (movimento * 2 / 10 + 1);
 
-        //int meuX = (int) transform.position.x;
         int meuX = dimensaoMat / 2; //centro do quadrado avaliado
         int meuY = dimensaoMat / 2;
         List<Vector3> closedSet = new List<Vector3>();
@@ -172,6 +178,7 @@ public class Personagem : MonoBehaviour
         return acessiveis;
     }
 
+    //para uma posição numa matriz, retorna as posições adjacentes, se couberem na matriz
     private List<Vector3> Vizinhos(float posX, float posY, int tamanho) {
         List<Vector3> saida = new List<Vector3>();
         //vizinho à esquerda

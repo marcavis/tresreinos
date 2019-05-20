@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GerenciadorScript : MonoBehaviour
 {
-    public List<Personagem> personagens {get; set;}
+    public List<Personagem> personagens;
     public Personagem prefabPersonagem;
     private Personagem persNovo;
     private Personagem persNovo2, persNovo3;

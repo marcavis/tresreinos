@@ -33,13 +33,6 @@ public class ControleCursor : MonoBehaviour
 
     }
 
-    void FixedUpdate () {
-        // if (moveToPoint)
-        // {
-        //     transform.position = Vector3.MoveTowards(transform.position, endPosition, moveSpeed * Time.deltaTime);
-        // }
-    }
-
     // Update is called once per frame
     void Update()
     {
