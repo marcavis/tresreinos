@@ -15,7 +15,7 @@ public class ControleCursor : MonoBehaviour
     private int segurando = 1; 
     private Vector3 novaPosicao;
     public int cooldown;
-    public bool movendoUnidade = false;
+    
     private float velCursor = 6f;
     // Start is called before the first frame update
     private bool podeMover = true;
@@ -24,10 +24,16 @@ public class ControleCursor : MonoBehaviour
     private GerenciadorScript gs;
     private List<Vector3> acessiveisUltimaUnidade;
     private Personagem ultimaUnidade;
+    private Vector3 posicaoInicialDaUnidade;
 
     public Transform blueSquare;
+    public int acaoDoCursor = 0;
+    const int NADA = 0;
+    const int SELECIONADO = 1;
+    const int MOVIDO = 2;
     void Start()
     {   
+        _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         //print(gs);
 
@@ -36,43 +42,70 @@ public class ControleCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //variável para evitar que mais de um input seja tratado neste frame
+        bool aceitaInput = true;
+
+        //evitar que um toque ligeiramente mais demorado execute várias ações
         if(cooldown > 0) {
             cooldown--;
             return;
         }
-        if(ativo && Input.GetButtonDown("Fire1")) {
-            if(!movendoUnidade) {
-                //acho que apagar depois?
-                GameObject[] overlays = GameObject.FindGameObjectsWithTag("HelperOverlay");
-                foreach(GameObject obj in overlays) {
-                    Destroy(obj);
-                }
 
+        if(aceitaInput && ativo && Input.GetButtonDown("Cancel")) {
+            if(acaoDoCursor == SELECIONADO) {
+                LimparOverlays();
+                if(ultimaUnidade != null) {
+                    ultimaUnidade.PararDePiscar();
+                }
+                ultimaUnidade = null;
+                acaoDoCursor = NADA;
+            } else if(acaoDoCursor == MOVIDO) {
+                //tratado em DesfazerAcaoAtual() pois no status MOVIDO o controle estará no menu de batalha
+            }
+            aceitaInput = false;
+        }
+
+        if(aceitaInput && ativo && Input.GetButtonDown("Fire1")) {
+            if(acaoDoCursor == NADA) {
+                //acho que apagar depois?
+                LimparOverlays();
                 //seria bom substituir por algum tipo de Find
                 foreach (Personagem p in gs.personagens)
                 {
                     if(p.transform.position == transform.position) {
                         ultimaUnidade = p;
                         p.ComecarAPiscar();
-                        gs.EntrarMenuBatalha();
+                        posicaoInicialDaUnidade = p.transform.position;
+                        //gs.EntrarMenuBatalha();
                         acessiveisUltimaUnidade = p.TilesAcessiveis(_tilemap);
-                        foreach (Vector3 t in acessiveisUltimaUnidade)
-                        {
-                            Instantiate(blueSquare, t, Quaternion.identity);
-                        }
+                        
+                        //não permitir que a unidade ocupe o mesmo tile de um companheiro
+                        RemoverOcupados(acessiveisUltimaUnidade);
+
+                        MostrarOverlaysMovimento();
+                        
+                        acaoDoCursor = SELECIONADO;
                     }
                 }
-            } else {
+            } else if(acaoDoCursor == SELECIONADO) {
                 if(acessiveisUltimaUnidade.Contains(transform.position)) {
-                    ultimaUnidade.destinoFinal = transform.position;
-                    ultimaUnidade.PrepararCaminho();
+                    //apenas aceitar nova movimentação se a unidade já tiver graficamente voltado a seu posto
+                    if(ultimaUnidade.transform.position == posicaoInicialDaUnidade) {
+                        ultimaUnidade.destinoFinal = transform.position;
+                        ultimaUnidade.PrepararCaminho();
+                        acaoDoCursor = MOVIDO;
+                        LimparOverlays();
+                        ultimaUnidade.PararDePiscar();
+                        gs.EntrarMenuBatalha();
+                    }
                 } else {
-
+                    //TODO: tocar som de erro?
                 }
             }
+            aceitaInput = false;
         }
     
-        if(ativo && podeMover) {
+        if(aceitaInput && ativo && podeMover) {
             
             float deslocX = Input.GetAxisRaw("Horizontal");
             float deslocY = Input.GetAxisRaw("Vertical");
@@ -88,6 +121,7 @@ public class ControleCursor : MonoBehaviour
             velhoDeslocX = deslocX;
             velhoDeslocY = deslocY;
         }
+
         if(transform.position == novaPosicao) {
             podeMover = true;
         } else {
@@ -96,7 +130,45 @@ public class ControleCursor : MonoBehaviour
             if(segurando < 1) { segurando = 1;}
             transform.position = Vector3.MoveTowards(transform.position, novaPosicao, velCursor * Time.deltaTime * segurando);
         }
-        
     }
 
+    public void DesfazerAcaoAtual() {
+        if(acaoDoCursor == MOVIDO) {
+            MostrarOverlaysMovimento();
+            acaoDoCursor = SELECIONADO;
+            ultimaUnidade.DesfazerMovimento();
+        }
+    }
+
+    public void MostrarOverlaysMovimento() {
+        foreach (Vector3 t in acessiveisUltimaUnidade)
+        {
+            Instantiate(blueSquare, t, Quaternion.identity);
+        }
+    }
+
+    public void LimparOverlays()
+    {
+        GameObject[] overlays = GameObject.FindGameObjectsWithTag("HelperOverlay");
+        foreach(GameObject obj in overlays) {
+            Destroy(obj);
+        }
+    }
+
+    //terminada a rodada, agora o cursor pode selecionar unidades de novo
+    public void Liberar() {
+        acaoDoCursor = NADA;
+    }
+
+    public void RemoverOcupados(List<Vector3> tiles) {
+        List<Vector3> ocupados = new List<Vector3>();
+        foreach (var personagem in gs.personagens)
+        {
+            //if(personagem.transform.position)
+            if(personagem != ultimaUnidade) {
+                print(personagem.transform.position);
+                tiles.Remove(personagem.transform.position);
+            }
+        }
+    }
 }

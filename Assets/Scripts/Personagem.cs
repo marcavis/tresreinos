@@ -30,7 +30,7 @@ public class Personagem : MonoBehaviour
         destinoFinal = transform.position;
         
         //atributos
-        movimento = 50; 
+        movimento = 70; 
         
     }
 
@@ -91,8 +91,13 @@ public class Personagem : MonoBehaviour
         rota.Reverse();
         //remover o primeiro item da rota, que é a própria posição atual
         rota.RemoveAt(0);
-        print(rotaBacktrack[0]);
-        print(rota[0]);
+        //print(rotaBacktrack[0]);
+        //print(rota[0]);
+    }
+
+    public void DesfazerMovimento() {
+        destinoFinal = rotaBacktrack[rotaBacktrack.Count - 1];
+        rota = new List<Vector3>(rotaBacktrack);
     }
 
     //converte entre coordenadas do mapa em coordenadas na matriz de movimentos possíveis
@@ -108,6 +113,7 @@ public class Personagem : MonoBehaviour
     }
 
     public List<Vector3> TilesAcessiveis(Tilemap tilemap) {
+        //TODO: incluir custo 999 em tiles ocupados por inimigos
         //System.Diagnostics.Stopwatch st = new System.Diagnostics.Stopwatch();
         //st.Start();
         int dimensaoMat = (int) (movimento * 2 / 10 + 1);

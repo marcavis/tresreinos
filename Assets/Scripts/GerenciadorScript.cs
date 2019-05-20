@@ -18,7 +18,7 @@ public class GerenciadorScript : MonoBehaviour
     private bool menuAtivo;
     
     public Text[] menuBatalha;
-    private string[] textoMenuBatalha = {"Mover", "Atacar", "Habilidades", "Itens", "Parar"};
+    private string[] textoMenuBatalha = {"Atacar", "Habilidades", "Itens", "Esperar"};
     // Start is called before the first frame update
     void Start()
     {
@@ -55,14 +55,27 @@ public class GerenciadorScript : MonoBehaviour
         if(menuAtivo) {
             if(Input.GetButtonDown("Cancel")) {
                 SairMenuBatalha();
+                cursor.GetComponent<ControleCursor>().DesfazerAcaoAtual();
             }
             else if(Input.GetButtonDown("Fire1")) {
-                //mover 
+                //atacar 
                 if(opcaoMenuBatalha == 0){
-                    cursor.GetComponent<ControleCursor>().cooldown = 6;
                     //dizer ao cursor que está no modo de escolher posição para mover alguém
-                    cursor.GetComponent<ControleCursor>().movendoUnidade = true;
+                    //cursor.GetComponent<ControleCursor>().movendoUnidade = true;
+                    // SairMenuBatalha();
+                }
+                //habilidades
+                else if(opcaoMenuBatalha == 1){
+                
+                }
+                //itens
+                else if(opcaoMenuBatalha == 2){
+                
+                }
+                //esperar
+                else {
                     SairMenuBatalha();
+                    cursor.GetComponent<ControleCursor>().Liberar();
                 }
             }
         }
@@ -82,6 +95,7 @@ public class GerenciadorScript : MonoBehaviour
     }
 
     public void SairMenuBatalha() {
+        cursor.GetComponent<ControleCursor>().cooldown = 6;
         cursor.GetComponent<ControleCursor>().ativo = true;
         canvas.GetComponent<Canvas>().enabled = false;
         menuAtivo = false;
