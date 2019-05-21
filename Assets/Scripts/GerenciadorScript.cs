@@ -38,7 +38,7 @@ public class GerenciadorScript : MonoBehaviour
     void Update()
     {
         cooldownMenuBatalha++;
-        if(menuAtivo && cooldownMenuBatalha > 4) {
+        if(menuAtivo && cooldownMenuBatalha > 9) {
             float deslocY = Input.GetAxisRaw("Vertical");
             if(deslocY != 0) {
                 cooldownMenuBatalha = 0;
@@ -76,12 +76,15 @@ public class GerenciadorScript : MonoBehaviour
                 else {
                     SairMenuBatalha();
                     cursor.GetComponent<ControleCursor>().Liberar();
+                    //print(cursor.GetComponent<ControleCursor>().acaoDoCursor);
                 }
             }
         }
     }
 
     public void EntrarMenuBatalha() {
+        print(cursor);
+        opcaoMenuBatalha = 0;
         cursor.GetComponent<ControleCursor>().ativo = false;
         canvas.GetComponent<Canvas>().enabled = true;
         menuAtivo = true;
@@ -95,6 +98,7 @@ public class GerenciadorScript : MonoBehaviour
     }
 
     public void SairMenuBatalha() {
+        print("sair");
         cursor.GetComponent<ControleCursor>().cooldown = 6;
         cursor.GetComponent<ControleCursor>().ativo = true;
         canvas.GetComponent<Canvas>().enabled = false;

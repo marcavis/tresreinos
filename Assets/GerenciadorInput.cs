@@ -5,6 +5,7 @@ using UnityEngine;
 public class GerenciadorInput : MonoBehaviour
 {
     //referência para o cursor 
+    
     public GameObject cursor;
     public GameObject gs;
     private int cursorAtivo;

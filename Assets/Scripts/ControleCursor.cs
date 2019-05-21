@@ -64,7 +64,7 @@ public class ControleCursor : MonoBehaviour
             }
             aceitaInput = false;
         }
-
+        
         if(aceitaInput && ativo && Input.GetButtonDown("Fire1")) {
             if(acaoDoCursor == NADA) {
                 //acho que apagar depois?
