@@ -11,6 +11,7 @@ public class GerenciadorScript : MonoBehaviour
     private Personagem persNovo2, persNovo3;
 
     public GameObject cursor;
+    public GerenciadorInput gerenciadorInput;
     
     public GameObject canvas;
     public int opcaoMenuBatalha;
@@ -19,9 +20,15 @@ public class GerenciadorScript : MonoBehaviour
     
     public Text[] menuBatalha;
     private string[] textoMenuBatalha = {"Atacar", "Habilidades", "Itens", "Esperar"};
+
+    public int entrada;
+    const int CANCEL = 2048;
+    const int ACTION = 4096;
+
     // Start is called before the first frame update
     void Start()
     {
+        gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         canvas.GetComponent<Canvas>().enabled = false;
         cursor.GetComponent<ControleCursor>().ativo = true;
         persNovo = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(2, 2, 0), Quaternion.identity);
@@ -53,11 +60,11 @@ public class GerenciadorScript : MonoBehaviour
             
         }
         if(menuAtivo) {
-            if(Input.GetButtonDown("Cancel")) {
+            if(entrada == CANCEL) {
                 SairMenuBatalha();
                 cursor.GetComponent<ControleCursor>().DesfazerAcaoAtual();
             }
-            else if(Input.GetButtonDown("Fire1")) {
+            else if(entrada == ACTION) {
                 //atacar 
                 if(opcaoMenuBatalha == 0){
                     //dizer ao cursor que está no modo de escolher posição para mover alguém

@@ -2130,6 +2130,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursor: {fileID: 0}
   gs: {fileID: 0}
+  cursores: []
+  cursorAtivo: 0
 --- !u!4 &1253583107
 Transform:
   m_ObjectHideFlags: 0
@@ -2379,6 +2381,7 @@ MonoBehaviour:
   prefabPersonagem: {fileID: 8338947829963984328, guid: 4330aada7ff950483a17044742bdcf2c,
     type: 3}
   cursor: {fileID: 2001583344}
+  gerenciadorInput: {fileID: 0}
   canvas: {fileID: 943252278}
   opcaoMenuBatalha: 0
   menuBatalha:
@@ -2386,6 +2389,7 @@ MonoBehaviour:
   - {fileID: 1977806836}
   - {fileID: 1292423643}
   - {fileID: 277898657}
+  entrada: 0
 --- !u!4 &1745620421
 Transform:
   m_ObjectHideFlags: 0

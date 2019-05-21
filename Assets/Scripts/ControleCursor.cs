@@ -31,10 +31,17 @@ public class ControleCursor : MonoBehaviour
     const int NADA = 0;
     const int SELECIONADO = 1;
     const int MOVIDO = 2;
+
+    public GerenciadorInput gerenciadorInput;
+
+    public int entrada;
+    public const int CANCEL = 2048;
+    public const int ACTION = 4096;
     void Start()
     {   
         _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+        gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         //print(gs);
 
     }
@@ -51,7 +58,7 @@ public class ControleCursor : MonoBehaviour
             return;
         }
 
-        if(aceitaInput && ativo && Input.GetButtonDown("Cancel")) {
+        if(aceitaInput && ativo && entrada == CANCEL) {
             if(acaoDoCursor == SELECIONADO) {
                 LimparOverlays();
                 if(ultimaUnidade != null) {
@@ -65,7 +72,8 @@ public class ControleCursor : MonoBehaviour
             aceitaInput = false;
         }
         
-        if(aceitaInput && ativo && Input.GetButtonDown("Fire1")) {
+        if(aceitaInput && ativo && entrada == ACTION) {
+            entrada = 0;
             if(acaoDoCursor == NADA) {
                 //acho que apagar depois?
                 LimparOverlays();
@@ -97,6 +105,7 @@ public class ControleCursor : MonoBehaviour
                         LimparOverlays();
                         ultimaUnidade.PararDePiscar();
                         gs.EntrarMenuBatalha();
+                        gerenciadorInput.cursorAtivo = 1;
                     }
                 } else {
                     //TODO: tocar som de erro?
