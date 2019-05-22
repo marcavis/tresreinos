@@ -120,24 +120,12 @@ public class ControleCursor : MonoBehaviour
             novoX = transform.position.x + direcao.x;
             novoY = transform.position.y + direcao.y;
             novaPosicao = new Vector3(novoX, novoY, transform.position.z);
-            print (direcao);
-            print ("B"+novaPosicao);
             podeMover = false;
-            if (velhoDeslocX == direcao.x && velhoDeslocY == direcao.y) {
-                segurando++;
-            } else {
-                segurando = 1;
-            }
-            velhoDeslocX = direcao.x;
-            velhoDeslocY = direcao.y;
         }
 
         if(transform.position == novaPosicao) {
             podeMover = true;
         } else {
-            segurando = segurando--;
-            if(segurando > 2) { segurando = 2;}
-            if(segurando < 1) { segurando = 1;}
             transform.position = Vector3.MoveTowards(transform.position, novaPosicao, velCursor * Time.deltaTime * segurando);
         }
     }

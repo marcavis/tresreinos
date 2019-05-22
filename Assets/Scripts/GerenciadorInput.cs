@@ -9,6 +9,9 @@ public class GerenciadorInput : MonoBehaviour
     public GameObject cursor;
     public GameObject gs;
     public GameObject[] cursores;
+
+    public Vector3 direcaoFrameAnterior = Vector3.zero;
+    public int travaDPAD = 0;
     public int cursorAtivo;
     // Start is called before the first frame update
     void Start()
@@ -22,15 +25,30 @@ public class GerenciadorInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // travaDPAD--;
+        // if(travaDPAD < 0) {travaDPAD = 0;}
         if(Input.GetButtonDown("Fire1"))
         {
             SetEntrada(cursores[cursorAtivo], Teclas.ACTION);
         } else {
-            
-            Vector3 novaDirecao = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
-            if(novaDirecao != Vector3.zero) {
-                SetEntrada(cursores[cursorAtivo], Teclas.DPAD);
-                SetDirecao(cursores[cursorAtivo], novaDirecao);
+            float hori = Input.GetAxisRaw("Horizontal");
+            float vert = Input.GetAxisRaw("Vertical");
+            Vector3 novaDirecao = new Vector3(hori, vert, 0f);
+            //jogador soltou o direcional, entao podemos permitir novo uso
+            if(novaDirecao == Vector3.zero) {
+                travaDPAD = 0;
+            }
+            if(travaDPAD == 0) {
+                print(novaDirecao);
+                print(hori + "h" + vert + "v");
+                print(novaDirecao != Vector3.zero);
+                if(novaDirecao != Vector3.zero) {
+                    print(travaDPAD);
+                    SetEntrada(cursores[cursorAtivo], Teclas.DPAD);
+                    SetDirecao(cursores[cursorAtivo], novaDirecao);
+
+                    travaDPAD = 1;
+                }
             }
         }
     }
