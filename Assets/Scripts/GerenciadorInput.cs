@@ -10,7 +10,7 @@ public class GerenciadorInput : MonoBehaviour
     public GameObject gs;
     public GameObject[] cursores;
 
-    public Vector3 direcaoFrameAnterior = Vector3.zero;
+    public int framesDPADSegurado = 0;
     public int travaDPAD = 0;
     public int cursorAtivo;
     // Start is called before the first frame update
@@ -37,16 +37,19 @@ public class GerenciadorInput : MonoBehaviour
             //jogador soltou o direcional, entao podemos permitir novo uso
             if(novaDirecao == Vector3.zero) {
                 travaDPAD = 0;
+                framesDPADSegurado = 0;
+            } else {
+                framesDPADSegurado++;
+                if (framesDPADSegurado > 14)
+                {
+                    travaDPAD = 0;
+                }
             }
             if(travaDPAD == 0) {
-                print(novaDirecao);
-                print(hori + "h" + vert + "v");
-                print(novaDirecao != Vector3.zero);
-                if(novaDirecao != Vector3.zero) {
-                    print(travaDPAD);
+                if (novaDirecao != Vector3.zero)
+                {
                     SetEntrada(cursores[cursorAtivo], Teclas.DPAD);
                     SetDirecao(cursores[cursorAtivo], novaDirecao);
-
                     travaDPAD = 1;
                 }
             }

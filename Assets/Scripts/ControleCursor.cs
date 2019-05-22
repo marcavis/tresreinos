@@ -9,14 +9,11 @@ public class ControleCursor : MonoBehaviour
     public bool ativo;
     private float novoX;
     private float novoY;
-    private float velhoDeslocX, velhoDeslocY;
-    //verifica se o jogador está pressionando nessa direção há algum tempo,
-    //para aumentar a velocidade do cursor
-    private int segurando = 1; 
+
     private Vector3 novaPosicao;
     public int cooldown;
     
-    private float velCursor = 6f;
+    private float velCursor = 10f;
     // Start is called before the first frame update
     private bool podeMover = true;
 
@@ -126,7 +123,7 @@ public class ControleCursor : MonoBehaviour
         if(transform.position == novaPosicao) {
             podeMover = true;
         } else {
-            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, velCursor * Time.deltaTime * segurando);
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, velCursor * Time.deltaTime);
         }
     }
 
