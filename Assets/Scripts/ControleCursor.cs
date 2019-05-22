@@ -35,10 +35,11 @@ public class ControleCursor : MonoBehaviour
     public GerenciadorInput gerenciadorInput;
 
     public int entrada;
-    public const int CANCEL = 2048;
-    public const int ACTION = 4096;
+    public Vector3 direcao;
+
     void Start()
     {   
+        novaPosicao = transform.position;
         _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
@@ -50,7 +51,7 @@ public class ControleCursor : MonoBehaviour
     void Update()
     {
         //variável para evitar que mais de um input seja tratado neste frame
-        bool aceitaInput = true;
+        // bool aceitaInput = true;
 
         //evitar que um toque ligeiramente mais demorado execute várias ações
         if(cooldown > 0) {
@@ -58,7 +59,8 @@ public class ControleCursor : MonoBehaviour
             return;
         }
 
-        if(aceitaInput && ativo && entrada == CANCEL) {
+        if(entrada == Teclas.CANCEL) {
+            entrada = 0;
             if(acaoDoCursor == SELECIONADO) {
                 LimparOverlays();
                 if(ultimaUnidade != null) {
@@ -69,10 +71,9 @@ public class ControleCursor : MonoBehaviour
             } else if(acaoDoCursor == MOVIDO) {
                 //tratado em DesfazerAcaoAtual() pois no status MOVIDO o controle estará no menu de batalha
             }
-            aceitaInput = false;
         }
         
-        if(aceitaInput && ativo && entrada == ACTION) {
+        if(entrada == Teclas.ACTION) {
             entrada = 0;
             if(acaoDoCursor == NADA) {
                 //acho que apagar depois?
@@ -111,24 +112,24 @@ public class ControleCursor : MonoBehaviour
                     //TODO: tocar som de erro?
                 }
             }
-            aceitaInput = false;
         }
     
-        if(aceitaInput && ativo && podeMover) {
+        if(podeMover && entrada == Teclas.DPAD) {
+            entrada = 0;
             
-            float deslocX = Input.GetAxisRaw("Horizontal");
-            float deslocY = Input.GetAxisRaw("Vertical");
-            novoX = transform.position.x + deslocX;
-            novoY = transform.position.y + deslocY;
+            novoX = transform.position.x + direcao.x;
+            novoY = transform.position.y + direcao.y;
             novaPosicao = new Vector3(novoX, novoY, transform.position.z);
+            print (direcao);
+            print ("B"+novaPosicao);
             podeMover = false;
-            if (velhoDeslocX == deslocX && velhoDeslocY == deslocY) {
+            if (velhoDeslocX == direcao.x && velhoDeslocY == direcao.y) {
                 segurando++;
             } else {
                 segurando = 1;
             }
-            velhoDeslocX = deslocX;
-            velhoDeslocY = deslocY;
+            velhoDeslocX = direcao.x;
+            velhoDeslocY = direcao.y;
         }
 
         if(transform.position == novaPosicao) {

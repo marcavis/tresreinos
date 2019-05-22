@@ -22,8 +22,7 @@ public class GerenciadorScript : MonoBehaviour
     private string[] textoMenuBatalha = {"Atacar", "Habilidades", "Itens", "Esperar"};
 
     public int entrada;
-    const int CANCEL = 2048;
-    const int ACTION = 4096;
+    public Vector3 direcao;
 
     // Start is called before the first frame update
     void Start()
@@ -45,26 +44,28 @@ public class GerenciadorScript : MonoBehaviour
     void Update()
     {
         cooldownMenuBatalha++;
-        if(menuAtivo && cooldownMenuBatalha > 9) {
-            float deslocY = Input.GetAxisRaw("Vertical");
-            if(deslocY != 0) {
-                cooldownMenuBatalha = 0;
-            }
-            opcaoMenuBatalha -= (int) deslocY;
-            opcaoMenuBatalha = (menuBatalha.Length + opcaoMenuBatalha) % menuBatalha.Length;
-            for (int i = 0; i < menuBatalha.Length; i++)
-            {
-                menuBatalha[i].text = textoMenuBatalha[i];
-            }
-            menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
+        // if(menuAtivo && cooldownMenuBatalha > 9) {
+        //     float deslocY = Input.GetAxisRaw("Vertical");
+        //     if(deslocY != 0) {
+        //         cooldownMenuBatalha = 0;
+        //     }
+        //     opcaoMenuBatalha -= (int) deslocY;
+        //     opcaoMenuBatalha = (menuBatalha.Length + opcaoMenuBatalha) % menuBatalha.Length;
+        //     for (int i = 0; i < menuBatalha.Length; i++)
+        //     {
+        //         menuBatalha[i].text = textoMenuBatalha[i];
+        //     }
+        //     menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
             
-        }
+        // }
         if(menuAtivo) {
-            if(entrada == CANCEL) {
+            if(entrada == Teclas.CANCEL) {
+                entrada = 0;
                 SairMenuBatalha();
                 cursor.GetComponent<ControleCursor>().DesfazerAcaoAtual();
             }
-            else if(entrada == ACTION) {
+            else if(entrada == Teclas.ACTION) {
+                entrada = 0;
                 //atacar 
                 if(opcaoMenuBatalha == 0){
                     //dizer ao cursor que está no modo de escolher posição para mover alguém
@@ -85,6 +86,18 @@ public class GerenciadorScript : MonoBehaviour
                     cursor.GetComponent<ControleCursor>().Liberar();
                     //print(cursor.GetComponent<ControleCursor>().acaoDoCursor);
                 }
+            } else if(entrada != 0) {
+                if (entrada/10 == 3) { //movimento para cima
+                    opcaoMenuBatalha--;
+                } else if (entrada/10 == 1) { //movimento para baixo
+                    opcaoMenuBatalha++;
+                }
+                opcaoMenuBatalha = (menuBatalha.Length + opcaoMenuBatalha) % menuBatalha.Length;
+                for (int i = 0; i < menuBatalha.Length; i++)
+                {
+                    menuBatalha[i].text = textoMenuBatalha[i];
+                }
+                menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
             }
         }
     }

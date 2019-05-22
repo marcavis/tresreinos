@@ -24,15 +24,24 @@ public class GerenciadorInput : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire1"))
         {
-            if (cursorAtivo == 0)
-            {
-                cursor.GetComponent<ControleCursor>().entrada = ControleCursor.ACTION;
-            } else if (cursorAtivo == 1)
-            {
-                gs.GetComponent<GerenciadorScript>().entrada = ControleCursor.ACTION;
+            SetEntrada(cursores[cursorAtivo], Teclas.ACTION);
+        } else {
+            
+            Vector3 novaDirecao = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
+            if(novaDirecao != Vector3.zero) {
+                SetEntrada(cursores[cursorAtivo], Teclas.DPAD);
+                SetDirecao(cursores[cursorAtivo], novaDirecao);
             }
         }
     }
 
-    
+    void SetEntrada(GameObject c, int entrada) {
+        if(c == cursor) {cursor.GetComponent<ControleCursor>().entrada = entrada;}
+        if(c == gs) {gs.GetComponent<GerenciadorScript>().entrada = entrada;}
+    }
+
+    void SetDirecao(GameObject c, Vector3 direcao) {
+        if(c == cursor) {cursor.GetComponent<ControleCursor>().direcao = direcao;}
+        if(c == gs) {gs.GetComponent<GerenciadorScript>().direcao = direcao;}
+    }
 }
