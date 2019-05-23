@@ -161,7 +161,6 @@ public class ControleCursor : MonoBehaviour
         {
             //if(personagem.transform.position)
             if(personagem != ultimaUnidade) {
-                print(personagem.transform.position);
                 tiles.Remove(personagem.transform.position);
             }
         }

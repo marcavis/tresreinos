@@ -86,12 +86,9 @@ public class GerenciadorScript : MonoBehaviour
                     cursor.GetComponent<ControleCursor>().Liberar();
                     //print(cursor.GetComponent<ControleCursor>().acaoDoCursor);
                 }
-            } else if(entrada != 0) {
-                if (entrada/10 == 3) { //movimento para cima
-                    opcaoMenuBatalha--;
-                } else if (entrada/10 == 1) { //movimento para baixo
-                    opcaoMenuBatalha++;
-                }
+            } else if(entrada == Teclas.DPAD) {
+                entrada = 0;
+                opcaoMenuBatalha = opcaoMenuBatalha - (int) direcao.y;
                 opcaoMenuBatalha = (menuBatalha.Length + opcaoMenuBatalha) % menuBatalha.Length;
                 for (int i = 0; i < menuBatalha.Length; i++)
                 {
@@ -103,8 +100,8 @@ public class GerenciadorScript : MonoBehaviour
     }
 
     public void EntrarMenuBatalha() {
-        print(cursor);
         opcaoMenuBatalha = 0;
+        menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
         cursor.GetComponent<ControleCursor>().ativo = false;
         canvas.GetComponent<Canvas>().enabled = true;
         menuAtivo = true;
@@ -118,7 +115,7 @@ public class GerenciadorScript : MonoBehaviour
     }
 
     public void SairMenuBatalha() {
-        print("sair");
+        gerenciadorInput.cursorAtivo = 0;
         cursor.GetComponent<ControleCursor>().cooldown = 6;
         cursor.GetComponent<ControleCursor>().ativo = true;
         canvas.GetComponent<Canvas>().enabled = false;

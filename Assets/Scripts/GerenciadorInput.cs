@@ -30,6 +30,8 @@ public class GerenciadorInput : MonoBehaviour
         if(Input.GetButtonDown("Fire1"))
         {
             SetEntrada(cursores[cursorAtivo], Teclas.ACTION);
+        } else if (Input.GetButtonDown("Cancel")) {
+            SetEntrada(cursores[cursorAtivo], Teclas.CANCEL);
         } else {
             float hori = Input.GetAxisRaw("Horizontal");
             float vert = Input.GetAxisRaw("Vertical");
@@ -40,7 +42,8 @@ public class GerenciadorInput : MonoBehaviour
                 framesDPADSegurado = 0;
             } else {
                 framesDPADSegurado++;
-                if (framesDPADSegurado > 14)
+                //não faz sentido segurar a direção no menu de batalha, talvez
+                if (cursorAtivo == 0 && framesDPADSegurado > 14) 
                 {
                     travaDPAD = 0;
                 }
@@ -54,6 +57,10 @@ public class GerenciadorInput : MonoBehaviour
                 }
             }
         }
+    }
+
+    void SetCursorAtivo(int c) {
+        cursorAtivo = c;
     }
 
     void SetEntrada(GameObject c, int entrada) {
