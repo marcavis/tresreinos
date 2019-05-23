@@ -11,7 +11,6 @@ public class ControleCursor : MonoBehaviour
     private float novoY;
 
     private Vector3 novaPosicao;
-    public int cooldown;
     
     private float velCursor = 10f;
     // Start is called before the first frame update
@@ -47,15 +46,6 @@ public class ControleCursor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //variável para evitar que mais de um input seja tratado neste frame
-        // bool aceitaInput = true;
-
-        //evitar que um toque ligeiramente mais demorado execute várias ações
-        if(cooldown > 0) {
-            cooldown--;
-            return;
-        }
-
         if(entrada == Teclas.CANCEL) {
             entrada = 0;
             if(acaoDoCursor == SELECIONADO) {

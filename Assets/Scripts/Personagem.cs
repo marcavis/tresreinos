@@ -10,20 +10,23 @@ public class Personagem : MonoBehaviour
     private bool piscando = false;
     private int blinkFrames;
     private int chp, mhp;
+    public Dictionary<string, int> andar;
 
     public int movimento; 
+
     public Vector3 destinoFinal;
-    private Vector3 destinoIntermediario;
     private List<Vector3> rota;
     //manter salva uma rota inversa se o jogador desistir de mover-se
     private List<Vector3> rotaBacktrack;
-    
     //matriz usada para saber como a unidade vai percorrer o caminho para
     //chegar na celula selecionada
     private Vector3[,] cameFrom;
+
     // Start is called before the first frame update
     void Start()
     {
+        //andar = Defines.Andar("normal");
+        
         //valores auxiliares para movimentação no campo de batalha
         rota = new List<Vector3>();
         rotaBacktrack = new List<Vector3>();
@@ -32,6 +35,8 @@ public class Personagem : MonoBehaviour
         //atributos
         movimento = 70; 
         
+        PlayerPrefs.SetString("nome", "Jim");
+        PlayerPrefs.Save();
     }
 
     // Update is called once per frame
@@ -50,6 +55,10 @@ public class Personagem : MonoBehaviour
         }
 
         if(piscando) Piscar();
+    }
+
+    public void Inicializar(string nome) {
+        Defines.Inicializacao(nome, gameObject);
     }
 
     public void Piscar() {
@@ -209,16 +218,9 @@ public class Personagem : MonoBehaviour
             return 200;
         }
         
-        switch (tipoTile.name.Split('-')[0])
-        {
-            case "carpet":
-                custo = 10;
-                break;
-            case "grass":
-                custo = 15;
-                break;
-            default:
-                break;
+        string prefixoDoTipo = tipoTile.name.Split('-')[0];
+        if(andar.ContainsKey(prefixoDoTipo)) {
+            custo = andar[prefixoDoTipo];
         }
         return custo;
     }

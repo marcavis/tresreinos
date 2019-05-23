@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GerenciadorInput : MonoBehaviour
-{
-    //referência para o cursor 
-    
+{   
     public GameObject cursor;
     public GameObject gs;
     public GameObject[] cursores;
@@ -25,8 +23,6 @@ public class GerenciadorInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // travaDPAD--;
-        // if(travaDPAD < 0) {travaDPAD = 0;}
         if(Input.GetButtonDown("Fire1"))
         {
             SetEntrada(cursores[cursorAtivo], Teclas.ACTION);
