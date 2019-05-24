@@ -47,6 +47,7 @@ public class ControleCursor : MonoBehaviour
     void Update()
     {
         if(entrada == Teclas.CANCEL) {
+            //todo objeto, ao tratar um input, o consome para que não o trate novamente no próximo frame
             entrada = 0;
             if(acaoDoCursor == SELECIONADO) {
                 LimparOverlays();
@@ -84,6 +85,7 @@ public class ControleCursor : MonoBehaviour
                     }
                 }
             } else if(acaoDoCursor == SELECIONADO) {
+                //apenas permitir movimento para tiles acessíveis pela unidade
                 if(acessiveisUltimaUnidade.Contains(transform.position)) {
                     //apenas aceitar nova movimentação se a unidade já tiver graficamente voltado a seu posto
                     if(ultimaUnidade.transform.position == posicaoInicialDaUnidade) {
@@ -145,6 +147,8 @@ public class ControleCursor : MonoBehaviour
         acaoDoCursor = NADA;
     }
 
+    //previne que tiles ocupados por amigos sejam considerados acessíveis pela unidade
+    //porém, isso não impede que a unidade atravesse o terreno ocupado por uma unidade amiga
     public void RemoverOcupados(List<Vector3> tiles) {
         List<Vector3> ocupados = new List<Vector3>();
         foreach (var personagem in gs.personagens)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -6,13 +7,26 @@ using UnityEngine.Tilemaps;
 public class Personagem : MonoBehaviour
 {
     public string nome;
-    public string time;
+    //podem ser unidades, inimigos ou NPCs neutros
+    public int time;
     private bool piscando = false;
     private int blinkFrames;
-    private int chp, mhp;
+
+    //a forma com que a unidade anda - se sofre penalidades de movimento em terrenos difíceis
     public Dictionary<string, int> andar;
 
+    public int nivel;
+    public int exp;
+
+    public int pv, mpv; //pontos de vida, pontos de vida máximos
+    public int pt, mpt; //pontos de técnica, pontos de técnica máximos
+    public int ataque;
+    public int defesa;
+    public int agilidade; 
     public int movimento; 
+
+    public Arma arma;
+    
 
     public Vector3 destinoFinal;
     private List<Vector3> rota;
@@ -54,7 +68,7 @@ public class Personagem : MonoBehaviour
             }
         }
 
-        if(piscando) Piscar();
+        if(piscando) Piscar(); // ;)
     }
 
     public void Inicializar(string nome) {
@@ -144,7 +158,6 @@ public class Personagem : MonoBehaviour
         }
         gScore[meuX, meuY] = 0;
         fScore[meuX, meuY] = movimento;
-        //print(meuX + "+" + meuY + "+" + dimensaoMat);
 
         openSet.Add(new Vector3(meuX, meuY, 0));
 
@@ -225,4 +238,18 @@ public class Personagem : MonoBehaviour
         return custo;
     }
 
+
+    public void ReceberAtaque(int poder, Arma arma) {
+        ReceberDano(poder - defesa, arma);
+    }
+
+    public void ReceberDano(int dano, Arma arma) {
+        float danoCalculado = dano * (1 + UnityEngine.Random.Range(-arma.variacao, arma.variacao));
+        int novoDano = Mathf.FloorToInt(danoCalculado);
+        if(novoDano < 1) {novoDano = 1;}
+        pv -= novoDano;
+        if(pv <= 0) {
+            //MORRER
+        }
+    }
 }

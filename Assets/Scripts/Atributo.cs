@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Atributo 
+//essa classe não está sendo usada 
+public class Atributo
 {
     public string nome;
     public int atual;
