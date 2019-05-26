@@ -47,18 +47,26 @@ public class Defines
     //nessa ordem = {mpv, mpt, ataque, defesa, agilidade, movimento}
     public static Dictionary<string, int[]> atributosIniciais = new Dictionary<string, int[]>() {
         
-        {herois[0], new int[] {18, 12, 12, 11, 19, 5}},
-        {herois[1], new int[] {21,  6, 14, 12, 20, 5}},
-        {herois[2], new int[] {25,  4, 15, 14, 16, 5}},
-        {herois[3], new int[] {20,  6, 12, 10, 15, 5}},
-        {herois[4], new int[] {24,  7, 14, 12, 22, 6}},
-        {herois[5], new int[] {24,  8, 15, 14, 17, 5}},
+        {herois[0], new int[] {18, 12, 12, 11, 19, 50}},
+        {herois[1], new int[] {21,  6, 14, 12, 20, 50}},
+        {herois[2], new int[] {25,  4, 15, 14, 16, 50}},
+        {herois[3], new int[] {20,  6, 12, 10, 15, 50}},
+        {herois[4], new int[] {24,  7, 14, 12, 22, 60}},
+        {herois[5], new int[] {24,  8, 15, 14, 17, 50}},
 
-        {"Jueyuan", new int[] {15,  0, 18, 10, 22, 6}},
+        {"Jueyuan", new int[] {15,  0, 18, 10, 22, 60}},
     };
 
     public static void Inicializacao(string nome, GameObject objeto) {
+        //mudar tudo isso se forem carregados dados na segunda fase - usar PlayerPrefs?
         objeto.GetComponent<Personagem>().andar = Andar(tiposDeAndar[nome]);
-
+        objeto.GetComponent<Personagem>().pv = atributosIniciais[nome][0];
+        objeto.GetComponent<Personagem>().mpv = atributosIniciais[nome][0];
+        objeto.GetComponent<Personagem>().pt = atributosIniciais[nome][1];
+        objeto.GetComponent<Personagem>().mpt = atributosIniciais[nome][1];
+        objeto.GetComponent<Personagem>().ataque = atributosIniciais[nome][2];
+        objeto.GetComponent<Personagem>().defesa = atributosIniciais[nome][3];
+        objeto.GetComponent<Personagem>().agilidade = atributosIniciais[nome][4];
+        objeto.GetComponent<Personagem>().movimento = atributosIniciais[nome][5];
     }
 }

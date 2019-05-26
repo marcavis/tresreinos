@@ -47,10 +47,10 @@ public class Personagem : MonoBehaviour
         destinoFinal = transform.position;
         
         //atributos
-        movimento = 70; 
+        //movimento = 70; 
         
-        PlayerPrefs.SetString("nome", "Jim");
-        PlayerPrefs.Save();
+        Defines.Inicializacao(nome, gameObject);
+        GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().AdicionarPersonagem(gameObject);
     }
 
     // Update is called once per frame
@@ -69,10 +69,6 @@ public class Personagem : MonoBehaviour
         }
 
         if(piscando) Piscar(); // ;)
-    }
-
-    public void Inicializar(string nome) {
-        Defines.Inicializacao(nome, gameObject);
     }
 
     public void Piscar() {

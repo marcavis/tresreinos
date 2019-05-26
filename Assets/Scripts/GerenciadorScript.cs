@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class GerenciadorScript : MonoBehaviour
 {
-    public List<Personagem> personagens;
+    public List<Personagem> personagens = new List<Personagem>();
     public Personagem prefabPersonagem;
-    private Personagem persNovo;
-    private Personagem persNovo2, persNovo3;
 
     public GameObject cursor;
     public GerenciadorInput gerenciadorInput;
@@ -22,22 +20,28 @@ public class GerenciadorScript : MonoBehaviour
     public int entrada;
     public Vector3 direcao;
 
+    public void AdicionarPersonagem(GameObject obj) {
+        personagens.Add(obj.GetComponent<Personagem>());
+    }
     // Start is called before the first frame update
     void Start()
     {
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         canvas.GetComponent<Canvas>().enabled = false;
         cursor.GetComponent<ControleCursor>().ativo = true;
-        persNovo = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(2, 2, 0), Quaternion.identity);
-        personagens = new List<Personagem>();
-        personagens.Add(persNovo);
-        persNovo.Inicializar("Zheng Xiulan");
-        persNovo2 = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(5, 0, 0), Quaternion.identity);
-        personagens.Add(persNovo2);
-        persNovo2.Inicializar("Miao Lin");
-        persNovo3 = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(-4, -3, 0), Quaternion.identity);
-        personagens.Add(persNovo3);
-        persNovo3.Inicializar("Guan Long");
+        // Personagem persNovo = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(2, 2, 0), Quaternion.identity);
+        // personagens = new List<Personagem>();
+        // personagens.Add(persNovo);
+        // persNovo.Inicializar("Zheng Xiulan");
+        // Personagem persNovo2 = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(5, 0, 0), Quaternion.identity);
+        // personagens.Add(persNovo2);
+        // persNovo2.Inicializar("Miao Lin");
+        // Personagem persNovo3 = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(-4, -3, 0), Quaternion.identity);
+        // personagens.Add(persNovo3);
+        // persNovo3.Inicializar("Guan Long");
+        // Personagem inimigo = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(0, 1, 0), Quaternion.identity);
+        // personagens.Add(inimigo);
+        // inimigo.Inicializar("Jueyuan");
     }
 
     // Update is called once per frame
