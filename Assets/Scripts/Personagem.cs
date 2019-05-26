@@ -36,6 +36,9 @@ public class Personagem : MonoBehaviour
     //chegar na celula selecionada
     private Vector3[,] cameFrom;
 
+    
+    private GerenciadorScript gs;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +53,9 @@ public class Personagem : MonoBehaviour
         //movimento = 70; 
         
         Defines.Inicializacao(nome, gameObject);
-        GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().AdicionarPersonagem(gameObject);
+        
+        gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+        gs.AdicionarPersonagem(gameObject);
     }
 
     // Update is called once per frame
@@ -224,7 +229,12 @@ public class Personagem : MonoBehaviour
         
         if(tipoTile == null) {
             //nao tem tile aqui, entao nao eh passavel
-            return 200;
+            return 999;
+        }
+        //se houver inimigo no tile, ele não pode ser cruzado
+        Personagem ocupante = gs.ObjetoNoTile(alvo);
+        if(ocupante != null && ocupante.time != time) {
+            return 999;
         }
         
         string prefixoDoTipo = tipoTile.name.Split('-')[0];

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class GerenciadorScript : MonoBehaviour
 {
@@ -28,20 +29,6 @@ public class GerenciadorScript : MonoBehaviour
     {
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         canvas.GetComponent<Canvas>().enabled = false;
-        cursor.GetComponent<ControleCursor>().ativo = true;
-        // Personagem persNovo = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(2, 2, 0), Quaternion.identity);
-        // personagens = new List<Personagem>();
-        // personagens.Add(persNovo);
-        // persNovo.Inicializar("Zheng Xiulan");
-        // Personagem persNovo2 = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(5, 0, 0), Quaternion.identity);
-        // personagens.Add(persNovo2);
-        // persNovo2.Inicializar("Miao Lin");
-        // Personagem persNovo3 = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(-4, -3, 0), Quaternion.identity);
-        // personagens.Add(persNovo3);
-        // persNovo3.Inicializar("Guan Long");
-        // Personagem inimigo = Instantiate<Personagem>(prefabPersonagem, new Vector3Int(0, 1, 0), Quaternion.identity);
-        // personagens.Add(inimigo);
-        // inimigo.Inicializar("Jueyuan");
     }
 
     // Update is called once per frame
@@ -99,5 +86,15 @@ public class GerenciadorScript : MonoBehaviour
     public void SairMenuBatalha() {
         gerenciadorInput.cursorAtivo = 0;
         canvas.GetComponent<Canvas>().enabled = false;
+    }
+
+    public Personagem ObjetoNoTile(Vector3 alvo) {
+        foreach (Personagem p in personagens)
+        {
+            if(p.transform.position == alvo) {
+                return p;
+            }
+        }
+        return null;
     }
 }

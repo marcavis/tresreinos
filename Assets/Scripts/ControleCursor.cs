@@ -5,8 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class ControleCursor : MonoBehaviour
 {
-    //informa se está recebendo comandos do controle
-    public bool ativo;
     private float novoX;
     private float novoY;
 
