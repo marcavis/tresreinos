@@ -26,13 +26,14 @@ public class Arma
             alvo.ReceberDano(dono.arma.poder, dono.arma);
         };
 
-    public Arma(string nome, string podeEquipar, int poder, int alcance, 
-                int precisao, int chanceCritica,
+    public Arma(string nome, string podeEquipar, int poder, float variacao,
+                int alcance, int precisao, int chanceCritica,
                 Action<Personagem, Personagem> efeitoAtaque,
                 Action<Personagem, Personagem> efeitoCritico){
         this.nome = nome;
         this.podeEquipar = podeEquipar;
         this.poder = poder;
+        this.variacao = variacao;
         this.alcance = alcance;
         this.precisao = precisao;
         this.chanceCritica = chanceCritica;

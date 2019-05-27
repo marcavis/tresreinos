@@ -17,10 +17,11 @@ public class ControleCursor : MonoBehaviour
     public Tilemap _tilemap;
     private GerenciadorScript gs;
     private List<Vector3> acessiveisUltimaUnidade;
-    private Personagem ultimaUnidade;
+    private List<Vector3> acessiveisAtaqueUltimaUnidade;
+    public Personagem ultimaUnidade;
     private Vector3 posicaoInicialDaUnidade;
 
-    public Transform blueSquare;
+    public Transform blueSquare, redSquare;
     public int acaoDoCursor = 0;
     const int NADA = 0;
     const int SELECIONADO = 1;
@@ -37,8 +38,6 @@ public class ControleCursor : MonoBehaviour
         _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
-        //print(gs);
-
     }
 
     // Update is called once per frame
@@ -98,6 +97,8 @@ public class ControleCursor : MonoBehaviour
                 } else {
                     //TODO: tocar som de erro?
                 }
+            } else if(acaoDoCursor == MOVIDO) {
+                
             }
         }
     
@@ -129,6 +130,14 @@ public class ControleCursor : MonoBehaviour
         foreach (Vector3 t in acessiveisUltimaUnidade)
         {
             Instantiate(blueSquare, t, Quaternion.identity);
+        }
+    }
+
+    public void MostrarOverlaysAtaque() {
+        acessiveisAtaqueUltimaUnidade = ultimaUnidade.AlvosAcessiveis();
+        foreach (Vector3 t in acessiveisAtaqueUltimaUnidade)
+        {
+            Instantiate(redSquare, t, Quaternion.identity);
         }
     }
 

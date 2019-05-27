@@ -25,6 +25,9 @@ public class Personagem : MonoBehaviour
     public int agilidade; 
     public int movimento; 
 
+    //variável que mostra o quão próxima a unidade está da próxima rodada
+    public int iniciativa;
+
     public Arma arma;
     
 
@@ -51,7 +54,7 @@ public class Personagem : MonoBehaviour
         
         //atributos
         //movimento = 70; 
-        
+        print(nome);
         Defines.Inicializacao(nome, gameObject);
         
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
@@ -244,16 +247,57 @@ public class Personagem : MonoBehaviour
         return custo;
     }
 
+    public bool ExistemAlvos() {
+        foreach (Vector3 posicao in AlvosAcessiveis())
+        {
+            Personagem ocupante = gs.ObjetoNoTile(posicao);
+            if(ocupante != null && ocupante.time != time) {
+                //então temos ao menos um alvo possível
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public float Manhattan(Vector3 v, Vector3 w) {
+        return Mathf.Abs(v.x - w.x) + Mathf.Abs(v.y - w.y);
+    }
+
+    //uso normal, ao se pedir alvos acessíveis pelo ataque normal
+    public List<Vector3> AlvosAcessiveis() {
+        return AlvosAcessiveis(arma.alcance);
+    }
+
+    //pode ser fornecido um alcance diferente do normal quando não se desejar o alcance da arma
+    public List<Vector3> AlvosAcessiveis(int alcance) {
+        List<Vector3> acessiveis = new List<Vector3>();
+        int dimensaoMat = 2 * alcance + 1;
+        Vector3 posicao;
+        for (int i = 0; i < dimensaoMat; i++) {
+            for (int j = 0; j < dimensaoMat; j++) {
+                posicao = destinoFinal + new Vector3(i - alcance, j - alcance, 0);
+                float manhattan = Manhattan(posicao, destinoFinal);
+                if(manhattan <= alcance && manhattan > 0) {
+                    acessiveis.Add(posicao);
+                }
+            }
+        }
+        return acessiveis;
+    }
+
 
     public void ReceberAtaque(int poder, Arma arma) {
         ReceberDano(poder - defesa, arma);
     }
 
     public void ReceberDano(int dano, Arma arma) {
-        float danoCalculado = dano * (1 + UnityEngine.Random.Range(-arma.variacao, arma.variacao));
+        float danoCalculado = dano * (100 + UnityEngine.Random.Range(-arma.variacao, arma.variacao)) / 100;
         int novoDano = Mathf.FloorToInt(danoCalculado);
         if(novoDano < 1) {novoDano = 1;}
         pv -= novoDano;
+        //debug
+        print(nome + " sofreu " + novoDano + " pontos de dano.");
         if(pv <= 0) {
             //MORRER
         }

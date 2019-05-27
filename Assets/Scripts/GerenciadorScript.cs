@@ -16,6 +16,7 @@ public class GerenciadorScript : MonoBehaviour
     public int opcaoMenuBatalha;
     
     public Text[] menuBatalha;
+    private Text[] labels;
     private string[] textoMenuBatalha = {"Atacar", "Habilidades", "Itens", "Esperar"};
 
     public int entrada;
@@ -29,6 +30,11 @@ public class GerenciadorScript : MonoBehaviour
     {
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         canvas.GetComponent<Canvas>().enabled = false;
+        labels = new Text[4];
+        labels[0] = GameObject.Find("NomeLabel").GetComponent<Text>();
+        labels[1] = GameObject.Find("PVLabel").GetComponent<Text>();
+        labels[2] = GameObject.Find("PTLabel").GetComponent<Text>();
+        labels[3] = GameObject.Find("StatusLabel").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -37,15 +43,21 @@ public class GerenciadorScript : MonoBehaviour
         if(entrada == Teclas.CANCEL) {
             entrada = 0;
             SairMenuBatalha();
+            cursor.GetComponent<ControleCursor>().LimparOverlays();
             cursor.GetComponent<ControleCursor>().DesfazerAcaoAtual();
         }
         else if(entrada == Teclas.ACTION) {
             entrada = 0;
             //atacar 
             if(opcaoMenuBatalha == 0){
-                //dizer ao cursor que está no modo de escolher posição para mover alguém
-                //cursor.GetComponent<ControleCursor>().movendoUnidade = true;
                 // SairMenuBatalha();
+                Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
+                if(!unid.ExistemAlvos()) {
+                    //som de erro
+                    print("não pode atacar");
+                } else {
+                    print("pode atacar");
+                }
             }
             //habilidades
             else if(opcaoMenuBatalha == 1){
@@ -70,6 +82,10 @@ public class GerenciadorScript : MonoBehaviour
                 menuBatalha[i].text = textoMenuBatalha[i];
             }
             menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
+            cursor.GetComponent<ControleCursor>().LimparOverlays();
+            if(opcaoMenuBatalha == 0) {
+                cursor.GetComponent<ControleCursor>().MostrarOverlaysAtaque();
+            }
         }
     }
 
@@ -79,8 +95,20 @@ public class GerenciadorScript : MonoBehaviour
         {
             menuBatalha[i].text = textoMenuBatalha[i];
         }
+        //se houver alvo próximo, definir opção como 0, se não houver, como 3
         opcaoMenuBatalha = 0;
-        menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";        
+        menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
+
+        if(opcaoMenuBatalha == 0) {
+            cursor.GetComponent<ControleCursor>().LimparOverlays();
+            cursor.GetComponent<ControleCursor>().MostrarOverlaysAtaque();
+        }
+
+        Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
+        labels[0].text = unid.nome + " Nv. " + unid.nivel;
+        labels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);
+        labels[2].text = string.Format("PT: {0,3:D3}/{1,3:D3}", unid.pt, unid.mpt);
+        labels[3].text = string.Format("ATQ: {0,2:D2} DEF: {1,2:D2} AGI: {2,2:D2} MOV: {3,2:D2}", unid.ataque, unid.defesa, unid.agilidade, unid.movimento/10);
     }
 
     public void SairMenuBatalha() {
