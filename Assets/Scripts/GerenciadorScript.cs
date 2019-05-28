@@ -17,6 +17,7 @@ public class GerenciadorScript : MonoBehaviour
     
     public Text[] menuBatalha;
     private Text[] labels;
+    private Text[] alvoLabels;
     private string[] textoMenuBatalha = {"Atacar", "Habilidades", "Itens", "Esperar"};
 
     public int entrada;
@@ -35,6 +36,10 @@ public class GerenciadorScript : MonoBehaviour
         labels[1] = GameObject.Find("PVLabel").GetComponent<Text>();
         labels[2] = GameObject.Find("PTLabel").GetComponent<Text>();
         labels[3] = GameObject.Find("StatusLabel").GetComponent<Text>();
+
+        alvoLabels = new Text[2];
+        alvoLabels[0] = GameObject.Find("AlvoLabel").GetComponent<Text>();
+        alvoLabels[1] = GameObject.Find("AlvoPVLabel").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -54,9 +59,13 @@ public class GerenciadorScript : MonoBehaviour
                 Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
                 if(!unid.ExistemAlvos()) {
                     //som de erro
-                    print("não pode atacar");
+                    //print("não pode atacar");
                 } else {
-                    print("pode atacar");
+                    gerenciadorInput.cursorAtivo = 0;
+                    //o jogo ficará circulando entre os alvos permitidos, então começaremos
+                    //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
+                    cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvo();
+                    //print("pode atacar");
                 }
             }
             //habilidades
@@ -124,5 +133,10 @@ public class GerenciadorScript : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void MostrarDadosDoAlvo(Personagem unid) {
+        alvoLabels[0].text = unid.nome + " Nv. " + unid.nivel;
+        alvoLabels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);
     }
 }

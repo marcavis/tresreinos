@@ -53,8 +53,6 @@ public class Personagem : MonoBehaviour
         destinoFinal = transform.position;
         
         //atributos
-        //movimento = 70; 
-        print(nome);
         Defines.Inicializacao(nome, gameObject);
         
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
@@ -248,7 +246,7 @@ public class Personagem : MonoBehaviour
     }
 
     public bool ExistemAlvos() {
-        foreach (Vector3 posicao in AlvosAcessiveis())
+        foreach (Vector3 posicao in TilesAlvosAcessiveis())
         {
             Personagem ocupante = gs.ObjetoNoTile(posicao);
             if(ocupante != null && ocupante.time != time) {
@@ -260,12 +258,25 @@ public class Personagem : MonoBehaviour
         return false;
     }
 
+    public List<Vector3> AlvosAcessiveis() {
+        List<Vector3> alvos = new List<Vector3>();
+        foreach (Vector3 posicao in TilesAlvosAcessiveis())
+        {
+            Personagem ocupante = gs.ObjetoNoTile(posicao);
+            if(ocupante != null && ocupante.time != time) {
+                //então temos ao menos um alvo possível
+                alvos.Add(ocupante.transform.position);
+            }
+        }
+        return alvos;
+    }
+
     public float Manhattan(Vector3 v, Vector3 w) {
         return Mathf.Abs(v.x - w.x) + Mathf.Abs(v.y - w.y);
     }
 
     //uso normal, ao se pedir alvos acessíveis pelo ataque normal
-    public List<Vector3> AlvosAcessiveis() {
+    public List<Vector3> TilesAlvosAcessiveis() {
         return AlvosAcessiveis(arma.alcance);
     }
 

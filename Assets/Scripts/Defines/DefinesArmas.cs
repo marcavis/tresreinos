@@ -44,7 +44,7 @@ public class DefinesArmas
                         //talvez fazer tropeçar e perder progresso até a próxima rodada?
                         alvo.iniciativa -= 400;
                     })},
-        {"Jueyuan", new Arma("Jueyuan", "000000", 0, 20f, 1, 0, 0, Arma.efeitoAtaquePadrao,
+        {"Jueyuan", new Arma("Jueyuan", "000000", 0, 20f, 3, 0, 0, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
                         alvo.ReceberAtaque(dono.ataque + dono.arma.poder, dono.arma);
                         //causar efeito especial, como confusão no critical hit?

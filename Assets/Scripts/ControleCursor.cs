@@ -18,6 +18,8 @@ public class ControleCursor : MonoBehaviour
     private GerenciadorScript gs;
     private List<Vector3> acessiveisUltimaUnidade;
     private List<Vector3> acessiveisAtaqueUltimaUnidade;
+
+    private int indiceAlvoSelecionado;
     public Personagem ultimaUnidade;
     private Vector3 posicaoInicialDaUnidade;
 
@@ -26,6 +28,8 @@ public class ControleCursor : MonoBehaviour
     const int NADA = 0;
     const int SELECIONADO = 1;
     const int MOVIDO = 2;
+
+    const int PROCURA_ALVO_ATAQUE = 3;
 
     public GerenciadorInput gerenciadorInput;
 
@@ -99,15 +103,29 @@ public class ControleCursor : MonoBehaviour
                 }
             } else if(acaoDoCursor == MOVIDO) {
                 
+            } else if(acaoDoCursor == PROCURA_ALVO_ATAQUE) {
+                
             }
         }
     
         if(podeMover && entrada == Teclas.DPAD) {
             entrada = 0;
-            
-            novoX = transform.position.x + direcao.x;
-            novoY = transform.position.y + direcao.y;
-            novaPosicao = new Vector3(novoX, novoY, transform.position.z);
+            if(acaoDoCursor == PROCURA_ALVO_ATAQUE) {
+                //fazer o cursor circular pelos alvos permitidos
+                if(direcao.x < 0 || direcao.y > 0) {
+                    indiceAlvoSelecionado++;
+                } else if(direcao.x > 0 || direcao.y < 0) {
+                    indiceAlvoSelecionado--;
+                }
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveis();
+                indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
+                novaPosicao = alvos[indiceAlvoSelecionado];
+                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveis()[indiceAlvoSelecionado]));
+            } else {
+                novoX = transform.position.x + direcao.x;
+                novoY = transform.position.y + direcao.y;
+                novaPosicao = new Vector3(novoX, novoY, transform.position.z);
+            }
             podeMover = false;
         }
 
@@ -134,7 +152,7 @@ public class ControleCursor : MonoBehaviour
     }
 
     public void MostrarOverlaysAtaque() {
-        acessiveisAtaqueUltimaUnidade = ultimaUnidade.AlvosAcessiveis();
+        acessiveisAtaqueUltimaUnidade = ultimaUnidade.TilesAlvosAcessiveis();
         foreach (Vector3 t in acessiveisAtaqueUltimaUnidade)
         {
             Instantiate(redSquare, t, Quaternion.identity);
@@ -152,6 +170,13 @@ public class ControleCursor : MonoBehaviour
     //terminada a rodada, agora o cursor pode selecionar unidades de novo
     public void Liberar() {
         acaoDoCursor = NADA;
+    }
+
+    public void IrParaPrimeiroAlvo() {
+        acaoDoCursor = PROCURA_ALVO_ATAQUE;
+        novaPosicao = ultimaUnidade.AlvosAcessiveis()[0];
+        podeMover = false;
+        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveis()[0]));
     }
 
     //previne que tiles ocupados por amigos sejam considerados acessíveis pela unidade
