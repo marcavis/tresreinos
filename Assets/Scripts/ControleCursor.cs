@@ -30,6 +30,7 @@ public class ControleCursor : MonoBehaviour
     const int MOVIDO = 2;
 
     const int PROCURA_ALVO_ATAQUE = 3;
+    const int ATACOU = 4;
 
     public GerenciadorInput gerenciadorInput;
 
@@ -59,6 +60,10 @@ public class ControleCursor : MonoBehaviour
                 acaoDoCursor = NADA;
             } else if(acaoDoCursor == MOVIDO) {
                 //tratado em DesfazerAcaoAtual() pois no status MOVIDO o controle estará no menu de batalha
+            } else if (acaoDoCursor == PROCURA_ALVO_ATAQUE) {
+                novaPosicao = ultimaUnidade.transform.position;
+                gerenciadorInput.cursorAtivo = 1;
+                gs.ReiniciarLabelsAlvo();
             }
         }
         
@@ -102,9 +107,21 @@ public class ControleCursor : MonoBehaviour
                     //TODO: tocar som de erro?
                 }
             } else if(acaoDoCursor == MOVIDO) {
-                
+                //nesse ponto o cursor não está ativo - o jogador está no menu de batalha
             } else if(acaoDoCursor == PROCURA_ALVO_ATAQUE) {
-                
+                //se o cursor ainda não tiver chegado num tile válido, aguardar até isso acontecer
+                if(transform.position == novaPosicao) {
+                    ultimaUnidade.Atacar(gs.ObjetoNoTile(transform.position));
+                    Liberar();
+                    LimparOverlays();
+                    gs.SairMenuBatalha();
+                    gs.ReiniciarLabelsAlvo();
+                }
+            }
+            //se o cursor foi acionado quando o cursor ainda não havia chegado à posição para qual foi movido,
+            //manter o input até o próximo frame, para nova tentativa
+            if(transform.position != novaPosicao) {
+                entrada = Teclas.ACTION;
             }
         }
     
@@ -141,6 +158,7 @@ public class ControleCursor : MonoBehaviour
             MostrarOverlaysMovimento();
             acaoDoCursor = SELECIONADO;
             ultimaUnidade.DesfazerMovimento();
+            ultimaUnidade.ComecarAPiscar();
         }
     }
 

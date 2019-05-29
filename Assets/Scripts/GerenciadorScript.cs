@@ -139,4 +139,9 @@ public class GerenciadorScript : MonoBehaviour
         alvoLabels[0].text = unid.nome + " Nv. " + unid.nivel;
         alvoLabels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);
     }
+
+    public void ReiniciarLabelsAlvo() {
+        alvoLabels[0].text = "";
+        alvoLabels[1].text = "";
+    }
 }

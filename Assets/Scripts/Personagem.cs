@@ -297,6 +297,24 @@ public class Personagem : MonoBehaviour
         return acessiveis;
     }
 
+    public void Atacar(Personagem alvo) {
+        int dado = UnityEngine.Random.Range(0, 100);
+        if (dado + arma.precisao < 5) {
+            //erro
+            //será que vai ser interessante implementar
+            //arma.efeitoFalha() ?
+            print(nome + " falhou ao atacar " + alvo.nome);
+        } else {
+            dado = UnityEngine.Random.Range(0, 100);
+            if (dado + arma.chanceCritica > 95) {
+                arma.efeitoCritico(this, alvo);
+            } else {
+                arma.efeitoAtaque(this, alvo);
+            }
+        }
+        //atualizar a interface quanto à situação do inimigo que atacamos
+        gs.MostrarDadosDoAlvo(alvo);
+    }
 
     public void ReceberAtaque(int poder, Arma arma) {
         ReceberDano(poder - defesa, arma);
