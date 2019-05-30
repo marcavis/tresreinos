@@ -40,6 +40,12 @@ public class GerenciadorScript : MonoBehaviour
         alvoLabels = new Text[2];
         alvoLabels[0] = GameObject.Find("AlvoLabel").GetComponent<Text>();
         alvoLabels[1] = GameObject.Find("AlvoPVLabel").GetComponent<Text>();
+
+        personagens.Sort( (a, b) => (turnosAteAgir(a).CompareTo(turnosAteAgir(b))));
+        foreach (var p in personagens)
+        {
+            print(p.nome);
+        }
     }
 
     // Update is called once per frame
@@ -96,6 +102,10 @@ public class GerenciadorScript : MonoBehaviour
                 cursor.GetComponent<ControleCursor>().MostrarOverlaysAtaque();
             }
         }
+    }
+
+    public int turnosAteAgir(Personagem p) {
+        return Mathf.CeilToInt((1000f - p.iniciativa)/p.agilidade);
     }
 
     public void EntrarMenuBatalha() {
