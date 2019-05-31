@@ -40,12 +40,8 @@ public class GerenciadorScript : MonoBehaviour
         alvoLabels = new Text[2];
         alvoLabels[0] = GameObject.Find("AlvoLabel").GetComponent<Text>();
         alvoLabels[1] = GameObject.Find("AlvoPVLabel").GetComponent<Text>();
-
-        personagens.Sort( (a, b) => (turnosAteAgir(a).CompareTo(turnosAteAgir(b))));
-        foreach (var p in personagens)
-        {
-            print(p.nome);
-        }
+        
+        Proximo();
     }
 
     // Update is called once per frame
@@ -86,6 +82,7 @@ public class GerenciadorScript : MonoBehaviour
             else {
                 SairMenuBatalha();
                 cursor.GetComponent<ControleCursor>().Liberar();
+                Proximo();
                 //print(cursor.GetComponent<ControleCursor>().acaoDoCursor);
             }
         } else if(entrada == Teclas.DPAD) {
@@ -104,7 +101,24 @@ public class GerenciadorScript : MonoBehaviour
         }
     }
 
-    public int turnosAteAgir(Personagem p) {
+    public void Proximo() {
+        while(personagens[0].iniciativa < 1000) {
+            foreach (var p in personagens)
+            {
+                p.iniciativa += p.agilidade;
+                
+            }
+            personagens.Sort( (a, b) => (TurnosAteAgir(a).CompareTo(TurnosAteAgir(b))));
+        }
+        cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
+        personagens[0].iniciativa -= 1000;
+    }
+
+    //retorna positivo se é a unidade que deve agir agora
+    public bool SeAtual(Personagem p) {
+        return p == personagens[0];
+    }
+    public int TurnosAteAgir(Personagem p) {
         return Mathf.CeilToInt((1000f - p.iniciativa)/p.agilidade);
     }
 

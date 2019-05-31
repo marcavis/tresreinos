@@ -138,7 +138,6 @@ public class Personagem : MonoBehaviour
     }
 
     public List<Vector3> TilesAcessiveis(Tilemap tilemap) {
-        //TODO: incluir custo 999 em tiles ocupados por inimigos
         //System.Diagnostics.Stopwatch st = new System.Diagnostics.Stopwatch();
         //st.Start();
         int dimensaoMat = (int) (movimento * 2 / 10 + 1);
@@ -224,7 +223,6 @@ public class Personagem : MonoBehaviour
 
     private int CustoParaAndar(Vector3Int alvo, Tilemap tilemap) {
         //custo padrão, portanto muitos tiles não precisarão ter seu custo definido
-        //TODO: tirar daqui pois unidades diferentes terão perfis de custo diferentes por terreno
         int custo = 10;
         TileBase tipoTile = tilemap.GetTile(alvo);
         

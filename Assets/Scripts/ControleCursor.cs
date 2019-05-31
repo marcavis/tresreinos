@@ -62,6 +62,7 @@ public class ControleCursor : MonoBehaviour
                 //tratado em DesfazerAcaoAtual() pois no status MOVIDO o controle estará no menu de batalha
             } else if (acaoDoCursor == PROCURA_ALVO_ATAQUE) {
                 novaPosicao = ultimaUnidade.transform.position;
+                acaoDoCursor = MOVIDO;
                 gerenciadorInput.cursorAtivo = 1;
                 gs.ReiniciarLabelsAlvo();
             }
@@ -69,6 +70,7 @@ public class ControleCursor : MonoBehaviour
         
         if(entrada == Teclas.ACTION) {
             entrada = 0;
+            bool finalizado = false;
             if(acaoDoCursor == NADA) {
                 //acho que apagar depois?
                 LimparOverlays();
@@ -76,18 +78,13 @@ public class ControleCursor : MonoBehaviour
                 foreach (Personagem p in gs.personagens)
                 {
                     if(p.transform.position == transform.position) {
-                        ultimaUnidade = p;
-                        p.ComecarAPiscar();
-                        posicaoInicialDaUnidade = p.transform.position;
-                        //gs.EntrarMenuBatalha();
-                        acessiveisUltimaUnidade = p.TilesAcessiveis(_tilemap);
-                        
-                        //não permitir que a unidade ocupe o mesmo tile de um companheiro
-                        RemoverOcupados(acessiveisUltimaUnidade);
-
-                        MostrarOverlaysMovimento();
-                        
-                        acaoDoCursor = SELECIONADO;
+                        if(gs.SeAtual(p)) {
+                            SelecionarUnidade(p);
+                            //print("pode ir");
+                        } else {
+                            //TODO: mostrar status da unidade que tentou selecionar
+                            //print ("não pode");
+                        }
                     }
                 }
             } else if(acaoDoCursor == SELECIONADO) {
@@ -116,11 +113,15 @@ public class ControleCursor : MonoBehaviour
                     LimparOverlays();
                     gs.SairMenuBatalha();
                     gs.ReiniciarLabelsAlvo();
+                    //TODO: botar um delay
+                    print("500");
+                    gs.Proximo();
+                    finalizado = true;
                 }
             }
             //se o cursor foi acionado quando o cursor ainda não havia chegado à posição para qual foi movido,
             //manter o input até o próximo frame, para nova tentativa
-            if(transform.position != novaPosicao) {
+            if(transform.position != novaPosicao && !finalizado) {
                 entrada = Teclas.ACTION;
             }
         }
@@ -188,6 +189,28 @@ public class ControleCursor : MonoBehaviour
     //terminada a rodada, agora o cursor pode selecionar unidades de novo
     public void Liberar() {
         acaoDoCursor = NADA;
+        entrada = 0;
+    }
+
+    public void IrParaUnidade(Personagem p) {
+        novaPosicao = p.transform.position;
+        podeMover = false;
+        SelecionarUnidade(p);
+    }
+
+    public void SelecionarUnidade(Personagem p) {
+        ultimaUnidade = p;
+        p.ComecarAPiscar();
+        posicaoInicialDaUnidade = p.transform.position;
+        //gs.EntrarMenuBatalha();
+        acessiveisUltimaUnidade = p.TilesAcessiveis(_tilemap);
+        
+        //não permitir que a unidade ocupe o mesmo tile de um companheiro
+        RemoverOcupados(acessiveisUltimaUnidade);
+
+        MostrarOverlaysMovimento();
+        
+        acaoDoCursor = SELECIONADO;
     }
 
     public void IrParaPrimeiroAlvo() {
