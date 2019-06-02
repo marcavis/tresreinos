@@ -13,6 +13,7 @@ public class GerenciadorScript : MonoBehaviour
     public GerenciadorInput gerenciadorInput;
     
     public GameObject canvas;
+    public GameObject canvasAlvo;
     public int opcaoMenuBatalha;
     
     public Text[] menuBatalha;
@@ -30,7 +31,11 @@ public class GerenciadorScript : MonoBehaviour
     void Start()
     {
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
+        canvas = GameObject.Find("CanvasMenuBatalha");
         canvas.GetComponent<Canvas>().enabled = false;
+        canvasAlvo = GameObject.Find("CanvasAlvo");
+        canvasAlvo.GetComponent<Canvas>().enabled = false;
+
         labels = new Text[4];
         labels[0] = GameObject.Find("NomeLabel").GetComponent<Text>();
         labels[1] = GameObject.Find("PVLabel").GetComponent<Text>();
@@ -64,6 +69,7 @@ public class GerenciadorScript : MonoBehaviour
                     //print("não pode atacar");
                 } else {
                     gerenciadorInput.cursorAtivo = 0;
+                    canvasAlvo.GetComponent<Canvas>().enabled = true;
                     //o jogo ficará circulando entre os alvos permitidos, então começaremos
                     //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
                     cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvo();
@@ -124,6 +130,7 @@ public class GerenciadorScript : MonoBehaviour
 
     public void EntrarMenuBatalha() {
         canvas.GetComponent<Canvas>().enabled = true;
+
         for (int i = 0; i < menuBatalha.Length; i++)
         {
             menuBatalha[i].text = textoMenuBatalha[i];
@@ -160,11 +167,13 @@ public class GerenciadorScript : MonoBehaviour
     }
 
     public void MostrarDadosDoAlvo(Personagem unid) {
+        canvasAlvo.GetComponent<Canvas>().enabled = true;
         alvoLabels[0].text = unid.nome + " Nv. " + unid.nivel;
         alvoLabels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);
     }
 
     public void ReiniciarLabelsAlvo() {
+        canvasAlvo.GetComponent<Canvas>().enabled = false;
         alvoLabels[0].text = "";
         alvoLabels[1].text = "";
     }
