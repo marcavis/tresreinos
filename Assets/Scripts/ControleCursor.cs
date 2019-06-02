@@ -114,7 +114,6 @@ public class ControleCursor : MonoBehaviour
                     gs.SairMenuBatalha();
                     gs.ReiniciarLabelsAlvo();
                     //TODO: botar um delay
-                    print("500");
                     gs.Proximo();
                     finalizado = true;
                 }
