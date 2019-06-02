@@ -3091,9 +3091,9 @@ MonoBehaviour:
     type: 3}
   cursor: {fileID: 2001583344}
   gerenciadorInput: {fileID: 0}
+  _camera: {fileID: 519420028}
   canvas: {fileID: 0}
   canvasAlvo: {fileID: 0}
-  camera: {fileID: 519420028}
   opcaoMenuBatalha: 0
   menuBatalha:
   - {fileID: 1371921068}

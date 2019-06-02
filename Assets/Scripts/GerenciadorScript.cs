@@ -11,7 +11,7 @@ public class GerenciadorScript : MonoBehaviour
 
     public GameObject cursor;
     public GerenciadorInput gerenciadorInput;
-    public GameObject camera;
+    public GameObject _camera;
     
     public GameObject canvas;
     public GameObject canvasAlvo;
@@ -113,12 +113,11 @@ public class GerenciadorScript : MonoBehaviour
             foreach (var p in personagens)
             {
                 p.iniciativa += p.agilidade;
-                
             }
             personagens.Sort( (a, b) => (TurnosAteAgir(a).CompareTo(TurnosAteAgir(b))));
         }
         cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
-        camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
+        _camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
         personagens[0].iniciativa -= 1000;
     }
 
