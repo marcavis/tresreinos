@@ -8,7 +8,7 @@ public class ControleCursor : MonoBehaviour
     private float novoX;
     private float novoY;
 
-    private Vector3 novaPosicao;
+    public Vector3 novaPosicao;
     
     private float velCursor = 10f;
     // Start is called before the first frame update
