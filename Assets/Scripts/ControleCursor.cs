@@ -134,10 +134,10 @@ public class ControleCursor : MonoBehaviour
                 } else if(direcao.x > 0 || direcao.y < 0) {
                     indiceAlvoSelecionado--;
                 }
-                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveis();
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados();
                 indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
                 novaPosicao = alvos[indiceAlvoSelecionado];
-                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveis()[indiceAlvoSelecionado]));
+                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveisFiltrados()[indiceAlvoSelecionado]));
             } else {
                 novoX = transform.position.x + direcao.x;
                 novoY = transform.position.y + direcao.y;
@@ -214,9 +214,9 @@ public class ControleCursor : MonoBehaviour
 
     public void IrParaPrimeiroAlvo() {
         acaoDoCursor = PROCURA_ALVO_ATAQUE;
-        novaPosicao = ultimaUnidade.AlvosAcessiveis()[0];
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados()[0];
         podeMover = false;
-        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveis()[0]));
+        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveisFiltrados()[0]));
     }
 
     //previne que tiles ocupados por amigos sejam considerados acessíveis pela unidade

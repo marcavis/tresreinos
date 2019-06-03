@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class Personagem : MonoBehaviour
 
     public Arma arma;
     
+    public Item[] inventario;
 
     public Vector3 destinoFinal;
     private List<Vector3> rota;
@@ -51,7 +53,8 @@ public class Personagem : MonoBehaviour
         rota = new List<Vector3>();
         rotaBacktrack = new List<Vector3>();
         destinoFinal = transform.position;
-        
+
+        inventario = new Item[8];
         //atributos
         Defines.Inicializacao(nome, gameObject);
         
@@ -256,7 +259,8 @@ public class Personagem : MonoBehaviour
         return false;
     }
 
-    public List<Vector3> AlvosAcessiveis() {
+    //necessário filtrar alvos que podem ser atacados (time inimigo)
+    public List<Vector3> AlvosAcessiveisFiltrados() {
         List<Vector3> alvos = new List<Vector3>();
         foreach (Vector3 posicao in TilesAlvosAcessiveis())
         {
@@ -328,5 +332,26 @@ public class Personagem : MonoBehaviour
         if(pv <= 0) {
             //MORRER
         }
+    }
+
+    public void ReceberCura(int valor) {
+        pv += valor;
+        if(pv > mpv) {pv = mpv;}
+    }
+
+    //retorna -1 se não houver espaço
+    public int AdicionarAoInventario(Item item) {
+        int espacoVazio = -1;
+        for (int i = 0; i < Defines.TAMANHO_INVENTARIO; i++)
+        {
+            if (inventario[i] == null) {
+                espacoVazio = i;
+                break;
+            }
+        }
+        if(espacoVazio != -1) {
+            inventario[espacoVazio] = item;
+        }
+        return espacoVazio;
     }
 }

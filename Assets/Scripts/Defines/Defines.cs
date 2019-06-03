@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Defines 
 {   
+    public const int TAMANHO_INVENTARIO = 8;
     //                                          
     public static string[] herois = new string[]  { "Zheng Xiulan", 
                                                     "Miao Lin", 
@@ -68,6 +70,19 @@ public class Defines
         //{"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 2}},
     };
 
+    //não é necessário adicionar a arma inicial neste ponto
+    public static Dictionary<string, string[]> itensIniciais = new Dictionary<string, string[]>() {
+        
+        {herois[0], new string[] {"Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde"}},
+        {herois[1], new string[] {}},
+        {herois[2], new string[] {}},
+        {herois[3], new string[] {}},
+        {herois[4], new string[] {}},
+        {herois[5], new string[] {}},
+
+        //{"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 2}},
+    };
+
     public static void Inicializacao(string nome, GameObject objeto) {
         //mudar tudo isso se forem carregados dados na segunda fase - usar PlayerPrefs?
         Personagem unid = objeto.GetComponent<Personagem>();
@@ -81,9 +96,21 @@ public class Defines
         unid.agilidade = atributosIniciais[nome][4];
         unid.movimento = atributosIniciais[nome][5];
         unid.nivel = atributosIniciais[nome][6];
+        if(itensIniciais.ContainsKey(nome)) {
+            foreach (string item in itensIniciais[nome])
+            {
+                unid.AdicionarAoInventario(DefinesItens.itens[item]);
+                //unid.inventario[i] = DefinesItens.itens[itensIniciais[nome][i]];
+            }
+        } else {
+            unid.inventario = new Item[TAMANHO_INVENTARIO];
+        }
+
         //Inimigos normalmente entram na segunda opção - as armas são o próprio nome
         if(armasIniciais.ContainsKey(nome)) {
             unid.arma = DefinesArmas.armas[armasIniciais[nome]];
+            //também adicionar uma representação como item da arma inicial ao inventário
+            unid.AdicionarAoInventario(DefinesItens.itens[unid.arma.nome]);
         } else {
             unid.arma = DefinesArmas.armas[nome];
         }

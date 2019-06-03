@@ -6,6 +6,7 @@ public class GerenciadorInput : MonoBehaviour
 {   
     public GameObject cursor;
     public GameObject gs;
+    public GameObject telaInv;
     public GameObject[] cursores;
 
     public int framesDPADSegurado = 0;
@@ -16,7 +17,8 @@ public class GerenciadorInput : MonoBehaviour
     {
         cursor = GameObject.Find("Cursor");
         gs = GameObject.Find("Gerenciador");
-        cursores = new GameObject[] { cursor, gs };
+        telaInv = GameObject.Find("CanvasInventario");
+        cursores = new GameObject[] { cursor, gs, telaInv };
         cursorAtivo = 0; //cursor de seleção de unidade no campo
     }
 
@@ -62,10 +64,12 @@ public class GerenciadorInput : MonoBehaviour
     void SetEntrada(GameObject c, int entrada) {
         if(c == cursor) {cursor.GetComponent<ControleCursor>().entrada = entrada;}
         if(c == gs) {gs.GetComponent<GerenciadorScript>().entrada = entrada;}
+        if(c == telaInv) {telaInv.GetComponent<GerenciadorInventario>().entrada = entrada;}
     }
 
     void SetDirecao(GameObject c, Vector3 direcao) {
         if(c == cursor) {cursor.GetComponent<ControleCursor>().direcao = direcao;}
         if(c == gs) {gs.GetComponent<GerenciadorScript>().direcao = direcao;}
+        if(c == telaInv) {telaInv.GetComponent<GerenciadorInventario>().direcao = direcao;}
     }
 }

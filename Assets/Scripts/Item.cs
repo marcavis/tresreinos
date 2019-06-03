@@ -9,6 +9,8 @@ public class Item
     public string descricao;
 
     public Action<Personagem, Personagem> efeitoUso;
+
+    public static Action<Personagem, Personagem> efeitoNulo = (dono, alvo) => {};
     
     public Item(string nome, string descricao, 
                 Action<Personagem, Personagem> efeitoUso){
