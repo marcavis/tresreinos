@@ -40,10 +40,15 @@ public class GerenciadorInput : MonoBehaviour
                 framesDPADSegurado = 0;
             } else {
                 framesDPADSegurado++;
-                //não faz sentido segurar a direção no menu de batalha, talvez
+                //cursor do mapa pode mover-se continuamente, outros precisam de um cooldown
                 if (cursorAtivo == 0 && framesDPADSegurado > 14) 
                 {
                     travaDPAD = 0;
+                }
+                if (cursorAtivo != 0 && framesDPADSegurado > 14) 
+                {
+                    travaDPAD = 0;
+                    framesDPADSegurado = 10;
                 }
             }
             if(travaDPAD == 0) {

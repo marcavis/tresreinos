@@ -42,13 +42,7 @@ public class GerenciadorInventario : MonoBehaviour
             entrada = 0;
             posItemSelecionado = posItemSelecionado - (int) direcao.y;
             posItemSelecionado = (slots.Length + posItemSelecionado) % slots.Length;
-            foreach (Text t in slots)
-            {
-                LimparSelecaoNome(t);
-            }
-            slots[posItemSelecionado].text = "> " + slots[posItemSelecionado].text + " <";
-            Item itemSelecionado = unid.inventario[posItemSelecionado];
-            campoDesc.text = itemSelecionado != null ? itemSelecionado.descricao : "-";
+            MostrarItens();
         }
     }
     
@@ -67,6 +61,8 @@ public class GerenciadorInventario : MonoBehaviour
             }
         }
         slots[posItemSelecionado].text = "> " + slots[posItemSelecionado].text + " <";
+        Item itemSelecionado = unid.inventario[posItemSelecionado];
+        campoDesc.text = itemSelecionado != null ? itemSelecionado.descricao : "-";
     }
 
     public void AbrirMenu(Personagem unid) {
