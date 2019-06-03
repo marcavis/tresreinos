@@ -51,7 +51,11 @@ public class ControleCursor : MonoBehaviour
         if(entrada == Teclas.CANCEL) {
             //todo objeto, ao tratar um input, o consome para que não o trate novamente no próximo frame
             entrada = 0;
-            if(acaoDoCursor == SELECIONADO) {
+            if (acaoDoCursor == NADA) {
+                //outro cancelar ("ESC") retorna o cursor anteriormente selecionada
+                novaPosicao = posicaoInicialDaUnidade;
+                podeMover = false;
+            } else if(acaoDoCursor == SELECIONADO) {
                 LimparOverlays();
                 if(ultimaUnidade != null) {
                     ultimaUnidade.PararDePiscar();
