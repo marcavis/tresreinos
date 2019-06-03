@@ -14,8 +14,13 @@ public class GerenciadorInventario : MonoBehaviour
 
     private int posItemSelecionado;
 
+    private int posAcaoSelecionada;
+    private Item itemSelecionado;
     private Text[] slots;
+    private Text armaLabel;
     private Text campoDesc;
+
+    private Text[] acoes;
     //a unidade dona do inventário acessado
     public Personagem unid;
     // Start is called before the first frame update
@@ -27,6 +32,11 @@ public class GerenciadorInventario : MonoBehaviour
         {
             slots[i] = GameObject.Find("Slot" + (i+1)).GetComponent<Text>();
         }
+        armaLabel = GameObject.Find("ArmaLabel").GetComponent<Text>();
+        acoes = new Text[3];
+        acoes[0] = GameObject.Find("EquipUseBtn").GetComponent<Text>();
+        acoes[1] = GameObject.Find("TrocaBtn").GetComponent<Text>();
+        acoes[2] = GameObject.Find("DescartaBtn").GetComponent<Text>();
         campoDesc = GameObject.Find("Descricao").GetComponent<Text>();
     }
 
@@ -37,18 +47,73 @@ public class GerenciadorInventario : MonoBehaviour
             entrada = 0;
             if(estado == SELECAO_ITEM) {
                 FecharMenu();
+            } else if (estado == SELECAO_ACAO) {
+                LimparAcoes();
+                estado = SELECAO_ITEM;
             }
-        } else if(entrada == Teclas.DPAD) {
+        } else if(entrada == Teclas.ACTION) {
             entrada = 0;
-            posItemSelecionado = posItemSelecionado - (int) direcao.y;
-            posItemSelecionado = (slots.Length + posItemSelecionado) % slots.Length;
-            MostrarItens();
+            if(estado == SELECAO_ITEM) {
+                Item itemAtual = unid.inventario[posItemSelecionado];
+                if(itemAtual != null) {
+                    itemSelecionado = itemAtual;
+                    estado = SELECAO_ACAO;
+                    MostrarAcoes();
+                } else {
+                    //TODO: som de erro, seleção inválida
+                }
+            } else if(estado == SELECAO_ACAO) {
+                
+                if(posAcaoSelecionada == 0) {
+                    if(acoes[0].text == "> Desequipar <") {
+                        print("jioj");
+                        unid.arma = DefinesArmas.armas["Punho"];
+                    } else if(acoes[0].text == "> Equipar <") {
+                        //equipar a arma que tem o mesmo nome do item selecionado
+                        unid.arma = DefinesArmas.armas[itemSelecionado.nome];
+                    } else {
+                        if(itemSelecionado.efeitoUso == null) {
+                            //TODO: som de erro, não usar item, não terminar rodada
+                        }
+                        //usar o item
+                        //TODO:deve ir para o cursor para achar um alvo
+                        //itemSelecionado.efeitoUso(unid);
+                    }
+                } else if(posAcaoSelecionada == 1) { 
+
+                } else if(posAcaoSelecionada == 2) {
+                    //TODO: melhor pedir um diálogo de confirmação
+                    //TODO: som de descarte
+
+                    //remover arma, se descartada
+                    if(unid.inventario[posItemSelecionado].nome == unid.arma.nome) {
+                        unid.arma = DefinesArmas.armas["Punho"];
+                    }
+                    unid.inventario[posItemSelecionado] = null;
+
+                    itemSelecionado = null;
+                    estado = SELECAO_ITEM;
+                    LimparAcoes();
+                }
+                MostrarItens();
+                if(itemSelecionado != null) {
+                    MostrarAcoes();
+                }
+                MostrarArmaEquipada();
+            }
         }
-    }
-    
-    public void LimparSelecaoNome(Text t) {
-        t.text = t.text.Replace("> ", "");
-        t.text = t.text.Replace(" <", "");
+        else if(entrada == Teclas.DPAD) {
+            entrada = 0;
+            if(estado == SELECAO_ITEM) {
+                posItemSelecionado = posItemSelecionado - (int) direcao.y;
+                posItemSelecionado = (slots.Length + posItemSelecionado) % slots.Length;
+                MostrarItens();
+            } else if (estado == SELECAO_ACAO) {
+                posAcaoSelecionada = posAcaoSelecionada - (int) direcao.y;
+                posAcaoSelecionada = (acoes.Length + posAcaoSelecionada) % acoes.Length;
+                MostrarAcoes();
+            }
+        }
     }
 
     void MostrarItens() {
@@ -61,15 +126,45 @@ public class GerenciadorInventario : MonoBehaviour
             }
         }
         slots[posItemSelecionado].text = "> " + slots[posItemSelecionado].text + " <";
-        Item itemSelecionado = unid.inventario[posItemSelecionado];
-        campoDesc.text = itemSelecionado != null ? itemSelecionado.descricao : "-";
+        Item itemAtual = unid.inventario[posItemSelecionado];
+        campoDesc.text = itemAtual != null ? itemAtual.descricao : "-";
+    }
+
+    void MostrarArmaEquipada() {
+        armaLabel.text = "Arma: " + unid.arma.nome;
+    }
+
+    void LimparAcoes() {
+        foreach (var btn in acoes)
+        {
+            btn.text = "";
+        }
+    }
+
+    void MostrarAcoes() {
+        if(DefinesArmas.armas.ContainsKey(itemSelecionado.nome)) {
+            if(itemSelecionado.nome == unid.arma.nome) {
+                acoes[0].text = "Desequipar";
+            } else {
+                acoes[0].text = "Equipar";
+            }
+        } else {
+            acoes[0].text = "Usar";
+        }
+        acoes[1].text = "Trocar";
+        acoes[2].text = "Descartar";
+        acoes[posAcaoSelecionada].text = "> " + acoes[posAcaoSelecionada].text + " <";
     }
 
     public void AbrirMenu(Personagem unid) {
         this.unid = unid;
         posItemSelecionado = 0;
+        posAcaoSelecionada = 0;
+        itemSelecionado = null;
         gameObject.GetComponent<Canvas>().enabled = true;
         MostrarItens();
+        LimparAcoes();
+        MostrarArmaEquipada();
     }
 
     public void FecharMenu() {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DefinesItens
 {   
+    const int ARMA = 1;
+    const int CURA = 2;
     //                                          
     // public static string[] herois = new string[]  { "Zheng Xiulan", 
     //                                                 "Miao Lin", 
@@ -16,12 +18,12 @@ public class DefinesItens
     public static Dictionary<string, Item> itens = new Dictionary<string, Item> {
         //nome, descrição, efeito quando usado
         //TODO: criar descrições para itens
-        {"Chá Verde", new Item("Chá Verde", "Recupera pontos de vida", Item.efeitoNulo)},
-        {"Bastão", new Item("Bastão", "pou", Item.efeitoNulo)},
-        {"Espadas-Borboleta", new Item("Espadas-Borboleta", "cha-ching", Item.efeitoNulo)},
-        {"Machado", new Item("Machado", "chop", Item.efeitoNulo)},
-        {"Chu-Ko-Nu", new Item("Chu-Ko-Nu", "pft pft", Item.efeitoNulo)},
-        {"Lança", new Item("Lança", "chuc", Item.efeitoNulo)},
-        {"Espada", new Item("Espada", "shwing", Item.efeitoNulo)},
+        {"Chá Verde", new Item("Chá Verde", "Recupera pontos de vida", CURA, Item.efeitoNulo)},
+        {"Bastão", new Item("Bastão", "pou", ARMA, Item.efeitoNulo)},
+        {"Espadas-Borboleta", new Item("Espadas-Borboleta", "cha-ching", ARMA, Item.efeitoNulo)},
+        {"Machado", new Item("Machado", "chop", ARMA, Item.efeitoNulo)},
+        {"Chu-Ko-Nu", new Item("Chu-Ko-Nu", "pft pft", ARMA, Item.efeitoNulo)},
+        {"Lança", new Item("Lança", "chuc", ARMA, Item.efeitoNulo)},
+        {"Espada", new Item("Espada", "shwing", ARMA, Item.efeitoNulo)},
     };
 }

@@ -155,6 +155,7 @@ public class GerenciadorScript : MonoBehaviour
         labels[0].text = unid.nome + " Nv. " + unid.nivel;
         labels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);
         labels[2].text = string.Format("PT: {0,3:D3}/{1,3:D3}", unid.pt, unid.mpt);
+        //TODO: não mostrar atributos diretamente, mas chamar função que lê atributo, arma (se houver), e modificadores
         labels[3].text = string.Format("ATQ: {0,2:D2} DEF: {1,2:D2} AGI: {2,2:D2} MOV: {3,2:D2}", unid.ataque, unid.defesa, unid.agilidade, unid.movimento/10);
     }
 
