@@ -25,7 +25,7 @@ public class ControleCursor : MonoBehaviour
 
     public Transform blueSquare, redSquare;
     public int acaoDoCursor = 0;
-    const int NADA = 0;
+    public const int NADA = 0;
     const int SELECIONADO = 1;
     const int MOVIDO = 2;
 

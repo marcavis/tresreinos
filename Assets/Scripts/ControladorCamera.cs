@@ -24,18 +24,26 @@ public class ControladorCamera : MonoBehaviour
     }
 
     private void LateUpdate() {
-        Vector3 novaPosicaoCursor = cursor.GetComponent<ControleCursor>().novaPosicao;
+        ControleCursor contCur = cursor.GetComponent<ControleCursor>();
+        Vector3 novaPosicaoCursor = contCur.novaPosicao;
+        if (contCur.acaoDoCursor == ControleCursor.NADA) {
+            novaPosicaoCursor = cursor.transform.position;
+            novaPosicao.z = z;
+            transform.position = novaPosicao;
+        }
         offset = transform.position - novaPosicaoCursor;
-        if (transform.position != novaPosicao) {
-            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 10f * Time.deltaTime);
-        } else if (Mathf.Abs(offset.x) > tamanhoGrid) {
-            novaPosicaoCursor.x -= novaPosicaoCursor.x < 0 ? -tamanhoGrid : tamanhoGrid;
-            novaPosicao = novaPosicaoCursor;
-            novaPosicao.z = z;
-        } else if (Mathf.Abs(offset.y) > tamanhoGrid) {
-            novaPosicaoCursor.y -= novaPosicaoCursor.y < 0 ? -tamanhoGrid : tamanhoGrid;;
-            novaPosicao = novaPosicaoCursor;
-            novaPosicao.z = z;
+        if (contCur.acaoDoCursor != ControleCursor.NADA) {
+            if (transform.position != novaPosicao) {
+                transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 10f * Time.deltaTime);
+            } else if (Mathf.Abs(offset.x) > tamanhoGrid) {
+                novaPosicaoCursor.x -= novaPosicaoCursor.x < 0 ? -tamanhoGrid : tamanhoGrid;
+                novaPosicao = novaPosicaoCursor;
+                novaPosicao.z = z;
+            } else if (Mathf.Abs(offset.y) > tamanhoGrid) {
+                novaPosicaoCursor.y -= novaPosicaoCursor.y < 0 ? -tamanhoGrid : tamanhoGrid;;
+                novaPosicao = novaPosicaoCursor;
+                novaPosicao.z = z;
+            }
         }
     }
 
