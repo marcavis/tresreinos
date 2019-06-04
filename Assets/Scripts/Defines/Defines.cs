@@ -74,11 +74,11 @@ public class Defines
     public static Dictionary<string, string[]> itensIniciais = new Dictionary<string, string[]>() {
         
         {herois[0], new string[] {"Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde"}},
-        {herois[1], new string[] {}},
-        {herois[2], new string[] {}},
-        {herois[3], new string[] {}},
-        {herois[4], new string[] {}},
-        {herois[5], new string[] {}},
+        {herois[1], new string[] {"Chá Verde"}},
+        {herois[2], new string[] {"Chá Verde"}},
+        {herois[3], new string[] {"Chá Verde"}},
+        {herois[4], new string[] {"Chá Verde"}},
+        {herois[5], new string[] {"Chá Verde"}},
 
         //{"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 2}},
     };

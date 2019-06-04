@@ -67,9 +67,8 @@ public class GerenciadorScript : MonoBehaviour
             entrada = 0;
             //atacar 
             if(opcaoMenuBatalha == 0){
-                // SairMenuBatalha();
                 Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
-                if(!unid.ExistemAlvos()) {
+                if(!unid.ExistemAlvos(unid.arma.alcance, false)) {
                     //som de erro
                     //print("não pode atacar");
                 } else {
@@ -78,7 +77,6 @@ public class GerenciadorScript : MonoBehaviour
                     //o jogo ficará circulando entre os alvos permitidos, então começaremos
                     //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
                     cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvo();
-                    //print("pode atacar");
                 }
             }
             //habilidades

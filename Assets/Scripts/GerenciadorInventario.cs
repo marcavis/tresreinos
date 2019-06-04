@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GerenciadorInventario : MonoBehaviour
 {
+    public GameObject cursor;
+    public GameObject canvasAlvo;
     public GerenciadorInput gerenciadorInput;
     public int estado;
     const int SELECAO_ITEM = 0;
@@ -26,6 +28,8 @@ public class GerenciadorInventario : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cursor = GameObject.Find("Cursor");
+        canvasAlvo = GameObject.Find("CanvasAlvo");
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         slots = new Text[8];
         for (int i = 0; i < 8; i++)
@@ -66,7 +70,6 @@ public class GerenciadorInventario : MonoBehaviour
                 
                 if(posAcaoSelecionada == 0) {
                     if(acoes[0].text == "> Desequipar <") {
-                        print("jioj");
                         unid.arma = DefinesArmas.armas["Punho"];
                     } else if(acoes[0].text == "> Equipar <") {
                         //equipar a arma que tem o mesmo nome do item selecionado
@@ -80,7 +83,18 @@ public class GerenciadorInventario : MonoBehaviour
                         //itemSelecionado.efeitoUso(unid);
                     }
                 } else if(posAcaoSelecionada == 1) { 
-
+                    if(!unid.ExistemAlvos(1, true)) {
+                        //som de erro
+                        //print("não pode trocar item");
+                    } else {
+                        gerenciadorInput.cursorAtivo = 0;
+                        canvasAlvo.GetComponent<Canvas>().enabled = true;
+                        //o jogo ficará circulando entre os alvos permitidos, então começaremos
+                        //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
+                        cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvoTroca();
+                        cursor.GetComponent<ControleCursor>().MostrarOverlaysTroca();
+                        gameObject.GetComponent<Canvas>().enabled = false;
+                    }
                 } else if(posAcaoSelecionada == 2) {
                     //TODO: melhor pedir um diálogo de confirmação
                     //TODO: som de descarte
@@ -155,6 +169,7 @@ public class GerenciadorInventario : MonoBehaviour
         acoes[2].text = "Descartar";
         acoes[posAcaoSelecionada].text = "> " + acoes[posAcaoSelecionada].text + " <";
     }
+    
 
     public void AbrirMenu(Personagem unid) {
         this.unid = unid;

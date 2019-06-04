@@ -23,7 +23,7 @@ public class ControleCursor : MonoBehaviour
     public Personagem ultimaUnidade;
     private Vector3 posicaoInicialDaUnidade;
 
-    public Transform blueSquare, redSquare;
+    public Transform blueSquare, redSquare, greenSquare;
     public int acaoDoCursor = 0;
     public const int NADA = 0;
     const int SELECIONADO = 1;
@@ -31,6 +31,7 @@ public class ControleCursor : MonoBehaviour
 
     const int PROCURA_ALVO_ATAQUE = 3;
     const int ATACOU = 4;
+    const int PROCURA_ALVO_TROCA = 13;
 
     public GerenciadorInput gerenciadorInput;
 
@@ -138,10 +139,23 @@ public class ControleCursor : MonoBehaviour
                 } else if(direcao.x > 0 || direcao.y < 0) {
                     indiceAlvoSelecionado--;
                 }
-                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados();
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, false);
                 indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
                 novaPosicao = alvos[indiceAlvoSelecionado];
-                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveisFiltrados()[indiceAlvoSelecionado]));
+                //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
+                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(alvos[indiceAlvoSelecionado]));
+            } else if(acaoDoCursor == PROCURA_ALVO_TROCA) {
+                //fazer o cursor circular pelos alvos permitidos
+                if(direcao.x < 0 || direcao.y > 0) {
+                    indiceAlvoSelecionado++;
+                } else if(direcao.x > 0 || direcao.y < 0) {
+                    indiceAlvoSelecionado--;
+                }
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, true);
+                indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
+                novaPosicao = alvos[indiceAlvoSelecionado];
+                //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
+                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(alvos[indiceAlvoSelecionado]));
             } else {
                 novoX = transform.position.x + direcao.x;
                 novoY = transform.position.y + direcao.y;
@@ -174,10 +188,18 @@ public class ControleCursor : MonoBehaviour
     }
 
     public void MostrarOverlaysAtaque() {
-        acessiveisAtaqueUltimaUnidade = ultimaUnidade.TilesAlvosAcessiveis();
+        acessiveisAtaqueUltimaUnidade = ultimaUnidade.TilesAlvosAcessiveis(ultimaUnidade.arma.alcance);
         foreach (Vector3 t in acessiveisAtaqueUltimaUnidade)
         {
             Instantiate(redSquare, t, Quaternion.identity);
+        }
+    }
+
+    public void MostrarOverlaysTroca() {
+        List<Vector3> acessiveisTroca = ultimaUnidade.TilesAlvosAcessiveis(1);
+        foreach (Vector3 t in acessiveisTroca)
+        {
+            Instantiate(greenSquare, t, Quaternion.identity);
         }
     }
 
@@ -218,9 +240,16 @@ public class ControleCursor : MonoBehaviour
 
     public void IrParaPrimeiroAlvo() {
         acaoDoCursor = PROCURA_ALVO_ATAQUE;
-        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados()[0];
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, false)[0];
         podeMover = false;
-        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(ultimaUnidade.AlvosAcessiveisFiltrados()[0]));
+        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
+    }
+
+    public void IrParaPrimeiroAlvoTroca() {
+        acaoDoCursor = PROCURA_ALVO_TROCA;
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, true)[0];
+        podeMover = false;
+        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
     }
 
     //previne que tiles ocupados por amigos sejam considerados acessíveis pela unidade

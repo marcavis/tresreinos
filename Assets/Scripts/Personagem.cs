@@ -246,26 +246,23 @@ public class Personagem : MonoBehaviour
         return custo;
     }
 
-    public bool ExistemAlvos() {
-        foreach (Vector3 posicao in TilesAlvosAcessiveis())
-        {
-            Personagem ocupante = gs.ObjetoNoTile(posicao);
-            if(ocupante != null && ocupante.time != time) {
-                //então temos ao menos um alvo possível
-                return true;
-            }
-        }
-
-        return false;
+    public bool ExistemAlvos(int alcance, bool seMesmoTime) {
+        return AlvosAcessiveisFiltrados(alcance, seMesmoTime).Count > 0;
     }
 
-    //necessário filtrar alvos que podem ser atacados (time inimigo)
-    public List<Vector3> AlvosAcessiveisFiltrados() {
+    //necessário filtrar alvos que podem ser selecionados dependendo do time
+    public List<Vector3> AlvosAcessiveisFiltrados(int alcance, bool seMesmoTime) {
+        bool condicaoTime;
         List<Vector3> alvos = new List<Vector3>();
-        foreach (Vector3 posicao in TilesAlvosAcessiveis())
+        foreach (Vector3 posicao in TilesAlvosAcessiveis(alcance))
         {
             Personagem ocupante = gs.ObjetoNoTile(posicao);
-            if(ocupante != null && ocupante.time != time) {
+            if(ocupante == null) {
+                continue;
+            }
+            if(seMesmoTime) {condicaoTime = ocupante.time == time;}
+            else {condicaoTime = ocupante.time != time;}
+            if(condicaoTime) {
                 //então temos ao menos um alvo possível
                 alvos.Add(ocupante.transform.position);
             }
@@ -277,13 +274,7 @@ public class Personagem : MonoBehaviour
         return Mathf.Abs(v.x - w.x) + Mathf.Abs(v.y - w.y);
     }
 
-    //uso normal, ao se pedir alvos acessíveis pelo ataque normal
-    public List<Vector3> TilesAlvosAcessiveis() {
-        return AlvosAcessiveis(arma.alcance);
-    }
-
-    //pode ser fornecido um alcance diferente do normal quando não se desejar o alcance da arma
-    public List<Vector3> AlvosAcessiveis(int alcance) {
+    public List<Vector3> TilesAlvosAcessiveis(int alcance) {
         List<Vector3> acessiveis = new List<Vector3>();
         int dimensaoMat = 2 * alcance + 1;
         Vector3 posicao;

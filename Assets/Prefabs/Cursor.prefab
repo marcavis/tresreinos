@@ -92,9 +92,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2737bc479525ed729150a856c83f04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ativo: 0
-  cooldown: 0
-  movendoUnidade: 0
+  novaPosicao: {x: 0, y: 0, z: 0}
   _tilemap: {fileID: 0}
+  ultimaUnidade: {fileID: 0}
   blueSquare: {fileID: 393677462908681899, guid: c41cf3f318aa48d5cb0a70958b8dd4fb,
     type: 3}
+  redSquare: {fileID: 804380773445023774, guid: 3d1c7d79687b916a8bbf5a29e1ecffb8,
+    type: 3}
+  greenSquare: {fileID: 7699742779600468353, guid: b892746f3cc1930a5902461afc9fae18,
+    type: 3}
+  acaoDoCursor: 0
+  gerenciadorInput: {fileID: 0}
+  entrada: 0
+  direcao: {x: 0, y: 0, z: 0}
