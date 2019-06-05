@@ -16,10 +16,14 @@ public class ControleCursor : MonoBehaviour
 
     public Tilemap _tilemap;
     private GerenciadorScript gs;
+    
+    public GerenciadorInventario canvasInventario;
+    public GerenciadorInventarioTroca canvasInventarioTroca;
     private List<Vector3> acessiveisUltimaUnidade;
     private List<Vector3> acessiveisAtaqueUltimaUnidade;
 
     private int indiceAlvoSelecionado;
+    public int indiceItemSelecionado;
     public Personagem ultimaUnidade;
     private Vector3 posicaoInicialDaUnidade;
 
@@ -44,6 +48,8 @@ public class ControleCursor : MonoBehaviour
         _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
+        canvasInventario = GameObject.Find("CanvasInventario").GetComponent<GerenciadorInventario>();
+        canvasInventarioTroca = GameObject.Find("CanvasInventarioTroca").GetComponent<GerenciadorInventarioTroca>();
     }
 
     // Update is called once per frame
@@ -70,6 +76,13 @@ public class ControleCursor : MonoBehaviour
                 acaoDoCursor = MOVIDO;
                 gerenciadorInput.cursorAtivo = 1;
                 gs.ReiniciarLabelsAlvo();
+            } else if (acaoDoCursor == PROCURA_ALVO_TROCA) {
+                novaPosicao = ultimaUnidade.transform.position;
+                acaoDoCursor = MOVIDO;
+                gerenciadorInput.cursorAtivo = 2;
+                gs.ReiniciarLabelsAlvo();
+                LimparOverlays();
+                canvasInventario.Reabrir();
             }
         }
         
@@ -121,6 +134,31 @@ public class ControleCursor : MonoBehaviour
                     //TODO: botar um delay
                     gs.Proximo();
                     finalizado = true;
+                }
+            } else if(acaoDoCursor == PROCURA_ALVO_TROCA) {
+                //se o cursor ainda não tiver chegado num tile válido, aguardar até isso acontecer
+                if(transform.position == novaPosicao) {
+                    Item trocado = ultimaUnidade.inventario[indiceItemSelecionado];
+                    Personagem recebedor = gs.ObjetoNoTile(transform.position);
+                    if(recebedor.AdicionarAoInventario(trocado) != -1) {
+                        //simples envio de item - o destinatário já recebeu, nesse ponto
+                        ultimaUnidade.DescartarItem(indiceItemSelecionado);
+                        Liberar();
+                        LimparOverlays();
+                        gs.SairMenuBatalha();
+                        canvasInventario.FecharMenu();
+                        gs.ReiniciarLabelsAlvo();
+                        //TODO: botar um delay
+                        gs.Proximo();
+                        finalizado = true;
+                    } else {
+                        //TODO:implementar troca pedindo um item do recebedor
+                        LimparOverlays();
+                        gerenciadorInput.cursorAtivo = 3;
+                        print(recebedor.nome);
+                        canvasInventarioTroca.AbrirMenu(ultimaUnidade, recebedor, indiceItemSelecionado);
+                        //gerenciadorInput.GetComponent<GerenciadorInput>().cursorAtivo = 3;
+                    }
                 }
             }
             //se o cursor foi acionado quando o cursor ainda não havia chegado à posição para qual foi movido,

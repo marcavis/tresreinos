@@ -50,7 +50,7 @@ public class GerenciadorInventario : MonoBehaviour
         if(entrada == Teclas.CANCEL) {
             entrada = 0;
             if(estado == SELECAO_ITEM) {
-                FecharMenu();
+                VoltarAoMenuDeBatalha();
             } else if (estado == SELECAO_ACAO) {
                 LimparAcoes();
                 estado = SELECAO_ITEM;
@@ -93,17 +93,14 @@ public class GerenciadorInventario : MonoBehaviour
                         //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
                         cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvoTroca();
                         cursor.GetComponent<ControleCursor>().MostrarOverlaysTroca();
+                        cursor.GetComponent<ControleCursor>().indiceItemSelecionado = posItemSelecionado;
                         gameObject.GetComponent<Canvas>().enabled = false;
                     }
                 } else if(posAcaoSelecionada == 2) {
                     //TODO: melhor pedir um diálogo de confirmação
                     //TODO: som de descarte
 
-                    //remover arma, se descartada
-                    if(unid.inventario[posItemSelecionado].nome == unid.arma.nome) {
-                        unid.arma = DefinesArmas.armas["Punho"];
-                    }
-                    unid.inventario[posItemSelecionado] = null;
+                    unid.DescartarItem(posItemSelecionado);
 
                     itemSelecionado = null;
                     estado = SELECAO_ITEM;
@@ -182,8 +179,18 @@ public class GerenciadorInventario : MonoBehaviour
         MostrarArmaEquipada();
     }
 
-    public void FecharMenu() {
+    public void Reabrir() {
+
+        gameObject.GetComponent<Canvas>().enabled = true;
+    }
+
+    public void VoltarAoMenuDeBatalha() {
         gerenciadorInput.cursorAtivo = 1;
         gameObject.GetComponent<Canvas>().enabled = false;
+    }
+
+    public void FecharMenu() {
+        gameObject.GetComponent<Canvas>().enabled = false;
+        estado = SELECAO_ITEM;
     }
 }

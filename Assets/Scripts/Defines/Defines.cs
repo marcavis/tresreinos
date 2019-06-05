@@ -73,7 +73,7 @@ public class Defines
     //não é necessário adicionar a arma inicial neste ponto
     public static Dictionary<string, string[]> itensIniciais = new Dictionary<string, string[]>() {
         
-        {herois[0], new string[] {"Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde"}},
+        {herois[0], new string[] {"Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde"}},
         {herois[1], new string[] {"Chá Verde"}},
         {herois[2], new string[] {"Chá Verde"}},
         {herois[3], new string[] {"Chá Verde"}},

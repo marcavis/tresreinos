@@ -17,6 +17,7 @@ public class GerenciadorScript : MonoBehaviour
     public GameObject canvasAlvo;
 
     public GameObject canvasInventario;
+    public GameObject canvasInventarioTroca;
     public int opcaoMenuBatalha;
     
     public Text[] menuBatalha;
@@ -40,6 +41,8 @@ public class GerenciadorScript : MonoBehaviour
         canvasAlvo.GetComponent<Canvas>().enabled = false;
         canvasInventario = GameObject.Find("CanvasInventario");
         canvasInventario.GetComponent<Canvas>().enabled = false;
+        canvasInventarioTroca = GameObject.Find("CanvasInventarioTroca");
+        canvasInventarioTroca.GetComponent<Canvas>().enabled = false;
 
         labels = new Text[4];
         labels[0] = GameObject.Find("NomeLabel").GetComponent<Text>();

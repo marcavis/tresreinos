@@ -345,4 +345,12 @@ public class Personagem : MonoBehaviour
         }
         return espacoVazio;
     }
+
+    public void DescartarItem(int indice) {
+        //remover arma, se descartada
+        if(inventario[indice].nome == arma.nome) {
+            arma = DefinesArmas.armas["Punho"];
+        }
+        inventario[indice] = null;
+    }
 }
