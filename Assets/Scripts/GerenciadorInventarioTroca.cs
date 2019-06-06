@@ -53,9 +53,6 @@ public class GerenciadorInventarioTroca : MonoBehaviour
             entrada = 0;
             Item itemADevolver = destino.inventario[posItemSelecionado];
             Item itemAFornecer = origem.inventario[posItemOferecido];
-            print(itemAFornecer.nome);
-
-            //TODO:CONSERTAR
             origem.DescartarItem(posItemOferecido);
             origem.AdicionarAoInventario(itemADevolver);
             destino.DescartarItem(posItemSelecionado);
@@ -91,6 +88,7 @@ public class GerenciadorInventarioTroca : MonoBehaviour
     public void AbrirMenu(Personagem origem, Personagem destino, int posItemOferecido) {
         this.origem = origem;
         this.destino = destino;
+        this.posItemOferecido = posItemOferecido;
         posItemSelecionado = 0;
         itemSelecionado = null;
         gameObject.GetComponent<Canvas>().enabled = true;
