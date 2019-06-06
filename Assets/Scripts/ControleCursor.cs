@@ -155,7 +155,6 @@ public class ControleCursor : MonoBehaviour
                         //TODO:implementar troca pedindo um item do recebedor
                         LimparOverlays();
                         gerenciadorInput.cursorAtivo = 3;
-                        print(recebedor.nome);
                         canvasInventarioTroca.AbrirMenu(ultimaUnidade, recebedor, indiceItemSelecionado);
                         //gerenciadorInput.GetComponent<GerenciadorInput>().cursorAtivo = 3;
                     }
