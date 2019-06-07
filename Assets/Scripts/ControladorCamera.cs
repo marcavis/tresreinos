@@ -28,8 +28,8 @@ public class ControladorCamera : MonoBehaviour
         Vector3 novaPosicaoCursor = contCur.novaPosicao;
         if (contCur.acaoDoCursor == ControleCursor.NADA) {
             novaPosicaoCursor = cursor.transform.position;
-            novaPosicao.z = z;
-            transform.position = novaPosicao;
+            novaPosicaoCursor.z = z;
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicaoCursor, 10f * Time.deltaTime);;
         }
         offset = transform.position - novaPosicaoCursor;
         if (contCur.acaoDoCursor != ControleCursor.NADA) {
