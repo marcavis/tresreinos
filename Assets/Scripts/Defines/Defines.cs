@@ -83,6 +83,15 @@ public class Defines
         //{"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 2}},
     };
 
+    public static Dictionary<string, string[]> habilidadesIniciais = new Dictionary<string, string[]>() {
+        {herois[0], new string[] {"Tiro de dispersão"}},
+        {herois[1], new string[] {"Tiro de dispersão"}},
+        {herois[2], new string[] {"Tiro de dispersão"}},
+        {herois[3], new string[] {"Tiro de dispersão"}},
+        {herois[4], new string[] {"Tiro de dispersão"}},
+        {herois[5], new string[] {"Tiro de dispersão"}},
+    };
+
     public static void Inicializacao(string nome, GameObject objeto) {
         //mudar tudo isso se forem carregados dados na segunda fase - usar PlayerPrefs?
         Personagem unid = objeto.GetComponent<Personagem>();
@@ -115,5 +124,13 @@ public class Defines
             unid.arma = DefinesArmas.armas[nome];
         }
         
+        if(habilidadesIniciais.ContainsKey(nome)) {
+            foreach (string hab in habilidadesIniciais[nome])
+            {
+                unid.AdicionarHabilidade(DefinesHabilidades.habilidades[hab]);
+            }
+        } else {
+            unid.inventario = new Item[TAMANHO_INVENTARIO];
+        }
     }
 }

@@ -41,6 +41,26 @@ public class GerenciadorTelaHab : MonoBehaviour
             entrada = 0;
             VoltarAoMenuDeBatalha();
         }
+        else if(entrada == Teclas.DPAD) {
+            entrada = 0;
+            posHabSelecionada = posHabSelecionada - (int) direcao.y;
+            posHabSelecionada = (slots.Length + posHabSelecionada) % slots.Length;
+            MostrarHabilidades();
+        }
+    }
+
+    public void MostrarHabilidades() {
+        for (int i = 0; i < 8; i++)
+        {
+            if(unid.habilidades[i] != null) {
+                slots[i].text = unid.habilidades[i].nome;
+            } else {
+                slots[i].text = " - ";
+            }
+        }
+        slots[posHabSelecionada].text = "> " + slots[posHabSelecionada].text + " <";
+        Habilidade atual = unid.habilidades[posHabSelecionada];
+        campoDesc.text = atual != null ? atual.descricao : "-";
     }
 
     public void AbrirMenu(Personagem unid) {
@@ -49,7 +69,7 @@ public class GerenciadorTelaHab : MonoBehaviour
         //itemSelecionado = null;
         gameObject.GetComponent<Canvas>().enabled = true;
         //TODO:Continuar
-        //MostrarHabilidades();
+        MostrarHabilidades();
         
     }
 

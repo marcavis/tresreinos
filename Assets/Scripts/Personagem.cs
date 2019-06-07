@@ -32,6 +32,7 @@ public class Personagem : MonoBehaviour
     public Arma arma;
     
     public Item[] inventario;
+    public Habilidade[] habilidades;
 
     public Vector3 destinoFinal;
     private List<Vector3> rota;
@@ -55,6 +56,7 @@ public class Personagem : MonoBehaviour
         destinoFinal = transform.position;
 
         inventario = new Item[8];
+        habilidades = new Habilidade[8];
         //atributos
         Defines.Inicializacao(nome, gameObject);
         
@@ -352,5 +354,15 @@ public class Personagem : MonoBehaviour
             arma = DefinesArmas.armas["Punho"];
         }
         inventario[indice] = null;
+    }
+
+    public void AdicionarHabilidade(Habilidade hab) {
+        for (int i = 0; i < Defines.TAMANHO_INVENTARIO; i++)
+        {
+            if (habilidades[i] == null) {
+                habilidades[i] = hab;
+                return;
+            }
+        }
     }
 }

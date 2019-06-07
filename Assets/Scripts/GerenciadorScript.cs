@@ -44,7 +44,7 @@ public class GerenciadorScript : MonoBehaviour
         canvasInventario.GetComponent<Canvas>().enabled = false;
         canvasInventarioTroca = GameObject.Find("CanvasInventarioTroca");
         canvasInventarioTroca.GetComponent<Canvas>().enabled = false;
-        canvasHabilidades = GameObject.Find("canvasHabilidades");
+        canvasHabilidades = GameObject.Find("CanvasHabilidades");
         canvasHabilidades.GetComponent<Canvas>().enabled = false;
 
         labels = new Text[4];
@@ -87,9 +87,9 @@ public class GerenciadorScript : MonoBehaviour
             }
             //habilidades
             else if(opcaoMenuBatalha == 1){
-                // Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
-                // gerenciadorInput.cursorAtivo = 4;
-                // canvasHabilidades.GetComponent<GerenciadorTelaHab>().AbrirMenu(unid);
+                Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
+                gerenciadorInput.cursorAtivo = 4;
+                canvasHabilidades.GetComponent<GerenciadorTelaHab>().AbrirMenu(unid);
             }
             //itens
             else if(opcaoMenuBatalha == 2){
