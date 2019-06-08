@@ -9,15 +9,15 @@ public class ControladorCamera : MonoBehaviour
 
     private Vector3 offset;
     private Vector3 novaPosicao;
-    private bool travaX, travaY;
+    private int travaX, travaY;
     // Start is called before the first frame update
     void Start()
     {
         // offset = transform.position - cursor.GetComponent<ControleCursor>().novaPosicao;
         transform.position = new Vector3(transform.position.x, transform.position.y, -10);
         novaPosicao = transform.position;
-        travaX = false;
-        travaY = false;
+        travaX = 0;
+        travaY = 0;
     }
 
     // Update is called once per frame
