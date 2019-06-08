@@ -132,7 +132,7 @@ public class GerenciadorScript : MonoBehaviour
             personagens[0].gameObject.GetComponent<Inimigo>().vezInimigo = true;
         }
         cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
-        _camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
+        //_camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
         personagens[0].iniciativa -= 1000;
     }
 

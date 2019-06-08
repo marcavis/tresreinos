@@ -8,13 +8,16 @@ public class ControladorCamera : MonoBehaviour
     public int tamanhoGrid;
 
     private Vector3 offset;
-    private float z;
     private Vector3 novaPosicao;
+    private bool travaX, travaY;
     // Start is called before the first frame update
     void Start()
     {
         // offset = transform.position - cursor.GetComponent<ControleCursor>().novaPosicao;
-        z = transform.position.z;
+        transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        novaPosicao = transform.position;
+        travaX = false;
+        travaY = false;
     }
 
     // Update is called once per frame
@@ -25,30 +28,27 @@ public class ControladorCamera : MonoBehaviour
 
     private void LateUpdate() {
         ControleCursor contCur = cursor.GetComponent<ControleCursor>();
-        Vector3 novaPosicaoCursor = contCur.novaPosicao;
-        if (contCur.acaoDoCursor == ControleCursor.NADA) {
-            novaPosicaoCursor = cursor.transform.position;
-            novaPosicaoCursor.z = z;
-            transform.position = Vector3.MoveTowards(transform.position, novaPosicaoCursor, 10f * Time.deltaTime);;
-        }
-        offset = transform.position - novaPosicaoCursor;
-        if (contCur.acaoDoCursor != ControleCursor.NADA) {
-            if (transform.position != novaPosicao) {
-                transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 10f * Time.deltaTime);
-            } else if (Mathf.Abs(offset.x) > tamanhoGrid) {
-                novaPosicaoCursor.x -= novaPosicaoCursor.x < 0 ? -tamanhoGrid : tamanhoGrid;
-                novaPosicao = novaPosicaoCursor;
-                novaPosicao.z = z;
-            } else if (Mathf.Abs(offset.y) > tamanhoGrid) {
-                novaPosicaoCursor.y -= novaPosicaoCursor.y < 0 ? -tamanhoGrid : tamanhoGrid;;
-                novaPosicao = novaPosicaoCursor;
-                novaPosicao.z = z;
-            }
+        Vector3 posCur = cursor.transform.position;
+        if( DeltaX() >= 3f && DeltaY() >= 1.5f) {
+            novaPosicao.x = posCur.x;
+            novaPosicao.y = posCur.y;
+            //travaY = true;
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 12f * Time.deltaTime);
+        } else if( DeltaY() >= 1.5f) {
+            novaPosicao.y = posCur.y;
+            //travaX = true;
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 12f * Time.deltaTime);
+        } else if( DeltaX() >= 3f) {
+            novaPosicao.x = posCur.x;
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 12f * Time.deltaTime);
         }
     }
 
-    public void IrParaPosicao(Transform t) {
-        transform.position = novaPosicao = new Vector3(t.position.x, t.position.y, z);
+    public float DeltaX() {
+        return Mathf.Abs(cursor.transform.position.x - transform.position.x);
     }
 
+    public float DeltaY() {
+        return Mathf.Abs(cursor.transform.position.y - transform.position.y);
+    }
 }
