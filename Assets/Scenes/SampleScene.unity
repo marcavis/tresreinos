@@ -492,6 +492,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3fb850dcd204f01a917acd61c228cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 0}
+  canvasAlvo: {fileID: 0}
+  gerenciadorInput: {fileID: 0}
+  entrada: 0
+  direcao: {x: 0, y: 0, z: 0}
+  unid: {fileID: 0}
 --- !u!114 &102283892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5999,6 +6005,7 @@ MonoBehaviour:
   canvasAlvo: {fileID: 0}
   canvasInventario: {fileID: 0}
   canvasInventarioTroca: {fileID: 0}
+  canvasHabilidades: {fileID: 0}
   opcaoMenuBatalha: 0
   menuBatalha:
   - {fileID: 1371921068}
@@ -6201,6 +6208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100795485254093837, guid: 42dcc1ce6c265a3de8f8f62f3c50d700,
+        type: 3}
+      propertyPath: inimigo
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42dcc1ce6c265a3de8f8f62f3c50d700, type: 3}
