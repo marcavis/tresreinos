@@ -405,15 +405,5 @@ public class Personagem : MonoBehaviour
                 }
             }
         }
-        
-        //print(posAlvos[0]);
-        // if (dado + habilidadeAtual.chanceCritica > 95) {
-        //     habilidadeAtual.efeitoCritico(this, alvo);
-        // } else {
-        //     habilidadeAtual.efeitoAtaque(this, alvo);
-        // }
-        
-        //atualizar a interface quanto à situação do inimigo que atacamos
-        // gs.MostrarDadosDoAlvo(alvo);
     }
 }
