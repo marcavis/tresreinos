@@ -15,6 +15,8 @@ public class GerenciadorTelaHab : MonoBehaviour
 
     //private Item itemSelecionado;
     private Text[] slots;
+    private Text custo;
+    private Text alcance;
     private Text campoDesc;
 
     private Text[] acoes;
@@ -32,6 +34,8 @@ public class GerenciadorTelaHab : MonoBehaviour
             slots[i] = GameObject.Find("Slot" + (i+1) + "Hab").GetComponent<Text>();
         }
         campoDesc = GameObject.Find("DescricaoHab").GetComponent<Text>();
+        custo = GameObject.Find("CustoLabel").GetComponent<Text>();
+        alcance = GameObject.Find("AlcanceLabel").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -40,6 +44,25 @@ public class GerenciadorTelaHab : MonoBehaviour
         if(entrada == Teclas.CANCEL) {
             entrada = 0;
             VoltarAoMenuDeBatalha();
+        }
+        else if(entrada == Teclas.ACTION) {
+            entrada = 0;
+
+            Habilidade aEscolher = unid.habilidades[posHabSelecionada];    
+            
+            if(!unid.ExistemAlvos(unid.arma.alcance, false)) {
+                //TODO: som de erro
+                //print("não pode usar habilidade");
+            } else {
+                unid.habilidadeAtual = aEscolher;
+                gerenciadorInput.cursorAtivo = 0;
+                canvasAlvo.GetComponent<Canvas>().enabled = true;
+                //o jogo ficará circulando entre os alvos permitidos, então começaremos
+                //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
+                cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvoHabilidade(unid.habilidadeAtual.seMesmoTime);
+                cursor.GetComponent<ControleCursor>().MostrarOverlaysHabilidades(unid.habilidadeAtual.seMesmoTime);
+                gameObject.GetComponent<Canvas>().enabled = false;
+            }
         }
         else if(entrada == Teclas.DPAD) {
             entrada = 0;
@@ -61,6 +84,8 @@ public class GerenciadorTelaHab : MonoBehaviour
         slots[posHabSelecionada].text = "> " + slots[posHabSelecionada].text + " <";
         Habilidade atual = unid.habilidades[posHabSelecionada];
         campoDesc.text = atual != null ? atual.descricao : "-";
+        custo.text = atual != null ? "Custo: " + atual.custo + " PT" : "-";
+        alcance.text = atual != null ? "Alcance: " + atual.alcance + " células": "-";
     }
 
     public void AbrirMenu(Personagem unid) {
@@ -70,9 +95,11 @@ public class GerenciadorTelaHab : MonoBehaviour
         gameObject.GetComponent<Canvas>().enabled = true;
         //TODO:Continuar
         MostrarHabilidades();
-        
     }
 
+    public void Reabrir() {
+        gameObject.GetComponent<Canvas>().enabled = true;
+    }
     public void VoltarAoMenuDeBatalha() {
         gerenciadorInput.cursorAtivo = 1;
         gameObject.GetComponent<Canvas>().enabled = false;

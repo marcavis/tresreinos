@@ -15,8 +15,6 @@ public class GerenciadorInventarioTroca : MonoBehaviour
     //posição do item da unidade de origem, para excluir se a troca for completada
     private int posItemOferecido;
     private int posItemSelecionado;
-
-    private Item itemSelecionado;
     private Text[] slots;
 
     //origem é a unidade que iniciou a troca, destino é aquela com inventário cheio
@@ -90,7 +88,6 @@ public class GerenciadorInventarioTroca : MonoBehaviour
         this.destino = destino;
         this.posItemOferecido = posItemOferecido;
         posItemSelecionado = 0;
-        itemSelecionado = null;
         gameObject.GetComponent<Canvas>().enabled = true;
         MostrarItens();
     }

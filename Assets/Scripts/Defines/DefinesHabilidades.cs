@@ -14,8 +14,20 @@ public class DefinesHabilidades
 
     //até inimigos desarmados têm uma definição de arma pra poder atacar
     public static Dictionary<string, Habilidade> habilidades = new Dictionary<string, Habilidade> {
-        //nome, alcance, área de efeito, precisão, chance crítica, função de ataque, função de ataque crítico
-        {"Tiro de dispersão", new Habilidade("Tiro de dispersão", "Dispara setas contra um alvo e alvos adjacentes.", 2, null, 0, 0, null, null)}
+        //nome, descrição, custo, alcance, área de efeito, precisão, chance crítica, função de uso, função de uso crítico
+        {"Tiro de dispersão", new Habilidade("Tiro de dispersão", "Dispara setas contra um alvo e alvos adjacentes.", 3,
+        2, Habilidade.aoeCruz1, 0, 0, 
+        (dono, alvo) => {
+            
+        }
+        , null, false)},
+        {"Cura", new Habilidade("Cura", "Cura 5 PV da unidade alvo.", 3, 2, Habilidade.aoeCruz1, 0, 0, 
+        (dono, alvo) => {
+            alvo.ReceberCura(5);
+        },
+        (dono, alvo) => {
+            alvo.ReceberCura(5);
+        }, true)}
 
     };
 }

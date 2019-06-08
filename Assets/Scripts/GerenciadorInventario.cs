@@ -79,7 +79,7 @@ public class GerenciadorInventario : MonoBehaviour
                             //TODO: som de erro, não usar item, não terminar rodada
                         }
                         //usar o item
-                        //TODO:deve ir para o cursor para achar um alvo
+                        //TODO: deve ir para o cursor para achar um alvo
                         //itemSelecionado.efeitoUso(unid);
                     }
                 } else if(posAcaoSelecionada == 1) { 

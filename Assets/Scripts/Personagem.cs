@@ -33,6 +33,7 @@ public class Personagem : MonoBehaviour
     
     public Item[] inventario;
     public Habilidade[] habilidades;
+    public Habilidade habilidadeAtual;
 
     public Vector3 destinoFinal;
     private List<Vector3> rota;
@@ -328,8 +329,10 @@ public class Personagem : MonoBehaviour
     }
 
     public void ReceberCura(int valor) {
+        int vidaInicial = pv;
         pv += valor;
         if(pv > mpv) {pv = mpv;}
+        print(nome + " ganhou " + (pv - vidaInicial) + " pontos de vida.");
     }
 
     //retorna -1 se não houver espaço
@@ -364,5 +367,42 @@ public class Personagem : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void UsarHabilidade(Vector3 posCentral) {
+        
+        //quais alvos selecionar, dependendo se a habilidade afeta alvos do mesmo time ou do time inimigo
+        int timeAlvo = habilidadeAtual.seMesmoTime? this.time : (this.time + 1) % 2;
+        List<Vector3> tilesAlcancados = habilidadeAtual.areaDeEfeito;
+        List<Personagem> alvos = new List<Personagem>();
+        
+        foreach (Vector3 offset in tilesAlcancados)
+        {
+            //considerando posCentral como centro, tenta ver se encontra um alvo possível em todos os offsets
+            //da área de efeito da habilidade
+            Personagem alvoPossivel = gs.ObjetoNoTile(posCentral + offset);
+            if(alvoPossivel == null) {
+                continue;
+            }
+            if(alvoPossivel.time == timeAlvo) {
+                //print("afetarei " + alvoPossivel.nome);
+                int dado = UnityEngine.Random.Range(0, 100);
+                if (dado + habilidadeAtual.chanceCritica > 95) {
+                    habilidadeAtual.efeitoCritico(this, alvoPossivel);
+                } else {
+                    habilidadeAtual.efeitoAtaque(this, alvoPossivel);
+                }
+            }
+        }
+        
+        //print(posAlvos[0]);
+        // if (dado + habilidadeAtual.chanceCritica > 95) {
+        //     habilidadeAtual.efeitoCritico(this, alvo);
+        // } else {
+        //     habilidadeAtual.efeitoAtaque(this, alvo);
+        // }
+        
+        //atualizar a interface quanto à situação do inimigo que atacamos
+        // gs.MostrarDadosDoAlvo(alvo);
     }
 }

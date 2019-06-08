@@ -84,12 +84,12 @@ public class Defines
     };
 
     public static Dictionary<string, string[]> habilidadesIniciais = new Dictionary<string, string[]>() {
-        {herois[0], new string[] {"Tiro de dispersão"}},
-        {herois[1], new string[] {"Tiro de dispersão"}},
-        {herois[2], new string[] {"Tiro de dispersão"}},
-        {herois[3], new string[] {"Tiro de dispersão"}},
-        {herois[4], new string[] {"Tiro de dispersão"}},
-        {herois[5], new string[] {"Tiro de dispersão"}},
+        {herois[0], new string[] {"Tiro de dispersão", "Cura"}},
+        {herois[1], new string[] {"Tiro de dispersão", "Cura"}},
+        {herois[2], new string[] {"Tiro de dispersão", "Cura"}},
+        {herois[3], new string[] {"Tiro de dispersão", "Cura"}},
+        {herois[4], new string[] {"Tiro de dispersão", "Cura"}},
+        {herois[5], new string[] {"Tiro de dispersão", "Cura"}},
     };
 
     public static void Inicializacao(string nome, GameObject objeto) {
