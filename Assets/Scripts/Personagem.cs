@@ -365,4 +365,15 @@ public class Personagem : MonoBehaviour
             }
         }
     }
+
+    public List<Personagem> getInimigosAcessiveis() {
+        List<Personagem> inimigos = new List<Personagem>();
+        foreach (Vector3 item in TilesAlvosAcessiveis(arma.alcance)) {
+            Personagem p = gs.ObjetoNoTile(item);
+            if (p != null && p.time != time) {
+                inimigos.Add(p);
+            }
+        }
+        return inimigos;
+    }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3101546853217239819}
   - component: {fileID: 610191809149628956}
   - component: {fileID: 4100795485254093837}
+  - component: {fileID: 255941334503480872}
   m_Layer: 0
   m_Name: Jueyuan
   m_TagString: Untagged
@@ -106,3 +107,15 @@ MonoBehaviour:
   movimento: 0
   iniciativa: 0
   destinoFinal: {x: 0, y: 0, z: 0}
+--- !u!114 &255941334503480872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2963695120880658533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79af43d7f1a2354d880485df8089dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -262,17 +262,20 @@ public class ControleCursor : MonoBehaviour
 
     public void SelecionarUnidade(Personagem p) {
         ultimaUnidade = p;
-        p.ComecarAPiscar();
-        posicaoInicialDaUnidade = p.transform.position;
-        //gs.EntrarMenuBatalha();
-        acessiveisUltimaUnidade = p.TilesAcessiveis(_tilemap);
-        
-        //não permitir que a unidade ocupe o mesmo tile de um companheiro
-        RemoverOcupados(acessiveisUltimaUnidade);
+        if (p.time != 1) {
+            p.ComecarAPiscar();
+            posicaoInicialDaUnidade = p.transform.position;
+            //gs.EntrarMenuBatalha();
+            acessiveisUltimaUnidade = p.TilesAcessiveis(_tilemap);
+            
+            //não permitir que a unidade ocupe o mesmo tile de um companheiro
+            RemoverOcupados(acessiveisUltimaUnidade);
 
-        MostrarOverlaysMovimento();
+            MostrarOverlaysMovimento();
+            
+            acaoDoCursor = SELECIONADO;
+        }
         
-        acaoDoCursor = SELECIONADO;
     }
 
     public void IrParaPrimeiroAlvo() {
