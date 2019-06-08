@@ -17,8 +17,9 @@ public class ControleCursor : MonoBehaviour
     public Tilemap _tilemap;
     private GerenciadorScript gs;
     
-    public GerenciadorInventario canvasInventario;
-    public GerenciadorInventarioTroca canvasInventarioTroca;
+    public GerenciadorInventario menuInventario;
+    public GerenciadorInventarioTroca menuInventarioTroca;
+    public GerenciadorTelaHab menuHabilidades;
     private List<Vector3> acessiveisUltimaUnidade;
     private List<Vector3> acessiveisAtaqueUltimaUnidade;
 
@@ -36,6 +37,7 @@ public class ControleCursor : MonoBehaviour
     const int PROCURA_ALVO_ATAQUE = 3;
     const int ATACOU = 4;
     const int PROCURA_ALVO_TROCA = 13;
+    const int PROCURA_ALVO_HAB = 23;
 
     public GerenciadorInput gerenciadorInput;
 
@@ -48,8 +50,9 @@ public class ControleCursor : MonoBehaviour
         _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
-        canvasInventario = GameObject.Find("CanvasInventario").GetComponent<GerenciadorInventario>();
-        canvasInventarioTroca = GameObject.Find("CanvasInventarioTroca").GetComponent<GerenciadorInventarioTroca>();
+        menuInventario = GameObject.Find("CanvasInventario").GetComponent<GerenciadorInventario>();
+        menuInventarioTroca = GameObject.Find("CanvasInventarioTroca").GetComponent<GerenciadorInventarioTroca>();
+        menuHabilidades = GameObject.Find("CanvasHabilidades").GetComponent<GerenciadorTelaHab>();
     }
 
     // Update is called once per frame
@@ -82,7 +85,14 @@ public class ControleCursor : MonoBehaviour
                 gerenciadorInput.cursorAtivo = 2;
                 gs.ReiniciarLabelsAlvo();
                 LimparOverlays();
-                canvasInventario.Reabrir();
+                menuInventario.Reabrir();
+            } else if (acaoDoCursor == PROCURA_ALVO_HAB) {
+                novaPosicao = ultimaUnidade.transform.position;
+                acaoDoCursor = MOVIDO;
+                gerenciadorInput.cursorAtivo = 4;
+                gs.ReiniciarLabelsAlvo();
+                LimparOverlays();
+                menuHabilidades.Reabrir();
             }
         }
         
@@ -146,7 +156,7 @@ public class ControleCursor : MonoBehaviour
                         Liberar();
                         LimparOverlays();
                         gs.SairMenuBatalha();
-                        canvasInventario.FecharMenu();
+                        menuInventario.FecharMenu();
                         gs.ReiniciarLabelsAlvo();
                         //TODO: botar um delay
                         gs.Proximo();
@@ -155,9 +165,22 @@ public class ControleCursor : MonoBehaviour
                         //TODO:implementar troca pedindo um item do recebedor
                         LimparOverlays();
                         gerenciadorInput.cursorAtivo = 3;
-                        canvasInventarioTroca.AbrirMenu(ultimaUnidade, recebedor, indiceItemSelecionado);
+                        menuInventarioTroca.AbrirMenu(ultimaUnidade, recebedor, indiceItemSelecionado);
                         //gerenciadorInput.GetComponent<GerenciadorInput>().cursorAtivo = 3;
                     }
+                }
+            } else if(acaoDoCursor == PROCURA_ALVO_HAB) {
+                if(transform.position == novaPosicao) {
+                    //informar onde o cursor está para o personagem - este vai definir quais alvos serão afetados
+                    //acessando a variável areaDeEfeito da habilidadeAtual
+                    ultimaUnidade.UsarHabilidade(transform.position);
+                    Liberar();
+                    LimparOverlays();
+                    gs.SairMenuBatalha();
+                    gs.ReiniciarLabelsAlvo();
+                    //TODO: botar um delay
+                    gs.Proximo();
+                    finalizado = true;
                 }
             }
             //se o cursor foi acionado quando o cursor ainda não havia chegado à posição para qual foi movido,
@@ -188,7 +211,20 @@ public class ControleCursor : MonoBehaviour
                 } else if(direcao.x > 0 || direcao.y < 0) {
                     indiceAlvoSelecionado--;
                 }
-                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, true);
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(1, true);
+                indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
+                novaPosicao = alvos[indiceAlvoSelecionado];
+                //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
+                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(alvos[indiceAlvoSelecionado]));
+            } else if(acaoDoCursor == PROCURA_ALVO_HAB) {
+                //fazer o cursor circular pelos alvos permitidos
+                if(direcao.x < 0 || direcao.y > 0) {
+                    indiceAlvoSelecionado++;
+                } else if(direcao.x > 0 || direcao.y < 0) {
+                    indiceAlvoSelecionado--;
+                }
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(
+                    ultimaUnidade.habilidadeAtual.alcance, ultimaUnidade.habilidadeAtual.seMesmoTime);
                 indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
                 novaPosicao = alvos[indiceAlvoSelecionado];
                 //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
@@ -240,6 +276,18 @@ public class ControleCursor : MonoBehaviour
         }
     }
 
+    public void MostrarOverlaysHabilidades(bool seMesmoTime) {
+        List<Vector3> acessiveisHab = ultimaUnidade.TilesAlvosAcessiveis(ultimaUnidade.habilidadeAtual.alcance);
+        foreach (Vector3 t in acessiveisHab)
+        {
+            if(seMesmoTime) {
+                Instantiate(greenSquare, t, Quaternion.identity);
+            } else {
+                Instantiate(redSquare, t, Quaternion.identity);
+            }
+        }
+    }
+
     public void LimparOverlays()
     {
         GameObject[] overlays = GameObject.FindGameObjectsWithTag("HelperOverlay");
@@ -288,6 +336,15 @@ public class ControleCursor : MonoBehaviour
     public void IrParaPrimeiroAlvoTroca() {
         acaoDoCursor = PROCURA_ALVO_TROCA;
         novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, true)[0];
+        podeMover = false;
+        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
+    }
+
+    //variável seMesmoTime diz se o cursor deve focar em alvos do mesmo time (habilidades de cura, etc)
+    //ou alvos inimigos
+    public void IrParaPrimeiroAlvoHabilidade(bool seMesmoTime) {
+        acaoDoCursor = PROCURA_ALVO_HAB;
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.habilidadeAtual.alcance, seMesmoTime)[0];
         podeMover = false;
         gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
     }
