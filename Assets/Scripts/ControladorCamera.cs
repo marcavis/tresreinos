@@ -30,17 +30,17 @@ public class ControladorCamera : MonoBehaviour
         ControleCursor contCur = cursor.GetComponent<ControleCursor>();
         Vector3 posCur = cursor.transform.position;
         if( DeltaX() >= 3f && DeltaY() >= 1.5f) {
-            novaPosicao.x = posCur.x;
-            novaPosicao.y = posCur.y;
+            novaPosicao.x = Mathf.Round(posCur.x);
+            novaPosicao.y = Mathf.Round(posCur.y);
             //travaY = true;
-            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 12f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 10f * Time.deltaTime);
         } else if( DeltaY() >= 1.5f) {
-            novaPosicao.y = posCur.y;
+            novaPosicao.y = Mathf.Round(posCur.y);
             //travaX = true;
-            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 12f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 10f * Time.deltaTime);
         } else if( DeltaX() >= 3f) {
-            novaPosicao.x = posCur.x;
-            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 12f * Time.deltaTime);
+            novaPosicao.x = Mathf.Round(posCur.x);
+            transform.position = Vector3.MoveTowards(transform.position, novaPosicao, 10f * Time.deltaTime);
         }
     }
 
