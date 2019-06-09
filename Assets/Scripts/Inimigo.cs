@@ -29,7 +29,7 @@ public class Inimigo : MonoBehaviour
 
     public void atacaInimigo() {
         if (targetIndex == -1) {
-            inimigosAcessiveis = personagem.getInimigosAcessiveis();
+            inimigosAcessiveis = personagem.GetInimigosAcessiveis();
             targetIndex = Random.Range(0, inimigosAcessiveis.Count);
             Vector3 novaPosicao = inimigosAcessiveis[targetIndex].transform.position;
             gs.cursor.GetComponent<ControleCursor>().novaPosicao = novaPosicao;

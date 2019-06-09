@@ -122,8 +122,6 @@ public class Personagem : MonoBehaviour
         rota.Reverse();
         //remover o primeiro item da rota, que é a própria posição atual
         rota.RemoveAt(0);
-        //print(rotaBacktrack[0]);
-        //print(rota[0]);
     }
 
     public void DesfazerMovimento() {
@@ -249,7 +247,7 @@ public class Personagem : MonoBehaviour
         return custo;
     }
 
-    public bool ExistemAlvos(int alcance, bool seMesmoTime) {
+    public bool ExistemPersonagensAlvos(int alcance, bool seMesmoTime) {
         return AlvosAcessiveisFiltrados(alcance, seMesmoTime).Count > 0;
     }
 
@@ -369,7 +367,7 @@ public class Personagem : MonoBehaviour
         }
     }
 
-    public List<Personagem> getInimigosAcessiveis() {
+    public List<Personagem> GetInimigosAcessiveis() {
         List<Personagem> inimigos = new List<Personagem>();
         foreach (Vector3 item in TilesAlvosAcessiveis(arma.alcance)) {
             Personagem p = gs.ObjetoNoTile(item);

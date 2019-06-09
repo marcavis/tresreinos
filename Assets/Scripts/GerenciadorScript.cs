@@ -74,7 +74,7 @@ public class GerenciadorScript : MonoBehaviour
             //atacar 
             if(opcaoMenuBatalha == 0){
                 Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
-                if(!unid.ExistemAlvos(unid.arma.alcance, false)) {
+                if(!unid.ExistemPersonagensAlvos(unid.arma.alcance, false)) {
                     //som de erro
                     //print("não pode atacar");
                 } else {
