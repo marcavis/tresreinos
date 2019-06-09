@@ -22,7 +22,7 @@ public class GerenciadorInput : MonoBehaviour
         telaInv = GameObject.Find("CanvasInventario");
         telaInvTroca = GameObject.Find("CanvasInventarioTroca");
         telaHab = GameObject.Find("CanvasHabilidades");
-        cursores = new GameObject[] { cursor, gs, telaInv, telaInvTroca, telaHab };
+        cursores = new GameObject[] { cursor, gs, telaInv, telaInvTroca, telaHab, null };
         cursorAtivo = 0; //cursor de seleção de unidade no campo
     }
 
@@ -76,6 +76,7 @@ public class GerenciadorInput : MonoBehaviour
         if(c == telaInv) {telaInv.GetComponent<GerenciadorInventario>().entrada = entrada;}
         if(c == telaInvTroca) {telaInvTroca.GetComponent<GerenciadorInventarioTroca>().entrada = entrada;}
         if(c == telaHab) {telaHab.GetComponent<GerenciadorTelaHab>().entrada = entrada;}
+        if(c == null) {} //cursor nulo, sendo controlado pelo jogo/inimigo
     }
 
     void SetDirecao(GameObject c, Vector3 direcao) {
@@ -84,5 +85,6 @@ public class GerenciadorInput : MonoBehaviour
         if(c == telaInv) {telaInv.GetComponent<GerenciadorInventario>().direcao = direcao;}
         if(c == telaInvTroca) {telaInvTroca.GetComponent<GerenciadorInventarioTroca>().direcao = direcao;}
         if(c == telaHab) {telaHab.GetComponent<GerenciadorTelaHab>().direcao = direcao;}
+        if(c == null) {} //cursor nulo, sendo controlado pelo jogo/inimigo
     }
 }

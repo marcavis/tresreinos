@@ -312,6 +312,14 @@ public class ControleCursor : MonoBehaviour
         SelecionarUnidade(p);
     }
 
+    //usado principalmente por inimigos para mover o cursor e demonstrar a ação atual
+    public void IrParaPosicao(Vector3 v) {
+        novaPosicao = v;
+        podeMover = false;
+        print(novaPosicao);
+        print(transform.position);
+    }
+
     public void SelecionarUnidade(Personagem p) {
         ultimaUnidade = p;
         if (p.time != 1) {

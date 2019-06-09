@@ -370,17 +370,6 @@ public class Personagem : MonoBehaviour
         }
     }
 
-    public List<Personagem> GetInimigosAcessiveis() {
-        List<Personagem> inimigos = new List<Personagem>();
-        foreach (Vector3 item in TilesAlvosAcessiveis(arma.alcanceMin, arma.alcanceMax)) {
-            Personagem p = gs.ObjetoNoTile(item);
-            if (p != null && p.time != time) {
-                inimigos.Add(p);
-            }
-        }
-        return inimigos;
-    }
-
     public void UsarHabilidade(Vector3 posCentral) {
         
         //quais alvos selecionar, dependendo se a habilidade afeta alvos do mesmo time ou do time inimigo
