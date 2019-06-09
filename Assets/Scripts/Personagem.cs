@@ -247,15 +247,15 @@ public class Personagem : MonoBehaviour
         return custo;
     }
 
-    public bool ExistemPersonagensAlvos(int alcance, bool seMesmoTime) {
-        return AlvosAcessiveisFiltrados(alcance, seMesmoTime).Count > 0;
+    public bool ExistemPersonagensAlvos(int alcanceMin, int alcanceMax, bool seMesmoTime) {
+        return AlvosAcessiveisFiltrados(alcanceMin, alcanceMax, seMesmoTime).Count > 0;
     }
 
     //necessário filtrar alvos que podem ser selecionados dependendo do time
-    public List<Vector3> AlvosAcessiveisFiltrados(int alcance, bool seMesmoTime) {
+    public List<Vector3> AlvosAcessiveisFiltrados(int alcanceMin, int alcanceMax, bool seMesmoTime) {
         bool condicaoTime;
         List<Vector3> alvos = new List<Vector3>();
-        foreach (Vector3 posicao in TilesAlvosAcessiveis(alcance))
+        foreach (Vector3 posicao in TilesAlvosAcessiveis(alcanceMin, alcanceMax))
         {
             Personagem ocupante = gs.ObjetoNoTile(posicao);
             if(ocupante == null) {
@@ -275,15 +275,18 @@ public class Personagem : MonoBehaviour
         return Mathf.Abs(v.x - w.x) + Mathf.Abs(v.y - w.y);
     }
 
-    public List<Vector3> TilesAlvosAcessiveis(int alcance) {
+    // public List<Vector3> TilesAlvosAcessiveis(int alcanceMax) {
+    //     return TilesAlvosAcessiveis(1, alcanceMax);
+    // }
+    public List<Vector3> TilesAlvosAcessiveis(int alcanceMin, int alcanceMax) {
         List<Vector3> acessiveis = new List<Vector3>();
-        int dimensaoMat = 2 * alcance + 1;
+        int dimensaoMat = 2 * alcanceMax + 1;
         Vector3 posicao;
         for (int i = 0; i < dimensaoMat; i++) {
             for (int j = 0; j < dimensaoMat; j++) {
-                posicao = destinoFinal + new Vector3(i - alcance, j - alcance, 0);
+                posicao = destinoFinal + new Vector3(i - alcanceMax, j - alcanceMax, 0);
                 float manhattan = Manhattan(posicao, destinoFinal);
-                if(manhattan <= alcance && manhattan > 0) {
+                if(manhattan <= alcanceMax && manhattan >= alcanceMin) {
                     acessiveis.Add(posicao);
                 }
             }
@@ -369,7 +372,7 @@ public class Personagem : MonoBehaviour
 
     public List<Personagem> GetInimigosAcessiveis() {
         List<Personagem> inimigos = new List<Personagem>();
-        foreach (Vector3 item in TilesAlvosAcessiveis(arma.alcance)) {
+        foreach (Vector3 item in TilesAlvosAcessiveis(arma.alcanceMin, arma.alcanceMax)) {
             Personagem p = gs.ObjetoNoTile(item);
             if (p != null && p.time != time) {
                 inimigos.Add(p);

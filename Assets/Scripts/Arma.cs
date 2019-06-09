@@ -10,7 +10,9 @@ public class Arma
     public string podeEquipar; //string que diz quem pode equipar - se "111111" são todos, se "000001" só Guan Long pode equipar, etc.
     public int poder; //adicionado ao ataque
     public float variacao; //variação de 0.1f para mais ou menos faz com que o ataque varie entre 90 e 110% de dano, por exemplo
-    public int alcance; //1 para armas "melee", mais para armas de longo alcance
+    
+    public int alcanceMin; //1 para maioria das armas, maior para arcos longos e armas de cerco
+    public int alcanceMax; //1 para armas "melee", mais para armas de longo alcance
     public int precisao; //usualmente 0
     public int chanceCritica;
 
@@ -27,14 +29,15 @@ public class Arma
         };
 
     public Arma(string nome, string podeEquipar, int poder, float variacao,
-                int alcance, int precisao, int chanceCritica,
+                int alcanceMin, int alcanceMax, int precisao, int chanceCritica,
                 Action<Personagem, Personagem> efeitoAtaque,
                 Action<Personagem, Personagem> efeitoCritico) {
         this.nome = nome;
         this.podeEquipar = podeEquipar;
         this.poder = poder;
         this.variacao = variacao;
-        this.alcance = alcance;
+        this.alcanceMin = alcanceMin;
+        this.alcanceMax = alcanceMax;
         this.precisao = precisao;
         this.chanceCritica = chanceCritica;
 

@@ -50,7 +50,7 @@ public class GerenciadorTelaHab : MonoBehaviour
 
             Habilidade aEscolher = unid.habilidades[posHabSelecionada];    
             
-            if(!unid.ExistemAlvos(unid.arma.alcance, false)) {
+            if(!unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, false)) {
                 //TODO: som de erro
                 //print("não pode usar habilidade");
             } else {
@@ -85,7 +85,7 @@ public class GerenciadorTelaHab : MonoBehaviour
         Habilidade atual = unid.habilidades[posHabSelecionada];
         campoDesc.text = atual != null ? atual.descricao : "-";
         custo.text = atual != null ? "Custo: " + atual.custo + " PT" : "-";
-        alcance.text = atual != null ? "Alcance: " + atual.alcance + " células": "-";
+        alcance.text = atual != null ? "Alcance: " + atual.alcanceMin + " a " + atual.alcanceMax + " células": "-";
     }
 
     public void AbrirMenu(Personagem unid) {

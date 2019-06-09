@@ -199,7 +199,9 @@ public class ControleCursor : MonoBehaviour
                 } else if(direcao.x > 0 || direcao.y < 0) {
                     indiceAlvoSelecionado--;
                 }
-                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, false);
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcanceMin,
+                                                                            ultimaUnidade.arma.alcanceMax,
+                                                                             false);
                 indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
                 novaPosicao = alvos[indiceAlvoSelecionado];
                 //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
@@ -211,7 +213,7 @@ public class ControleCursor : MonoBehaviour
                 } else if(direcao.x > 0 || direcao.y < 0) {
                     indiceAlvoSelecionado--;
                 }
-                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(1, true);
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(1, 1, true);
                 indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
                 novaPosicao = alvos[indiceAlvoSelecionado];
                 //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
@@ -223,8 +225,9 @@ public class ControleCursor : MonoBehaviour
                 } else if(direcao.x > 0 || direcao.y < 0) {
                     indiceAlvoSelecionado--;
                 }
+                Habilidade atual = ultimaUnidade.habilidadeAtual;
                 List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(
-                    ultimaUnidade.habilidadeAtual.alcance, ultimaUnidade.habilidadeAtual.seMesmoTime);
+                    atual.alcanceMin, atual.alcanceMax, ultimaUnidade.habilidadeAtual.seMesmoTime);
                 indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
                 novaPosicao = alvos[indiceAlvoSelecionado];
                 //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
@@ -261,7 +264,7 @@ public class ControleCursor : MonoBehaviour
     }
 
     public void MostrarOverlaysAtaque() {
-        acessiveisAtaqueUltimaUnidade = ultimaUnidade.TilesAlvosAcessiveis(ultimaUnidade.arma.alcance);
+        acessiveisAtaqueUltimaUnidade = ultimaUnidade.TilesAlvosAcessiveis(ultimaUnidade.arma.alcanceMin, ultimaUnidade.arma.alcanceMax);
         foreach (Vector3 t in acessiveisAtaqueUltimaUnidade)
         {
             Instantiate(redSquare, t, Quaternion.identity);
@@ -269,7 +272,7 @@ public class ControleCursor : MonoBehaviour
     }
 
     public void MostrarOverlaysTroca() {
-        List<Vector3> acessiveisTroca = ultimaUnidade.TilesAlvosAcessiveis(1);
+        List<Vector3> acessiveisTroca = ultimaUnidade.TilesAlvosAcessiveis(1, 1);
         foreach (Vector3 t in acessiveisTroca)
         {
             Instantiate(greenSquare, t, Quaternion.identity);
@@ -277,7 +280,8 @@ public class ControleCursor : MonoBehaviour
     }
 
     public void MostrarOverlaysHabilidades(bool seMesmoTime) {
-        List<Vector3> acessiveisHab = ultimaUnidade.TilesAlvosAcessiveis(ultimaUnidade.habilidadeAtual.alcance);
+        Habilidade atual = ultimaUnidade.habilidadeAtual;
+        List<Vector3> acessiveisHab = ultimaUnidade.TilesAlvosAcessiveis(atual.alcanceMin, atual.alcanceMax);
         foreach (Vector3 t in acessiveisHab)
         {
             if(seMesmoTime) {
@@ -328,14 +332,14 @@ public class ControleCursor : MonoBehaviour
 
     public void IrParaPrimeiroAlvo() {
         acaoDoCursor = PROCURA_ALVO_ATAQUE;
-        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, false)[0];
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcanceMin, ultimaUnidade.arma.alcanceMax, false)[0];
         podeMover = false;
         gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
     }
 
     public void IrParaPrimeiroAlvoTroca() {
         acaoDoCursor = PROCURA_ALVO_TROCA;
-        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcance, true)[0];
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.arma.alcanceMin, ultimaUnidade.arma.alcanceMax, true)[0];
         podeMover = false;
         gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
     }
@@ -344,7 +348,8 @@ public class ControleCursor : MonoBehaviour
     //ou alvos inimigos
     public void IrParaPrimeiroAlvoHabilidade(bool seMesmoTime) {
         acaoDoCursor = PROCURA_ALVO_HAB;
-        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.habilidadeAtual.alcance, seMesmoTime)[0];
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.habilidadeAtual.alcanceMin, 
+                        ultimaUnidade.habilidadeAtual.alcanceMax, seMesmoTime)[0];
         podeMover = false;
         gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
     }

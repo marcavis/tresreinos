@@ -83,7 +83,7 @@ public class GerenciadorInventario : MonoBehaviour
                         //itemSelecionado.efeitoUso(unid);
                     }
                 } else if(posAcaoSelecionada == 1) { 
-                    if(!unid.ExistemPersonagensAlvos(1, true)) {
+                    if(!unid.ExistemPersonagensAlvos(1, 1, true)) {
                         //som de erro
                         //print("não pode trocar item");
                     } else {
