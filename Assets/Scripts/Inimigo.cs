@@ -6,9 +6,10 @@ using UnityEngine.Tilemaps;
 
 public class Inimigo : MonoBehaviour
 {
+    private int cooldownPadrao;
     private int cooldown;
+    private int estado; //0 no começo, 1 antes de andar, 
     public bool posicaoDefinida;
-    public bool vezInimigo;
     private int targetIndex = -1;
     private GerenciadorScript gs;
     private GerenciadorInput input;
@@ -25,37 +26,55 @@ public class Inimigo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cooldownPadrao = 50;
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         input = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         cursor = GameObject.Find("Cursor").GetComponent<ControleCursor>();
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         personagem = gameObject.GetComponent<Personagem>();
-        
-        cooldown = 20;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (vezInimigo) {
-            Agir();
-            posicaoDefinida = false;
-        }
-        if(posicaoDefinida == true) {
+        // if (vezInimigo && cursor.transform.position == transform.position) {
+            
+        //     Agir();
+        //     posicaoDefinida = false;
+        // }
+        if(cooldown > 0) {
             cooldown--;
+        } else {
+            if(estado == 1 && cursor.transform.position == transform.position) {
+                cooldown = cooldownPadrao;
+                cursor.IrParaPosicao(EscolherPosicao(alvoEscolhidoParaAtacar));
+                estado = 2;
+            } else if(estado == 2) {
+                cooldown = cooldownPadrao;
+                Mover();
+                estado = 3; //vai mudar dependendo se for atacar ou usar habilidade
+            } else if(estado == 3) {
+                cooldown = cooldownPadrao;
+                cursor.MostrarOverlaysAtaque(personagem.TilesAlvosAcessiveis(personagem.arma.alcanceMin, personagem.arma.alcanceMax));
+                cursor.IrParaPosicao(alvoEscolhidoParaAtacar.transform.position);
+                estado = 4;
+            } else if(estado == 4) {
+                personagem.Atacar(alvoEscolhidoParaAtacar);
+                cursor.LimparOverlays();
+                gs.Proximo();
+                estado = 0;
+                input.cursorAtivo = 0;
+            }
         }
-        if(cooldown < 1) {
-            cooldown = 20;
-            posicaoDefinida = false;
-            cursor.IrParaPosicao(EscolherPosicao(alvoEscolhidoParaAtacar));
-        }
+        
     }
 
-    public void Agir() {
+    public void Iniciar() {
         inimigosAcessiveis = new List<Personagem>();
         input.cursorAtivo = 5;
         List<Personagem> meusInimigos = gs.personagens.Where(x => x.time == 0).ToList();
         terrenoAcessivel = personagem.TilesAcessiveis(tilemap);
+        cursor.MostrarOverlaysMovimento(terrenoAcessivel);
         // foreach (Personagem p in meusInimigos)
         // {
             //print(p.Manhattan(p.transform.position, transform.position));
@@ -70,8 +89,9 @@ public class Inimigo : MonoBehaviour
             }
         }
         alvoEscolhidoParaAtacar = EscolherHeroiAlvo();
-        posicaoDefinida = true;
-        vezInimigo = false;
+        estado = 1;
+        
+        cooldown = cooldownPadrao;
         // if (targetIndex == -1) {
         //     inimigosAcessiveis = GetInimigosAcessiveis();
         //     targetIndex = Random.Range(0, inimigosAcessiveis.Count);
@@ -95,14 +115,22 @@ public class Inimigo : MonoBehaviour
         // }
     }
 
+    public void Mover() {
+        personagem.destinoFinal = cursor.transform.position;
+        personagem.PrepararCaminho();
+        //acaoDoCursor = MOVIDO;
+        cursor.LimparOverlays();
+        personagem.PararDePiscar();
+        //gs.EntrarMenuBatalha();
+    }
 
+    public void Atacar(Personagem alvo) {
+
+    }
 
     private Vector3 EscolherPosicao(Personagem alvo) {
         //int indice = Random.Range(0, )
         int indice = Random.Range(0, porOndeAtacar[alvo].Count);
-        print(porOndeAtacar[alvo][indice]);
-        print(alvo.nome);
-        Instantiate(cursor.blueSquare, porOndeAtacar[alvo][indice], Quaternion.identity);
         return porOndeAtacar[alvo][indice];
     }
 

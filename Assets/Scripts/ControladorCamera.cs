@@ -5,6 +5,7 @@ using UnityEngine;
 public class ControladorCamera : MonoBehaviour
 {
     public GameObject cursor;
+    
     public int tamanhoGrid;
 
     private Vector3 offset;

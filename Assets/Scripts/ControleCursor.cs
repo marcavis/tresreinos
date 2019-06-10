@@ -256,8 +256,17 @@ public class ControleCursor : MonoBehaviour
         }
     }
 
+    //sem argumento, usa os dados do último herói
     public void MostrarOverlaysMovimento() {
         foreach (Vector3 t in acessiveisUltimaUnidade)
+        {
+            Instantiate(blueSquare, t, Quaternion.identity);
+        }
+    }
+
+    //com argumento, pode receber dados por ex. de um inimigo
+    public void MostrarOverlaysMovimento(List<Vector3> tilesAcessiveis) {
+        foreach (Vector3 t in tilesAcessiveis)
         {
             Instantiate(blueSquare, t, Quaternion.identity);
         }
@@ -266,6 +275,14 @@ public class ControleCursor : MonoBehaviour
     public void MostrarOverlaysAtaque() {
         acessiveisAtaqueUltimaUnidade = ultimaUnidade.TilesAlvosAcessiveis(ultimaUnidade.arma.alcanceMin, ultimaUnidade.arma.alcanceMax);
         foreach (Vector3 t in acessiveisAtaqueUltimaUnidade)
+        {
+            Instantiate(redSquare, t, Quaternion.identity);
+        }
+    }
+
+    //versão para inimigos
+    public void MostrarOverlaysAtaque(List<Vector3> tilesAcessiveis) {
+        foreach (Vector3 t in tilesAcessiveis)
         {
             Instantiate(redSquare, t, Quaternion.identity);
         }
@@ -283,6 +300,18 @@ public class ControleCursor : MonoBehaviour
         Habilidade atual = ultimaUnidade.habilidadeAtual;
         List<Vector3> acessiveisHab = ultimaUnidade.TilesAlvosAcessiveis(atual.alcanceMin, atual.alcanceMax);
         foreach (Vector3 t in acessiveisHab)
+        {
+            if(seMesmoTime) {
+                Instantiate(greenSquare, t, Quaternion.identity);
+            } else {
+                Instantiate(redSquare, t, Quaternion.identity);
+            }
+        }
+    }
+
+    //versão para inimigos
+    public void MostrarOverlaysHabilidades(List<Vector3> tilesAcessiveis, bool seMesmoTime) {
+        foreach (Vector3 t in tilesAcessiveis)
         {
             if(seMesmoTime) {
                 Instantiate(greenSquare, t, Quaternion.identity);
@@ -316,8 +345,6 @@ public class ControleCursor : MonoBehaviour
     public void IrParaPosicao(Vector3 v) {
         novaPosicao = v;
         podeMover = false;
-        print(novaPosicao);
-        print(transform.position);
     }
 
     public void SelecionarUnidade(Personagem p) {

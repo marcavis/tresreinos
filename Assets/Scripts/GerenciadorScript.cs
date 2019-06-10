@@ -129,7 +129,7 @@ public class GerenciadorScript : MonoBehaviour
             personagens.Sort( (a, b) => (TurnosAteAgir(a).CompareTo(TurnosAteAgir(b))));
         }
         if (personagens[0].time == 1) {
-            personagens[0].gameObject.GetComponent<Inimigo>().Agir();
+            personagens[0].gameObject.GetComponent<Inimigo>().Iniciar();
         }
         cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
         //_camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
