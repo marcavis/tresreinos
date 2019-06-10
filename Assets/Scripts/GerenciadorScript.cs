@@ -129,6 +129,7 @@ public class GerenciadorScript : MonoBehaviour
             personagens.Sort( (a, b) => (TurnosAteAgir(a).CompareTo(TurnosAteAgir(b))));
         }
         if (personagens[0].time == 1) {
+            gerenciadorInput.cursorAtivo = 5;
             personagens[0].gameObject.GetComponent<Inimigo>().Iniciar();
         } else {
             gerenciadorInput.cursorAtivo = 0;

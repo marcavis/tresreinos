@@ -271,7 +271,7 @@ public class Personagem : MonoBehaviour
         return alvos;
     }
 
-    public float Manhattan(Vector3 v, Vector3 w) {
+    public static float Manhattan(Vector3 v, Vector3 w) {
         return Mathf.Abs(v.x - w.x) + Mathf.Abs(v.y - w.y);
     }
 

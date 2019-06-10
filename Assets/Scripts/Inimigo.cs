@@ -37,17 +37,16 @@ public class Inimigo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (vezInimigo && cursor.transform.position == transform.position) {
-            
-        //     Agir();
-        //     posicaoDefinida = false;
-        // }
         if(cooldown > 0) {
             cooldown--;
         } else {
             if(estado == 1 && cursor.transform.position == transform.position) {
                 cooldown = cooldownPadrao;
-                cursor.IrParaPosicao(EscolherPosicao(alvoEscolhidoParaAtacar));
+                if(inimigosAcessiveis.Count == 0) {
+                    cursor.IrParaPosicao(EscolherPosicaoDeAproximacao(alvoEscolhidoParaAtacar));
+                } else {
+                    cursor.IrParaPosicao(EscolherPosicaoDeAtaque(alvoEscolhidoParaAtacar));
+                }
                 estado = 2;
             } else if(estado == 2) {
                 cooldown = cooldownPadrao;
@@ -55,17 +54,20 @@ public class Inimigo : MonoBehaviour
                 estado = 3; //vai mudar dependendo se for atacar ou usar habilidade
             } else if(estado == 3) {
                 cooldown = cooldownPadrao;
-                cursor.MostrarOverlaysAtaque(personagem.TilesAlvosAcessiveis(personagem.arma.alcanceMin, personagem.arma.alcanceMax));
-                cursor.IrParaPosicao(alvoEscolhidoParaAtacar.transform.position);
-                gs.MostrarDadosDoAlvo(alvoEscolhidoParaAtacar);
-                estado = 4;
+                if(inimigosAcessiveis.Count == 0) {
+                    FinalizarTurno();
+                } else {
+                    cursor.MostrarOverlaysAtaque(personagem.TilesAlvosAcessiveis(personagem.arma.alcanceMin, personagem.arma.alcanceMax));
+                    cursor.IrParaPosicao(alvoEscolhidoParaAtacar.transform.position);
+                    gs.MostrarDadosDoAlvo(alvoEscolhidoParaAtacar);
+                    estado = 4;
+                }
             } else if(estado == 4) {
                 personagem.Atacar(alvoEscolhidoParaAtacar);
-                cursor.LimparOverlays();
-                gs.ReiniciarLabelsAlvo();
-                gs.canvas.GetComponent<Canvas>().enabled = false;
-                estado = 0;
-                gs.Proximo();
+                FinalizarTurno();
+            } else if(estado == 11) {
+                //sem alvo para ataque
+
             }
         }
         
@@ -73,17 +75,11 @@ public class Inimigo : MonoBehaviour
 
     public void Iniciar() {
         inimigosAcessiveis = new List<Personagem>();
-        input.cursorAtivo = 5;
         List<Personagem> meusInimigos = gs.personagens.Where(x => x.time == 0).ToList();
         terrenoAcessivel = personagem.TilesAcessiveis(tilemap);
         cursor.MostrarOverlaysMovimento(terrenoAcessivel);
         cursor.ultimaUnidade = personagem;
         gs.MostrarMenuBatalhaDoInimigo();
-        // foreach (Personagem p in meusInimigos)
-        // {
-            //print(p.Manhattan(p.transform.position, transform.position));
-            //print(TilesQuePermitemAtaque(p).Count + ":" + p.nome);
-        //}
         porOndeAtacar = new Dictionary<Personagem, List<Vector3>>();
         foreach (Personagem p in meusInimigos)
         {
@@ -92,31 +88,16 @@ public class Inimigo : MonoBehaviour
                 inimigosAcessiveis.Add(p);
             }
         }
-        alvoEscolhidoParaAtacar = EscolherHeroiAlvo();
-        estado = 1;
-        
+        if(inimigosAcessiveis.Count > 0) {
+            alvoEscolhidoParaAtacar = EscolherHeroiAlvo();
+            estado = 1;
+        } else {
+            alvoEscolhidoParaAtacar = EscolherHeroiParaSeguir();
+            estado = 1;
+            //não é possível alcançar ninguém, fazer outra coisa
+            //TODO: em vez de movimento aleatório, tentar se aproximar das unidades
+        }
         cooldown = cooldownPadrao;
-        // if (targetIndex == -1) {
-        //     inimigosAcessiveis = GetInimigosAcessiveis();
-        //     targetIndex = Random.Range(0, inimigosAcessiveis.Count);
-        //     Vector3 novaPosicao = inimigosAcessiveis[targetIndex].transform.position;
-        //     gs.cursor.GetComponent<ControleCursor>().novaPosicao = novaPosicao;
-        //     lastTime = Time.time;
-        // }
-        // if (gs.cursor.GetComponent<ControleCursor>().transform.position == gs.cursor.GetComponent<ControleCursor>().novaPosicao) {
-        //     if (!mostrandoOverlay) {
-        //         gs.cursor.GetComponent<ControleCursor>().MostrarOverlaysAtaque();
-        //         mostrandoOverlay = true;
-        //     }
-        //     if (transicaoCompletou()) {
-        //         gameObject.GetComponent<Personagem>().Atacar(inimigosAcessiveis[targetIndex]);
-        //         vezInimigo = false;
-        //         targetIndex = -1;
-        //         gs.cursor.GetComponent<ControleCursor>().LimparOverlays();
-        //         gs.ReiniciarLabelsAlvo();
-        //         gs.Proximo();
-        //     } 
-        // }
     }
 
     public void Mover() {
@@ -132,10 +113,25 @@ public class Inimigo : MonoBehaviour
 
     }
 
-    private Vector3 EscolherPosicao(Personagem alvo) {
+    private Vector3 EscolherPosicaoDeAtaque(Personagem alvo) {
         //int indice = Random.Range(0, )
         int indice = Random.Range(0, porOndeAtacar[alvo].Count);
         return porOndeAtacar[alvo][indice];
+    }
+
+    private Vector3 EscolherPosicaoDeAproximacao(Personagem alvo) {
+        //TODO: melhorar para conseguir perseguir heróis até através de paredes grandes
+        Vector3 posAlvo = alvo.transform.position;
+        int distParaEncurtar = Random.Range(2, 2 + 1); //alterar depois, conforme agressividade
+        float distanciaAtual = Personagem.Manhattan(posAlvo, transform.position);
+        List<Vector3> tilesParaAproximacao = terrenoAcessivel.Where(x => Personagem.Manhattan(transform.position, x) == distParaEncurtar).ToList();
+        tilesParaAproximacao.Sort((x, y) => Personagem.Manhattan(x, posAlvo).CompareTo(Personagem.Manhattan(y, posAlvo)));
+        // foreach (var o in terrenoAcessivel)
+        // {
+        //     print(o + " " + posAlvo + " " + Personagem.Manhattan(o, posAlvo));
+        // }
+        //unidade vai escolher um dos 2 tiles que mais se aproxima do alvo
+        return tilesParaAproximacao[Random.Range(0, Mathf.Min(2, tilesParaAproximacao.Count))];
     }
 
     private Personagem EscolherHeroiAlvo() {
@@ -144,8 +140,31 @@ public class Inimigo : MonoBehaviour
         return inimigosAcessiveis[indice];
     }
 
+    private Personagem EscolherHeroiParaSeguir() {
+        //não podemos atacar um heroi ainda, mas podemos nos aproximar
+        float distMin = 999f;
+        Personagem seguido = personagem; //apenas usado para inicialização
+        foreach (Personagem p in gs.personagens.Where(x => x.time == 0))
+        {
+            float dist = Personagem.Manhattan(p.transform.position, transform.position);
+            if(dist < distMin) {
+                seguido = p;
+                distMin = dist;
+            }
+        }
+        return seguido;
+    }
+
     private bool transicaoCompletou() {
         return Time.time - lastTime >= 2f;
+    }
+
+    public void FinalizarTurno() {
+        cursor.LimparOverlays();
+        gs.ReiniciarLabelsAlvo();
+        gs.canvas.GetComponent<Canvas>().enabled = false;
+        estado = 0;
+        gs.Proximo();
     }
 
     public List<Vector3> TilesQuePermitemAtaque(Personagem heroi) {
@@ -153,7 +172,7 @@ public class Inimigo : MonoBehaviour
         List<Vector3> tilesLivresParaAtaque = new List<Vector3>();
         foreach (Vector3 pos in terrenoAcessivel)
         {
-            float dist = heroi.Manhattan(heroi.transform.position, pos);
+            float dist = Personagem.Manhattan(heroi.transform.position, pos);
             if(dist <= personagem.arma.alcanceMax && dist >= personagem.arma.alcanceMin && gs.ObjetoNoTile(pos) == null) {
                 tilesLivresParaAtaque.Add(pos);
                 //Instantiate(cursor.blueSquare, pos, Quaternion.identity);
