@@ -130,6 +130,8 @@ public class GerenciadorScript : MonoBehaviour
         }
         if (personagens[0].time == 1) {
             personagens[0].gameObject.GetComponent<Inimigo>().Iniciar();
+        } else {
+            gerenciadorInput.cursorAtivo = 0;
         }
         cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
         //_camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
@@ -145,8 +147,6 @@ public class GerenciadorScript : MonoBehaviour
     }
 
     public void EntrarMenuBatalha() {
-        canvas.GetComponent<Canvas>().enabled = true;
-
         for (int i = 0; i < menuBatalha.Length; i++)
         {
             menuBatalha[i].text = textoMenuBatalha[i];
@@ -159,7 +159,21 @@ public class GerenciadorScript : MonoBehaviour
             cursor.GetComponent<ControleCursor>().LimparOverlays();
             cursor.GetComponent<ControleCursor>().MostrarOverlaysAtaque();
         }
+        AtualizarMenuBatalha();
+        canvas.GetComponent<Canvas>().enabled = true;
+    }
 
+    //versão usada por inimigos
+    public void MostrarMenuBatalhaDoInimigo() {
+        for (int i = 0; i < menuBatalha.Length; i++)
+        {
+            menuBatalha[i].text = "";
+        }
+        AtualizarMenuBatalha();
+        canvas.GetComponent<Canvas>().enabled = true;
+    }
+
+    public void AtualizarMenuBatalha() {
         Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
         labels[0].text = unid.nome + " Nv. " + unid.nivel;
         labels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);

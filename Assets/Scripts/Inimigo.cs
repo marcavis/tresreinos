@@ -57,13 +57,15 @@ public class Inimigo : MonoBehaviour
                 cooldown = cooldownPadrao;
                 cursor.MostrarOverlaysAtaque(personagem.TilesAlvosAcessiveis(personagem.arma.alcanceMin, personagem.arma.alcanceMax));
                 cursor.IrParaPosicao(alvoEscolhidoParaAtacar.transform.position);
+                gs.MostrarDadosDoAlvo(alvoEscolhidoParaAtacar);
                 estado = 4;
             } else if(estado == 4) {
                 personagem.Atacar(alvoEscolhidoParaAtacar);
                 cursor.LimparOverlays();
-                gs.Proximo();
+                gs.ReiniciarLabelsAlvo();
+                gs.canvas.GetComponent<Canvas>().enabled = false;
                 estado = 0;
-                input.cursorAtivo = 0;
+                gs.Proximo();
             }
         }
         
@@ -75,6 +77,8 @@ public class Inimigo : MonoBehaviour
         List<Personagem> meusInimigos = gs.personagens.Where(x => x.time == 0).ToList();
         terrenoAcessivel = personagem.TilesAcessiveis(tilemap);
         cursor.MostrarOverlaysMovimento(terrenoAcessivel);
+        cursor.ultimaUnidade = personagem;
+        gs.MostrarMenuBatalhaDoInimigo();
         // foreach (Personagem p in meusInimigos)
         // {
             //print(p.Manhattan(p.transform.position, transform.position));
@@ -150,7 +154,7 @@ public class Inimigo : MonoBehaviour
         foreach (Vector3 pos in terrenoAcessivel)
         {
             float dist = heroi.Manhattan(heroi.transform.position, pos);
-            if(dist <= personagem.arma.alcanceMax && dist >= personagem.arma.alcanceMin) {
+            if(dist <= personagem.arma.alcanceMax && dist >= personagem.arma.alcanceMin && gs.ObjetoNoTile(pos) == null) {
                 tilesLivresParaAtaque.Add(pos);
                 //Instantiate(cursor.blueSquare, pos, Quaternion.identity);
             }
