@@ -17,14 +17,17 @@ public class Personagem : MonoBehaviour
     public Dictionary<string, int> andar;
 
     public int nivel;
+    public int nivelBase; //1 para herois, varia para inimigos
     public int exp;
+
+    public float[] crescimento; //informa como os stats crescem conforme a unidade ganha experiência
 
     public int pv, mpv; //pontos de vida, pontos de vida máximos
     public int pt, mpt; //pontos de técnica, pontos de técnica máximos
-    public int ataque;
-    public int defesa;
-    public int agilidade; 
-    public int movimento; 
+    private int ataque;
+    private int defesa;
+    private int agilidade; 
+    private int movimento; 
 
     //variável que mostra o quão próxima a unidade está da próxima rodada
     public int iniciativa;
@@ -104,7 +107,7 @@ public class Personagem : MonoBehaviour
     }
 
     public bool PodeAlcancar(Vector3 posicao) {
-        return Vector3.Distance(this.transform.position, posicao) <= movimento;
+        return Vector3.Distance(this.transform.position, posicao) <= Movimento();
     }
 
     //retorna o caminho que a unidade percorrerá graficamente ao mover-se
@@ -114,7 +117,7 @@ public class Personagem : MonoBehaviour
         Vector3 ponto = PosicaoNaMatrizMov(destino);
         rota.Add(destino);
 
-        while(ponto != new Vector3(movimento/10, movimento/10, 0)) {
+        while(ponto != new Vector3(Movimento()/10, Movimento()/10, 0)) {
             ponto = cameFrom[(int) ponto.x, (int) ponto.y];
             rota.Add(PosicaoNoMapa(ponto));
         }
@@ -131,20 +134,20 @@ public class Personagem : MonoBehaviour
 
     //converte entre coordenadas do mapa em coordenadas na matriz de movimentos possíveis
     public Vector3 PosicaoNaMatrizMov(Vector3 entrada) {
-        int m = movimento/10;
+        int m = Movimento()/10;
         return new Vector3(m + entrada.x - transform.position.x, m + entrada.y - transform.position.y, 0);
     }
 
     //converte entre coordenadas da matriz de movimentos possíveis em coordenadas no mapa
     public Vector3 PosicaoNoMapa(Vector3 entrada) {
-        int m = movimento/10;
+        int m = Movimento()/10;
         return new Vector3(-m + entrada.x + transform.position.x, -m + entrada.y + transform.position.y, 0);
     }
 
     public List<Vector3> TilesAcessiveis(Tilemap tilemap) {
         //System.Diagnostics.Stopwatch st = new System.Diagnostics.Stopwatch();
         //st.Start();
-        int dimensaoMat = (int) (movimento * 2 / 10 + 1);
+        int dimensaoMat = (int) (Movimento() * 2 / 10 + 1);
 
         int meuX = dimensaoMat / 2; //centro do quadrado avaliado
         int meuY = dimensaoMat / 2;
@@ -162,7 +165,7 @@ public class Personagem : MonoBehaviour
             }
         }
         gScore[meuX, meuY] = 0;
-        fScore[meuX, meuY] = movimento;
+        fScore[meuX, meuY] = Movimento();
 
         openSet.Add(new Vector3(meuX, meuY, 0));
 
@@ -179,8 +182,8 @@ public class Personagem : MonoBehaviour
                 }
                 //vizinho é um vetor com coordenadas relativas à posição atual, mas precisamos de
                 //dados da célula real 
-                float esteTileX = transform.position.x + vizinho.x - (movimento/10);
-                float esteTileY = transform.position.y + vizinho.y - (movimento/10);
+                float esteTileX = transform.position.x + vizinho.x - (Movimento()/10);
+                float esteTileY = transform.position.y + vizinho.y - (Movimento()/10);
                 Vector3Int posRealVizinho = new Vector3Int((int) esteTileX, (int) esteTileY, 0);
                 float possivel_gScore = gScore[(int) atual.x, (int) atual.y] + CustoParaAndar(posRealVizinho, tilemap);// + custo(vizinho)
                 if(!openSet.Contains(vizinho)) {
@@ -199,9 +202,9 @@ public class Personagem : MonoBehaviour
         }
         for(int i = 0; i < dimensaoMat; i++) {
             for (int j = 0; j < dimensaoMat; j++) {
-                if(Mathf.Floor(gScore[i,j]) <= movimento) {
-                    float esteTileX = transform.position.x + i - movimento/10;
-                    float esteTileY = transform.position.y + j - movimento/10;
+                if(Mathf.Floor(gScore[i,j]) <= Movimento()) {
+                    float esteTileX = transform.position.x + i - Movimento()/10;
+                    float esteTileY = transform.position.y + j - Movimento()/10;
                     acessiveis.Add(new Vector3(esteTileX, esteTileY, 0));
                 }
             }
@@ -313,27 +316,48 @@ public class Personagem : MonoBehaviour
         gs.MostrarDadosDoAlvo(alvo);
     }
 
-    public void ReceberAtaque(int poder, Arma arma) {
-        ReceberDano(poder - defesa, arma);
+    public void ReceberAtaque(int poder, Personagem atacante) {
+        ReceberDano(poder - Defesa(), atacante);
     }
 
-    public void ReceberDano(int dano, Arma arma) {
+    public void ReceberDano(int dano, Personagem atacante) {
+        Arma arma = atacante.arma;
+        int vidaInicial = pv;
         float danoCalculado = dano * (100 + UnityEngine.Random.Range(-arma.variacao, arma.variacao)) / 100;
         int novoDano = Mathf.FloorToInt(danoCalculado);
         if(novoDano < 1) {novoDano = 1;}
-        pv -= novoDano;
+        pv = Mathf.Max(0, pv - novoDano);
         //debug
         print(nome + " sofreu " + novoDano + " pontos de dano.");
-        if(pv <= 0) {
-            //MORRER
-        }
+        //dar 20 exp base se morrer, e variando de 0 a 30 linearmente conforme o dano proporcional causado pelo inimigo
+        int expDada = Mathf.Min(30 * vidaInicial/MPV(), 30 * novoDano/MPV()) + (pv == 0 ? 20 : 0);
+        expDada = EscalaExp(expDada, nivel - atacante.nivel);
+        atacante.ReceberExperiencia(Mathf.Max(1, expDada));
+    }
+
+    public int EscalaExp(int expDada, int delta) {
+        if(delta > 0) {return Mathf.CeilToInt(expDada * (1 + delta * 0.25f));}
+        else if (delta == 0) {return expDada;}
+        else {return Mathf.CeilToInt(expDada * (1 + delta * 0.1f));}
+        //pode retornar negativo se o atacante estiver 11 níveis acima do atacado,
+        //mas nesse caso é garantido o mínimo de 1 exp para o atacante
     }
 
     public void ReceberCura(int valor) {
         int vidaInicial = pv;
         pv += valor;
-        if(pv > mpv) {pv = mpv;}
+        if(pv > MPV()) {pv = MPV();}
         print(nome + " ganhou " + (pv - vidaInicial) + " pontos de vida.");
+    }
+
+    public void ReceberExperiencia(int expRecebida) {
+        exp += expRecebida;
+        int niveisAGanhar = 0;
+        if(exp > 100) {
+            niveisAGanhar = exp/100;
+            exp = exp % 100;
+            nivel += niveisAGanhar;
+        }
     }
 
     //retorna -1 se não houver espaço
@@ -395,5 +419,59 @@ public class Personagem : MonoBehaviour
                 }
             }
         }
+    }
+
+    //métodos necessários pois personagens podem ter diversos modificadores agindo nos status
+    //stats atualizados são calculados aqui, conforme vetor de crescimentos de stat por nível
+    public int MPV() {
+        int valorBase = Mathf.FloorToInt(mpv + (nivel - nivelBase) * crescimento[0]);
+        return valorBase;
+    }
+
+    public int MPT() {
+        int valorBase = Mathf.FloorToInt(mpt + (nivel - nivelBase) * crescimento[1]);
+        return valorBase;
+    }
+    public int Ataque() {
+        int valorBase = Mathf.FloorToInt(ataque + (nivel - nivelBase) * crescimento[2]);
+        return valorBase;
+    }
+
+    public int Defesa() {
+        int valorBase = Mathf.FloorToInt(defesa + (nivel - nivelBase) * crescimento[3]);
+        return valorBase;
+    }
+
+    public int Agilidade() {
+        int valorBase = Mathf.FloorToInt(agilidade + (nivel - nivelBase) * crescimento[4]);
+        return valorBase;
+    }
+
+    public int Movimento() {
+        int valorBase = movimento;
+        return valorBase;
+    }
+
+    public void SetMPVBase(int valor) {
+        mpv = valor;
+    }
+    public void SetMPTBase(int valor) {
+        mpt = valor;
+    }
+
+    public void SetAtaqueBase(int valor) {
+        ataque = valor;
+    }
+
+    public void SetDefesaBase(int valor) {
+        defesa = valor;
+    }
+
+    public void SetAgilidadeBase(int valor) {
+        agilidade = valor;
+    }
+
+    public void SetMovimentoBase(int valor) {
+        movimento = valor;
     }
 }

@@ -9,8 +9,6 @@ public class Inimigo : MonoBehaviour
     private int cooldownPadrao;
     private int cooldown;
     private int estado; //0 no começo, 1 antes de andar, 
-    public bool posicaoDefinida;
-    private int targetIndex = -1;
     private GerenciadorScript gs;
     private GerenciadorInput input;
     private ControleCursor cursor;
@@ -65,10 +63,8 @@ public class Inimigo : MonoBehaviour
             } else if(estado == 4) {
                 personagem.Atacar(alvoEscolhidoParaAtacar);
                 FinalizarTurno();
-            } else if(estado == 11) {
-                //sem alvo para ataque
-
-            }
+                //TODO: bug quando unidade está cercada
+            } 
         }
         
     }

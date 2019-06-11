@@ -56,7 +56,18 @@ public class Defines
         {herois[4], new int[] {24,  7, 14, 12, 22, 60, 1}},
         {herois[5], new int[] {24,  8, 15, 14, 17, 50, 1}},
 
-        {"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 2}},
+        {"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 50}},
+    };
+
+    public static Dictionary<string, float[]> crescimentoPorNivel = new Dictionary<string, float[]>() {
+        {herois[0], new float[] {1.8f, 1.2f, 1.2f, 1.1f, 1.9f}},
+        {herois[1], new float[] {2.1f, 0.6f, 1.4f, 1.2f, 2.0f}},
+        {herois[2], new float[] {2.5f, 0.4f, 1.5f, 1.4f, 1.6f}},
+        {herois[3], new float[] {2.0f, 0.6f, 1.2f, 1.0f, 1.5f}},
+        {herois[4], new float[] {2.4f, 0.7f, 1.4f, 1.2f, 2.2f}},
+        {herois[5], new float[] {2.4f, 0.8f, 1.5f, 1.4f, 1.7f}},
+
+        {"Jueyuan", new float[] {1.5f, 0.0f, 1.8f, 1.0f, 2.2f}},
     };
     public static Dictionary<string, string> armasIniciais = new Dictionary<string, string>() {
         
@@ -97,14 +108,16 @@ public class Defines
         Personagem unid = objeto.GetComponent<Personagem>();
         unid.andar = Andar(tiposDeAndar[nome]);
         unid.pv = atributosIniciais[nome][0];
-        unid.mpv = atributosIniciais[nome][0];
+        unid.SetMPVBase(atributosIniciais[nome][0]);
         unid.pt = atributosIniciais[nome][1];
-        unid.mpt = atributosIniciais[nome][1];
-        unid.ataque = atributosIniciais[nome][2];
-        unid.defesa = atributosIniciais[nome][3];
-        unid.agilidade = atributosIniciais[nome][4];
-        unid.movimento = atributosIniciais[nome][5];
+        unid.SetMPTBase(atributosIniciais[nome][1]);
+        unid.SetAtaqueBase(atributosIniciais[nome][2]);
+        unid.SetDefesaBase(atributosIniciais[nome][3]);
+        unid.SetAgilidadeBase(atributosIniciais[nome][4]);
+        unid.SetMovimentoBase(atributosIniciais[nome][5]);
         unid.nivel = atributosIniciais[nome][6];
+        unid.nivelBase = atributosIniciais[nome][6];
+        unid.crescimento = crescimentoPorNivel[nome];
         if(itensIniciais.ContainsKey(nome)) {
             foreach (string item in itensIniciais[nome])
             {

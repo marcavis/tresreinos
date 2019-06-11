@@ -124,7 +124,7 @@ public class GerenciadorScript : MonoBehaviour
         while(personagens[0].iniciativa < 1000) {
             foreach (var p in personagens)
             {
-                p.iniciativa += p.agilidade;
+                p.iniciativa += p.Agilidade();
             }
             personagens.Sort( (a, b) => (TurnosAteAgir(a).CompareTo(TurnosAteAgir(b))));
         }
@@ -144,7 +144,7 @@ public class GerenciadorScript : MonoBehaviour
         return p == personagens[0];
     }
     public int TurnosAteAgir(Personagem p) {
-        return Mathf.CeilToInt((1000f - p.iniciativa)/p.agilidade);
+        return Mathf.CeilToInt((1000f - p.iniciativa)/p.Agilidade());
     }
 
     public void EntrarMenuBatalha() {
@@ -177,10 +177,10 @@ public class GerenciadorScript : MonoBehaviour
     public void AtualizarMenuBatalha() {
         Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
         labels[0].text = unid.nome + " Nv. " + unid.nivel;
-        labels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);
-        labels[2].text = string.Format("PT: {0,3:D3}/{1,3:D3}", unid.pt, unid.mpt);
+        labels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.MPV());
+        labels[2].text = string.Format("PT: {0,3:D3}/{1,3:D3}", unid.pt, unid.MPT());
         //TODO: não mostrar atributos diretamente, mas chamar função que lê atributo, arma (se houver), e modificadores
-        labels[3].text = string.Format("ATQ: {0,2:D2} DEF: {1,2:D2} AGI: {2,2:D2} MOV: {3,2:D2}", unid.ataque, unid.defesa, unid.agilidade, unid.movimento/10);
+        labels[3].text = string.Format("ATQ: {0,2:D2} DEF: {1,2:D2} AGI: {2,2:D2} MOV: {3,2:D2}", unid.Ataque(), unid.Defesa(), unid.Agilidade(), unid.Movimento()/10);
     }
 
     public void SairMenuBatalha() {
@@ -201,7 +201,7 @@ public class GerenciadorScript : MonoBehaviour
     public void MostrarDadosDoAlvo(Personagem unid) {
         canvasAlvo.GetComponent<Canvas>().enabled = true;
         alvoLabels[0].text = unid.nome + " Nv. " + unid.nivel;
-        alvoLabels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.mpv);
+        alvoLabels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.MPV());
     }
 
     public void ReiniciarLabelsAlvo() {
