@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4814789781299665305}
   - component: {fileID: 2446763877332558674}
   - component: {fileID: 5172796502918578961}
+  - component: {fileID: 5237796239872340765}
   m_Layer: 0
   m_Name: JiangXun
   m_TagString: Untagged
@@ -26,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62762506167204775}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1, y: -0.988, z: 0}
+  m_LocalScale: {x: 2.303499, y: 1.96763, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300024, guid: b2934759b3f081b0bb04513b6c386008, type: 3}
+  m_Sprite: {fileID: 21300028, guid: 9870580579640884eab0ec3961aa22b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,13 +96,31 @@ MonoBehaviour:
   nome: Jiang Xun
   time: 0
   nivel: 0
+  nivelBase: 0
   exp: 0
+  crescimento: []
   pv: 0
   mpv: 0
   pt: 0
   mpt: 0
-  ataque: 0
-  defesa: 0
-  agilidade: 0
-  movimento: 0
+  iniciativa: 0
   destinoFinal: {x: 0, y: 0, z: 0}
+--- !u!95 &5237796239872340765
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62762506167204775}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bd5db2c754b2f2849b0196ba6d65fdf2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
