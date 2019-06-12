@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8991523094618544308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1, y: -2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.303499, y: 1.96763, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300022, guid: b2934759b3f081b0bb04513b6c386008, type: 3}
+  m_Sprite: {fileID: 21300028, guid: 83277d56b791c694c8646138d6184c6d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,13 +95,12 @@ MonoBehaviour:
   nome: Guan Long
   time: 0
   nivel: 0
+  nivelBase: 0
   exp: 0
+  crescimento: []
   pv: 0
   mpv: 0
   pt: 0
   mpt: 0
-  ataque: 0
-  defesa: 0
-  agilidade: 0
-  movimento: 0
+  iniciativa: 0
   destinoFinal: {x: 0, y: 0, z: 0}

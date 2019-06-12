@@ -48,6 +48,8 @@ public class Personagem : MonoBehaviour
 
     
     private GerenciadorScript gs;
+    private Animator anim;
+    private int direcao;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +68,7 @@ public class Personagem : MonoBehaviour
         
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         gs.AdicionarPersonagem(gameObject);
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -79,6 +82,7 @@ public class Personagem : MonoBehaviour
                 rota.RemoveAt(0);
             }
             if(rota.Count > 0) {
+                setDirecao(rota[0].x, rota[0].y);
                 transform.position = Vector3.MoveTowards(transform.position, rota[0], 10f * Time.deltaTime);
             }
         }
@@ -473,5 +477,18 @@ public class Personagem : MonoBehaviour
 
     public void SetMovimentoBase(int valor) {
         movimento = valor;
+    }
+
+    private void setDirecao(float x, float y) {
+        if (transform.position.x < x) {
+            direcao = 2;
+        } else if (transform.position.x > x) {
+            direcao = 3;
+        } else if (transform.position.y < y) {
+            direcao = 1;
+        } else if (transform.position.y > y) {
+            direcao = 0;
+        }
+        anim.SetInteger("direcao", direcao);
     }
 }
