@@ -127,6 +127,10 @@ public class Inimigo : MonoBehaviour
         //     print(o + " " + posAlvo + " " + Personagem.Manhattan(o, posAlvo));
         // }
         //unidade vai escolher um dos 2 tiles que mais se aproxima do alvo
+        if(tilesParaAproximacao.Count == 0) {
+            //... a não ser que não haja tiles disponíveis
+            return transform.position;
+        }
         return tilesParaAproximacao[Random.Range(0, Mathf.Min(2, tilesParaAproximacao.Count))];
     }
 
