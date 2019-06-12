@@ -1,25 +1,35 @@
 fileFormatVersion: 2
-guid: 459ded2ad6dc2730c8707422db1bb591
+guid: 77d2972f9d1e0342783d6cdf002e2d8f
 TextureImporter:
   fileIDToRecycleName:
-    21300000: dirt2_0
-    21300002: dirt2_1
-    21300004: dirt2_2
-    21300006: dirt2_3
-    21300008: dirt2_4
-    21300010: dirt2_5
-    21300012: dirt2_6
-    21300014: dirt2_7
-    21300016: dirt2_8
-    21300018: dirt2_9
-    21300020: dirt2_10
-    21300022: dirt2_11
-    21300024: dirt2_12
-    21300026: dirt2_13
-    21300028: dirt2_14
-    21300030: dirt2_15
-    21300032: dirt2_16
-    21300034: dirt2_17
+    21300000: hole_0
+    21300002: hole_1
+    21300004: hole_2
+    21300006: hole_3
+    21300008: hole_4
+    21300010: hole_5
+    21300012: hole_6
+    21300014: hole_7
+    21300016: hole_8
+    21300018: hole_9
+    21300020: hole_10
+    21300022: hole_11
+    21300024: hole_12
+    21300026: hole_13
+    21300028: hole_14
+    21300030: hole_15
+    21300032: hole_16
+    21300034: hole_17
+    21300036: hole_18
+    21300038: hole_19
+    21300040: hole_20
+    21300042: hole_21
+    21300044: hole_22
+    21300046: hole_23
+    21300048: hole_24
+    21300050: hole_25
+    21300052: hole_26
+    21300054: hole_27
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -49,7 +59,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -124,7 +134,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dirt2_0
+      name: hole_0
       rect:
         serializedVersion: 2
         x: 0
@@ -138,13 +148,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9c4e9c0457407c73bba0f9b1d986a41
+      spriteID: 3d011a37261ef01d782cb0721818896c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_1
+      name: hole_1
       rect:
         serializedVersion: 2
         x: 32
@@ -158,13 +168,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a45e2aaeda556141fabc5882f272d480
+      spriteID: 90634cdb224de6312b3380a6b732e986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_2
+      name: hole_2
       rect:
         serializedVersion: 2
         x: 64
@@ -178,13 +188,33 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9db1835fee385235690e9f55911cce43
+      spriteID: f142674f7713cd19d91166ab1187a732
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_3
+      name: hole_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 160
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db6f9666e842e4613a73c2c970e666c6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_4
       rect:
         serializedVersion: 2
         x: 0
@@ -198,13 +228,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e82ff3104bb3a7e7dbb9f14ee6a69a6b
+      spriteID: 821a39540479e922f9b24ffd0f07db08
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_4
+      name: hole_5
       rect:
         serializedVersion: 2
         x: 32
@@ -218,13 +248,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b55cf8478064f7e7bfcc2ff6603b220
+      spriteID: e2b1ff856e3ad0e8bafcdd0f0bb1c8b9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_5
+      name: hole_6
       rect:
         serializedVersion: 2
         x: 64
@@ -238,13 +268,53 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97c80d8acb1346ce0b80ea5736ead5e2
+      spriteID: 4854a0b3093cbf8d3bfe546c05d3fed3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_6
+      name: hole_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0970a45b47d1425782909bb85d31dff
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b35ee8ae623944fa80807bc14f5d3db
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_9
       rect:
         serializedVersion: 2
         x: 0
@@ -258,13 +328,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59c52c200a466efc4ae180ac0ff95e90
+      spriteID: ab0d497646443fad0abf8c59fc97852c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_7
+      name: hole_10
       rect:
         serializedVersion: 2
         x: 32
@@ -278,13 +348,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dac43d91358ece5e4b13d9f68a932aa4
+      spriteID: e3078830f44c81347b429d19241ae409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_8
+      name: hole_11
       rect:
         serializedVersion: 2
         x: 64
@@ -298,13 +368,53 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 572a799c4656bbb46bded2dc242e9169
+      spriteID: 5fa3700d606a8b55a9ccc1d0ac83db8e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_9
+      name: hole_12
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab764810a197c919faf0f0a7c43157b7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_13
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f221ee951a4e8cb2084e8b9280d748af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_14
       rect:
         serializedVersion: 2
         x: 0
@@ -318,13 +428,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: efe79e2e287b9e274b0af00d5034d598
+      spriteID: d1772d3da2c635fb4a70521553c50988
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_10
+      name: hole_15
       rect:
         serializedVersion: 2
         x: 32
@@ -338,13 +448,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e52cae02664308f12ad3722b8050101d
+      spriteID: 5a8bab8c4afacace2b989c59a4e12bf9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_11
+      name: hole_16
       rect:
         serializedVersion: 2
         x: 64
@@ -358,13 +468,33 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 445df87a7d6e2b9bea217f23df8770be
+      spriteID: 982e0d288fca88b02a431d2dcf02e9dd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_12
+      name: hole_17
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c655f58d3fdcef69aaf81ddcc2fc461e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_18
       rect:
         serializedVersion: 2
         x: 0
@@ -378,13 +508,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c25bbf23af9615c1cb86bb6964a2ba64
+      spriteID: 95212b3c98ec343a499aea2e24704752
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_13
+      name: hole_19
       rect:
         serializedVersion: 2
         x: 32
@@ -398,13 +528,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a65a619ab071f9e3ca46e23759988cc6
+      spriteID: f69f70670a64d8bcc84b8fc5686e339d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_14
+      name: hole_20
       rect:
         serializedVersion: 2
         x: 64
@@ -418,13 +548,53 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39c49e07aca2806b3a33306b7d08fae9
+      spriteID: e40b6b09ebc5fa13394dc68ae401d2ee
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_15
+      name: hole_21
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 509fc3bc0760d3088a69f3e41c05618c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_22
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71c6ec4e878f8ac8391b49e385e7e744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_23
       rect:
         serializedVersion: 2
         x: 0
@@ -438,13 +608,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54ac814a67af1b35885408cf7fbcbce1
+      spriteID: 41c0743dc3547e81a93706380915b543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_16
+      name: hole_24
       rect:
         serializedVersion: 2
         x: 32
@@ -458,13 +628,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98063ec79274d50afaaff0e5ae61bde1
+      spriteID: 3acd79fd8ccab7dfe98e30d7f31ea339
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dirt2_17
+      name: hole_25
       rect:
         serializedVersion: 2
         x: 64
@@ -478,7 +648,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09adb597d9eb5733e90ee821328c424d
+      spriteID: f354922fe5aa412da9de330baf1d444f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_26
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f27cfc4b676dcb35b00fb41998c6a6c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hole_27
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f494269673d84c9329a9095d97262852
       vertices: []
       indices: 
       edges: []
@@ -486,7 +696,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9634a615c75c1cf659b6bfc23af9a093
+    spriteID: 60b02e1153df4321ca54bf902f3e9360
     vertices: []
     indices: 
     edges: []
