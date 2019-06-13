@@ -353,9 +353,8 @@ public class Personagem : MonoBehaviour
         if(pv == 0) {
             //TODO: animação de morte? explosão? som de morte?
             //já remover da lista de personagens para não ser utilizado
+            //nesse ponto a unidade já está morta, mas 
             gs.personagens.Remove(this);
-            //ComecarFadeOutMorte();
-            //Destroy(gameObject);
         }
     }
 
@@ -458,7 +457,7 @@ public class Personagem : MonoBehaviour
     }
     public int Ataque() {
         int valorBase = Mathf.FloorToInt(ataque + (nivel - nivelBase) * crescimento[2]);
-        return valorBase;
+        return valorBase + arma.poder;
     }
 
     public int Defesa() {

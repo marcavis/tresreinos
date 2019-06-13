@@ -8,6 +8,7 @@ public class GerenciadorInventario : MonoBehaviour
     public GameObject cursor;
     public GameObject canvasAlvo;
     public GerenciadorInput gerenciadorInput;
+    public GerenciadorScript gs;
     public int estado;
     const int SELECAO_ITEM = 0;
     const int SELECAO_ACAO = 1;
@@ -31,6 +32,7 @@ public class GerenciadorInventario : MonoBehaviour
         cursor = GameObject.Find("Cursor");
         canvasAlvo = GameObject.Find("CanvasAlvo");
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
+        gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         slots = new Text[8];
         for (int i = 0; i < 8; i++)
         {
@@ -71,9 +73,11 @@ public class GerenciadorInventario : MonoBehaviour
                 if(posAcaoSelecionada == 0) {
                     if(acoes[0].text == "> Desequipar <") {
                         unid.arma = DefinesArmas.armas["Punho"];
+                        gs.AtualizarMenuBatalha();
                     } else if(acoes[0].text == "> Equipar <") {
                         //equipar a arma que tem o mesmo nome do item selecionado
                         unid.arma = DefinesArmas.armas[itemSelecionado.nome];
+                        gs.AtualizarMenuBatalha();
                     } else {
                         if(itemSelecionado.efeitoUso == null) {
                             //TODO: som de erro, não usar item, não terminar rodada
