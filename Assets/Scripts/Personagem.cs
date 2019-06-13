@@ -74,6 +74,15 @@ public class Personagem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(pv == 0) {
+            Color nova = gameObject.GetComponent<SpriteRenderer>().color;
+            nova.a -= 0.006f;
+            nova.a = Mathf.Abs(nova.a);
+            gameObject.GetComponent<SpriteRenderer>().color = nova;
+            if(nova.a < 0.01f) {
+                Destroy(gameObject);
+            }
+        }
         //mover-se para algum tile, se houver essa ordem
         if(rota.Count > 0) {
             PararDePiscar(); //voltar depois?
@@ -335,10 +344,19 @@ public class Personagem : MonoBehaviour
         pv = Mathf.Max(0, pv - novoDano);
         //debug
         print(nome + " sofreu " + novoDano + " pontos de dano.");
+
         //dar 20 exp base se morrer, e variando de 0 a 30 linearmente conforme o dano proporcional causado pelo inimigo
         int expDada = Mathf.Min(30 * vidaInicial/MPV(), 30 * novoDano/MPV()) + (pv == 0 ? 20 : 0);
         expDada = EscalaExp(expDada, nivel - atacante.nivel);
         atacante.ReceberExperiencia(Mathf.Max(1, expDada));
+
+        if(pv == 0) {
+            //TODO: animação de morte? explosão? som de morte?
+            //já remover da lista de personagens para não ser utilizado
+            gs.personagens.Remove(this);
+            //ComecarFadeOutMorte();
+            //Destroy(gameObject);
+        }
     }
 
     public int EscalaExp(int expDada, int delta) {
