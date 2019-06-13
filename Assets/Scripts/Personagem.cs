@@ -85,6 +85,8 @@ public class Personagem : MonoBehaviour
                 setDirecao(rota[0].x, rota[0].y);
                 transform.position = Vector3.MoveTowards(transform.position, rota[0], 10f * Time.deltaTime);
             }
+        } else {
+            if (anim != null) anim.SetInteger("direcao", -1);
         }
 
         if(piscando) Piscar(); // ;)
@@ -489,6 +491,6 @@ public class Personagem : MonoBehaviour
         } else if (transform.position.y > y) {
             direcao = 0;
         }
-        anim.SetInteger("direcao", direcao);
+        if (anim != null) anim.SetInteger("direcao", direcao);
     }
 }
