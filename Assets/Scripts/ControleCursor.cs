@@ -15,6 +15,7 @@ public class ControleCursor : MonoBehaviour
     private bool podeMover = true;
 
     public Tilemap _tilemap;
+    public Tilemap acessoCursor;
     private GerenciadorScript gs;
     
     public GerenciadorInventario menuInventario;
@@ -48,6 +49,7 @@ public class ControleCursor : MonoBehaviour
     {   
         novaPosicao = transform.position;
         _tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        acessoCursor = GameObject.Find("CursorAccess").GetComponent<Tilemap>();
         gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         menuInventario = GameObject.Find("CanvasInventario").GetComponent<GerenciadorInventario>();
@@ -233,9 +235,19 @@ public class ControleCursor : MonoBehaviour
                 //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
                 gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(alvos[indiceAlvoSelecionado]));
             } else {
+                
                 novoX = transform.position.x + direcao.x;
                 novoY = transform.position.y + direcao.y;
-                novaPosicao = new Vector3(novoX, novoY, transform.position.z);
+                Vector3Int talvezNovaPosicao1 = new Vector3Int((int) novoX, (int) novoY, 0);
+                Vector3Int talvezNovaPosicao2 = new Vector3Int((int) transform.position.x, (int) novoY, 0);
+                Vector3Int talvezNovaPosicao3 = new Vector3Int((int) novoX, (int) transform.position.y, 0);
+                foreach (var pos in new List<Vector3Int> {talvezNovaPosicao1, talvezNovaPosicao2, talvezNovaPosicao3})
+                {
+                    if(acessoCursor.GetTile(pos)) {
+                        novaPosicao = pos;
+                        break;
+                    }
+                }
             }
             podeMover = false;
         }
