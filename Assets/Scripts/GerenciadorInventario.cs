@@ -105,7 +105,7 @@ public class GerenciadorInventario : MonoBehaviour
                     //TODO: som de descarte
 
                     unid.DescartarItem(posItemSelecionado);
-
+                    gs.AtualizarMenuBatalha();
                     itemSelecionado = null;
                     estado = SELECAO_ITEM;
                     LimparAcoes();
