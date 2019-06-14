@@ -36,6 +36,7 @@ public class Defines
                     {"carpet", 10},
                     {"caverock", 15},
                     {"cavewater", 20},
+                    {"blackpool", 20},
                     {"stalagmite", 999},
                     {"hole", 999}
                 };
@@ -46,6 +47,7 @@ public class Defines
                     {"carpet", 10},
                     {"caverock", 25},
                     {"cavewater", 30},
+                    {"blackpool", 20},
                     {"stalagmite", 999},
                     {"hole", 999}
                     //terrenos que não aparecerem na lista terão custo 10
