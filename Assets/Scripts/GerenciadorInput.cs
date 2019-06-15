@@ -24,7 +24,7 @@ public class GerenciadorInput : MonoBehaviour
         telaInv = GameObject.Find("CanvasInventario");
         telaInvTroca = GameObject.Find("CanvasInventarioTroca");
         telaHab = GameObject.Find("CanvasHabilidades");
-        dialogo = GameObject.Find("GerenciadorDialogo 
+        dialogo = GameObject.Find("GerenciadorDialogo");
         cursores = new GameObject[] { cursor, gs, telaInv, telaInvTroca, telaHab, null, dialogo };
         cursorAtivo = 0; //cursor de seleção de unidade no campo
     }
