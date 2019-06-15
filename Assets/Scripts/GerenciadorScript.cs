@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -121,6 +122,11 @@ public class GerenciadorScript : MonoBehaviour
     }
 
     public void Proximo() {
+        if(personagens.Where((a) => a.time == 0).ToList().Count == 0) {
+            print("Game over");
+        } else if (personagens.Where((a) => a.time == 1).ToList().Count == 0) {
+            print("Vencedor");
+        }
         while(personagens[0].iniciativa < 1000) {
             foreach (var p in personagens)
             {

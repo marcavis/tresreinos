@@ -70,7 +70,6 @@ public class Inimigo : MonoBehaviour
             } else if(estado == 4) {
                 personagem.Atacar(alvoEscolhidoParaAtacar);
                 FinalizarTurno();
-                //TODO: bug quando unidade está cercada
             } 
         }
         

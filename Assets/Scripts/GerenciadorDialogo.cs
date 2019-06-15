@@ -18,7 +18,7 @@ public class GerenciadorDialogo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        progresso += 0.25f;
+        progresso += 0.5f;
         if(progresso <= mensagem.Length) {
             caixaTexto.text = mensagem.Substring(0, Mathf.FloorToInt(progresso));
         }
