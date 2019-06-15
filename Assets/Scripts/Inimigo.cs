@@ -16,10 +16,14 @@ public class Inimigo : MonoBehaviour
     private List<Personagem> inimigosAcessiveis;
     private List<Vector3> terrenoAcessivel;
     private Personagem alvoEscolhidoParaAtacar;
+    private Personagem meuUltimoAlvo;
+    
+    //TODO: implementar
+    private List<Personagem> acabaramDeMeAtacar; //grava quem atacou a unidade na última rodada
+
     private Tilemap tilemap;
     
     private Dictionary<Personagem, List<Vector3>> porOndeAtacar;
-    private float lastTime;
     private bool mostrandoOverlay;
     // Start is called before the first frame update
     void Start()
@@ -70,6 +74,7 @@ public class Inimigo : MonoBehaviour
     }
 
     public void Iniciar() {
+        acabaramDeMeAtacar = new List<Personagem>();
         inimigosAcessiveis = new List<Personagem>();
         List<Personagem> meusInimigos = gs.personagens.Where(x => x.time == 0).ToList();
         terrenoAcessivel = personagem.TilesAcessiveis(tilemap);
@@ -135,9 +140,35 @@ public class Inimigo : MonoBehaviour
     }
 
     private Personagem EscolherHeroiAlvo() {
-        //aprimorar isso depois
-        int indice = Random.Range(0, inimigosAcessiveis.Count);
-        return inimigosAcessiveis[indice];
+        Dictionary<Personagem, int> chanceDeEscolher = new Dictionary<Personagem, int>();
+        int chanceAcumulada = 0;
+        foreach (var p in inimigosAcessiveis)
+        {
+            chanceDeEscolher[p] = 10;
+            if(p == meuUltimoAlvo) {
+                chanceDeEscolher[p] += 40;
+            }
+            if(acabaramDeMeAtacar.Contains(p)) {
+                chanceDeEscolher[p] += 40;
+            }
+            chanceDeEscolher[p] -= (int) Personagem.Manhattan(p.transform.position, transform.position);
+            chanceDeEscolher[p] += porOndeAtacar[p].Count/2;
+            chanceAcumulada += chanceDeEscolher[p];
+            print(p.nome + chanceDeEscolher[p]);
+        }
+        int escolhido = Random.Range(0, chanceAcumulada);
+        foreach (Personagem p in chanceDeEscolher.Keys)
+        {
+            if(escolhido < chanceDeEscolher[p]) {
+                meuUltimoAlvo = p;
+                break;
+            } else {
+                escolhido -= chanceDeEscolher[p];
+            }
+        }
+        //int indice = Random.Range(0, inimigosAcessiveis.Count);
+        //meuUltimoAlvo = inimigosAcessiveis[indice];
+        return meuUltimoAlvo;
     }
 
     private Personagem EscolherHeroiParaSeguir() {
@@ -153,10 +184,6 @@ public class Inimigo : MonoBehaviour
             }
         }
         return seguido;
-    }
-
-    private bool transicaoCompletou() {
-        return Time.time - lastTime >= 2f;
     }
 
     public void FinalizarTurno() {
