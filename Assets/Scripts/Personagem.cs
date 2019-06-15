@@ -250,8 +250,8 @@ public class Personagem : MonoBehaviour
         TileBase tipoTile = tilemap.GetTile(alvo);
         
         if(tipoTile == null) {
-            //nao tem tile aqui, entao nao eh passavel
-            return 999;
+            //nao tem tile aqui, entao provavelmente é o chão normal da fase, com custo normal
+            return 10;
         }
         //se houver inimigo no tile, ele não pode ser cruzado
         Personagem ocupante = gs.ObjetoNoTile(alvo);
