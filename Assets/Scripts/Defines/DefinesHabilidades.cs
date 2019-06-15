@@ -27,7 +27,23 @@ public class DefinesHabilidades
         },
         (dono, alvo) => {
             alvo.ReceberCura(5);
-        }, true)}
-
+        }, true)},
+        {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 1, 10, Habilidade.aoe0, 0, 0, 
+        (dono, alvo) => {
+            Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
+            foreach (var p in alvos) {
+                if(p.time == 1) {
+                    p.ReceberDano(50, dono);
+                }
+            }
+        }, 
+        (dono, alvo) => {
+            Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
+            foreach (var p in alvos) {
+                if(p.time == 1) {
+                    p.ReceberDano(50, dono);
+                }
+            }
+        }, false)}
     };
 }

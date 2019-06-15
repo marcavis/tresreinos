@@ -109,7 +109,7 @@ public class Defines
         {herois[1], new string[] {"Tiro de dispersão", "Cura"}},
         {herois[2], new string[] {"Tiro de dispersão", "Cura"}},
         {herois[3], new string[] {"Tiro de dispersão", "Cura"}},
-        {herois[4], new string[] {"Tiro de dispersão", "Cura"}},
+        {herois[4], new string[] {"Tiro de dispersão", "Cura", "Armageddon"}},
         {herois[5], new string[] {"Tiro de dispersão", "Cura"}},
     };
 
