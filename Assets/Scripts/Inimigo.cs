@@ -47,11 +47,14 @@ public class Inimigo : MonoBehaviour
                 if(inimigosAcessiveis.Count == 0) {
                     cursor.IrParaPosicao(EscolherPosicaoDeAproximacao(alvoEscolhidoParaAtacar));
                 } else {
-                    cursor.IrParaPosicao(EscolherPosicaoDeAtaque(alvoEscolhidoParaAtacar));
+                    Vector3 posPotencial = EscolherPosicaoDeAtaque(alvoEscolhidoParaAtacar);
+                    if (posPotencial == transform.position) {cooldown = cooldown / 5;}
+                    cursor.IrParaPosicao(posPotencial);
                 }
                 estado = 2;
             } else if(estado == 2) {
                 cooldown = cooldownPadrao;
+                if(cursor.transform.position == transform.position) {cooldown = cooldown / 5;}
                 Mover();
                 estado = 3; //vai mudar dependendo se for atacar ou usar habilidade
             } else if(estado == 3) {
@@ -115,7 +118,9 @@ public class Inimigo : MonoBehaviour
     }
 
     private Vector3 EscolherPosicaoDeAtaque(Personagem alvo) {
-        //int indice = Random.Range(0, )
+        if(porOndeAtacar[alvo].Contains(transform.position)) {
+            return transform.position;
+        }
         int indice = Random.Range(0, porOndeAtacar[alvo].Count);
         return porOndeAtacar[alvo][indice];
     }
@@ -154,7 +159,6 @@ public class Inimigo : MonoBehaviour
             chanceDeEscolher[p] -= (int) Personagem.Manhattan(p.transform.position, transform.position);
             chanceDeEscolher[p] += porOndeAtacar[p].Count/2;
             chanceAcumulada += chanceDeEscolher[p];
-            print(p.nome + chanceDeEscolher[p]);
         }
         int escolhido = Random.Range(0, chanceAcumulada);
         foreach (Personagem p in chanceDeEscolher.Keys)
@@ -200,12 +204,21 @@ public class Inimigo : MonoBehaviour
         foreach (Vector3 pos in terrenoAcessivel)
         {
             float dist = Personagem.Manhattan(heroi.transform.position, pos);
-            if(dist <= personagem.arma.alcanceMax && dist >= personagem.arma.alcanceMin && gs.ObjetoNoTile(pos) == null) {
+            if(dist <= personagem.arma.alcanceMax && dist >= personagem.arma.alcanceMin && VazioOuMeu(pos)) {
                 tilesLivresParaAtaque.Add(pos);
                 //Instantiate(cursor.blueSquare, pos, Quaternion.identity);
             }
+            
         }
         return tilesLivresParaAtaque;
+    }
+
+    //diz se tal posição está livre para a unidade - seja por estar desocupada, seja por ser a posição atual
+    public bool VazioOuMeu(Vector3 pos) {
+        if(gs.ObjetoNoTile(pos) == null || gs.ObjetoNoTile(pos) == personagem) {
+            return true;
+        }
+        return false;
     }
     
     public List<Personagem> GetInimigosAcessiveis() {
