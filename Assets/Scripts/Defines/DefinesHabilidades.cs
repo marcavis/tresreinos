@@ -21,7 +21,7 @@ public class DefinesHabilidades
             
         }
         , null, false)},
-        {"Cura", new Habilidade("Cura", "Cura 5 PV da unidade alvo.", 3, 1, 2, Habilidade.aoeCruz1, 0, 0, 
+        {"Cura", new Habilidade("Cura", "Cura 5 PV da unidade alvo.", 3, 0, 2, Habilidade.aoeCruz1, 0, 0, 
         (dono, alvo) => {
             alvo.ReceberCura(5);
         },

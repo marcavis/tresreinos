@@ -53,7 +53,7 @@ public class GerenciadorTelaHab : MonoBehaviour
             gs.PlaySoundMenuSelect();
             Habilidade aEscolher = unid.habilidades[posHabSelecionada];    
             
-            if(!unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, false)) {
+            if(!unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, aEscolher.seMesmoTime)) {
                 //TODO: som de erro
                 //print("não pode usar habilidade");
             } else {
