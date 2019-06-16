@@ -58,7 +58,7 @@ public class GerenciadorInventarioTroca : MonoBehaviour
             FecharMenu();
             cursor.GetComponent<ControleCursor>().Liberar();
             gs.SairMenuBatalha();
-            gs.Proximo();
+            gs.ProximoSeEmBatalha();
             GameObject.Find("CanvasInventario").GetComponent<GerenciadorInventario>().FecharMenu();
         }
         else if(entrada == Teclas.DPAD) {

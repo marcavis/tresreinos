@@ -159,7 +159,7 @@ public class ControleCursor : MonoBehaviour
                         gs.SairMenuBatalha();
                         gs.ReiniciarLabelsAlvo();
                         //TODO: botar um delay
-                        gs.Proximo();
+                        gs.ProximoSeEmBatalha();
                         finalizado = true;
                     }));
                 }
@@ -177,7 +177,7 @@ public class ControleCursor : MonoBehaviour
                         menuInventario.FecharMenu();
                         gs.ReiniciarLabelsAlvo();
                         //TODO: botar um delay
-                        gs.Proximo();
+                        gs.ProximoSeEmBatalha();
                         finalizado = true;
                     } else {
                         //TODO:implementar troca pedindo um item do recebedor
@@ -197,7 +197,7 @@ public class ControleCursor : MonoBehaviour
                     gs.SairMenuBatalha();
                     gs.ReiniciarLabelsAlvo();
                     //TODO: botar um delay
-                    gs.Proximo();
+                    gs.ProximoSeEmBatalha();
                     finalizado = true;
                 }
             }

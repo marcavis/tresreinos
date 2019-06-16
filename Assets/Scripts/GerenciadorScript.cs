@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class GerenciadorScript : MonoBehaviour
@@ -20,6 +21,7 @@ public class GerenciadorScript : MonoBehaviour
     public GameObject canvasInventario;
     public GameObject canvasInventarioTroca;
     public GameObject canvasHabilidades;
+    public GerenciadorDialogo dialogo;
     public int opcaoMenuBatalha;
     
     public Text[] menuBatalha;
@@ -31,12 +33,15 @@ public class GerenciadorScript : MonoBehaviour
     public Vector3 direcao;
     public bool canvasBatalhaAberto;
 
+    public int estadoBatalha; //diz se estamos antes, durante ou depois da batalha
+
     public void AdicionarPersonagem(GameObject obj) {
         personagens.Add(obj.GetComponent<Personagem>());
     }
     // Start is called before the first frame update
     void Start()
     {
+        estadoBatalha = 0;
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         canvas = GameObject.Find("CanvasMenuBatalha");
         canvas.GetComponent<Canvas>().enabled = false;
@@ -49,6 +54,10 @@ public class GerenciadorScript : MonoBehaviour
         canvasHabilidades = GameObject.Find("CanvasHabilidades");
         canvasHabilidades.GetComponent<Canvas>().enabled = false;
 
+        GameObject.Find("CanvasDialogo").GetComponent<Canvas>().enabled = false;
+        dialogo = GameObject.Find("CanvasDialogo").GetComponent<GerenciadorDialogo>();
+
+
         labels = new Text[4];
         labels[0] = GameObject.Find("NomeLabel").GetComponent<Text>();
         labels[1] = GameObject.Find("PVLabel").GetComponent<Text>();
@@ -59,7 +68,8 @@ public class GerenciadorScript : MonoBehaviour
         alvoLabels[0] = GameObject.Find("AlvoLabel").GetComponent<Text>();
         alvoLabels[1] = GameObject.Find("AlvoPVLabel").GetComponent<Text>();
         
-        Proximo();
+        AvancarCena();
+        
     }
 
     // Update is called once per frame
@@ -103,7 +113,7 @@ public class GerenciadorScript : MonoBehaviour
             else {
                 SairMenuBatalha();
                 cursor.GetComponent<ControleCursor>().Liberar();
-                Proximo();
+                ProximoSeEmBatalha();
                 //print(cursor.GetComponent<ControleCursor>().acaoDoCursor);
             }
         } else if(entrada == Teclas.DPAD) {
@@ -122,11 +132,38 @@ public class GerenciadorScript : MonoBehaviour
         }
     }
 
+    public void AvancarCena() {
+        if(estadoBatalha == 0) {
+            gerenciadorInput.cursorAtivo = 6;
+            dialogo.Executar(SceneManager.GetActiveScene().name + "_inic");
+        } else if(estadoBatalha == 1) {
+            gerenciadorInput.cursorAtivo = 0;
+            Proximo();
+        } else if(estadoBatalha == 2) {
+            print("cena pos fase");
+            gerenciadorInput.cursorAtivo = 6;
+            dialogo.Executar(SceneManager.GetActiveScene().name + "_fim");
+            //ações pós batalha
+        } else {
+            print("mudar de fase");
+            //mudar de fase?
+        }
+    }
+
+    public void ProximoSeEmBatalha() {
+        if(estadoBatalha == 1) {
+            Proximo();
+        }
+    }
     public void Proximo() {
+        
         if(personagens.Where((a) => a.time == 0).ToList().Count == 0) {
             print("Game over");
         } else if (personagens.Where((a) => a.time == 1).ToList().Count == 0) {
             print("Vencedor");
+            estadoBatalha++;
+            AvancarCena();
+            return;
         }
         while(personagens[0].iniciativa < 1000) {
             foreach (var p in personagens)

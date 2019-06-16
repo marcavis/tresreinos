@@ -194,7 +194,7 @@ public class Inimigo : MonoBehaviour
         gs.ReiniciarLabelsAlvo();
         gs.canvas.GetComponent<Canvas>().enabled = false;
         estado = 0;
-        gs.Proximo();
+        gs.ProximoSeEmBatalha();
     }
 
     public List<Vector3> TilesQuePermitemAtaque(Personagem heroi) {
