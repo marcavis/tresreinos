@@ -8,7 +8,7 @@ public class AttackParent : MonoBehaviour
     private Animator l, r;
     private Image lImage, RImage;
     private GameObject canvas;
-    private AudioSource src;
+    private AudioSource lSrc, rSrc;
 
     public void Init() {
         if (!canvas) {
@@ -30,17 +30,18 @@ public class AttackParent : MonoBehaviour
 
     public void SetLeftAnimator(Animator anim) {
         l = Instantiate(anim);
-        l.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
+        // l.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
         lImage = Instantiate(anim.GetComponent<Image>());
         lImage.transform.SetParent(canvas.transform, false);
-        src = l.GetComponent<AudioSource>();
+        lSrc = l.GetComponent<AudioSource>();
     }
 
     public void SetRightAnimator(Animator anim) {
         r = Instantiate(anim);
-        r.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
+        // r.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
         RImage = Instantiate(anim.GetComponent<Image>());
         RImage.transform.SetParent(canvas.transform, false);
+        rSrc = r.GetComponent<AudioSource>();
     }
 
     public void Abrir() {
@@ -57,17 +58,25 @@ public class AttackParent : MonoBehaviour
 
     public void PlayLeft(string dano) {
         if (l) {
-            l.Play("Atk");
-            src.Play();
-            ControladorDano.criaTextoDano(dano, RImage.transform, 1f);
+            l.SetBool("atacando", true);
+            lSrc.Play();
+            StartCoroutine(EndAnim(l));
         }
+        ControladorDano.criaTextoDano(dano, RImage.transform, 1f);
     }
 
     public void PlayRight(string dano) {
         if (r) {
-            r.Play("Atk");
-            ControladorDano.criaTextoDano(dano, lImage.transform, -1f);
+            r.SetBool("atacando", true);
+            rSrc.Play();
+            StartCoroutine(EndAnim(r));
         }
+        ControladorDano.criaTextoDano(dano, lImage.transform, -1f);
+    }
+
+    IEnumerator EndAnim(Animator anim) {
+        yield return new WaitForSeconds(0.75f);
+        // anim.SetBool("atacando", false);
     }
 
 }
