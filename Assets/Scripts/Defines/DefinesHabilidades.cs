@@ -14,26 +14,26 @@ public class DefinesHabilidades
 
     //até inimigos desarmados têm uma definição de arma pra poder atacar
     public static Dictionary<string, Habilidade> habilidades = new Dictionary<string, Habilidade> {
-        //nome, descrição, custo, alcanceMin, alcanceMax, área de efeito, precisão, chance crítica, função de uso, função de uso crítico
-        {"Tiro de dispersão", new Habilidade("Tiro de dispersão", "Dispara setas contra um alvo e alvos adjacentes.", 3,
+        //nome, descrição, custo, variacao, alcanceMin, alcanceMax, área de efeito, precisão, chance crítica, função de uso, função de uso crítico
+        {"Tiro de dispersão", new Habilidade("Tiro de dispersão", "Dispara setas contra um alvo e alvos adjacentes.", 3, 20f,
         1, 2, Habilidade.aoeCruz1, 0, 0, 
         (dono, alvo) => {
             
         }
         , null, false)},
-        {"Cura", new Habilidade("Cura", "Cura 5 PV da unidade alvo.", 3, 0, 2, Habilidade.aoeCruz1, 0, 0, 
+        {"Cura", new Habilidade("Cura", "Cura 5 PV da unidade alvo.", 3, 20f, 0, 2, Habilidade.aoeCruz1, 0, 0, 
         (dono, alvo) => {
             alvo.ReceberCura(5);
         },
         (dono, alvo) => {
             alvo.ReceberCura(5);
         }, true)},
-        {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 1, 10, Habilidade.aoe0, 0, 0, 
+        {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoe0, 0, 0, 
         (dono, alvo) => {
             Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
             foreach (var p in alvos) {
                 if(p.time == 1) {
-                    p.ReceberDano(50, dono);
+                    p.ReceberDano(5, dono);
                 }
             }
         }, 
@@ -41,7 +41,7 @@ public class DefinesHabilidades
             Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
             foreach (var p in alvos) {
                 if(p.time == 1) {
-                    p.ReceberDano(50, dono);
+                    p.ReceberDano(5, dono);
                 }
             }
         }, false)}

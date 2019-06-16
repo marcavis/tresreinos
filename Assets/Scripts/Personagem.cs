@@ -335,16 +335,27 @@ public class Personagem : MonoBehaviour
     }
 
     public void ReceberAtaque(int poder, Personagem atacante) {
-        ReceberDano(poder - Defesa(), atacante);
+        Arma arma = atacante.arma;
+        int dano = poder - Defesa();
+        float danoCalculado = dano * (100 + UnityEngine.Random.Range(-arma.variacao, arma.variacao)) / 100;
+        int novoDano = Mathf.FloorToInt(danoCalculado);
+        ReceberDano(novoDano, atacante);
+    }
+
+    public void ReceberAtaqueHabilidade(int poder, Personagem atacante) {
+        Habilidade hab = atacante.habilidadeAtual;
+        float danoCalculado = poder * (100 + UnityEngine.Random.Range(-hab.variacao, hab.variacao)) / 100;
+        int novoDano = Mathf.FloorToInt(danoCalculado);
+        ReceberDano(novoDano, atacante);
     }
 
     public void ReceberDano(int dano, Personagem atacante) {
-        Arma arma = atacante.arma;
+        // Arma arma = atacante.arma;
         int vidaInicial = pv;
-        float danoCalculado = dano * (100 + UnityEngine.Random.Range(-arma.variacao, arma.variacao)) / 100;
-        int novoDano = Mathf.FloorToInt(danoCalculado);
-        if(novoDano < 1) {novoDano = 1;}
-        pv = Mathf.Max(0, pv - novoDano);
+        // float danoCalculado = dano * (100 + UnityEngine.Random.Range(-arma.variacao, arma.variacao)) / 100;
+        // int novoDano = Mathf.FloorToInt(danoCalculado);
+        if(dano < 1) {dano = 1;}
+        pv = Mathf.Max(0, pv - dano);
         if(time == 1) {
             GetComponent<Inimigo>().acabaramDeMeAtacar.Add(atacante);
         }
@@ -352,14 +363,14 @@ public class Personagem : MonoBehaviour
         //debug
         //ControladorDano.criaTextoDano(novoDano.ToString(), transform);
         if (time == 1) {
-            ap.PlayLeft(novoDano.ToString());
+            ap.PlayLeft(dano.ToString());
         } else {
-            ap.PlayRight(novoDano.ToString());
+            ap.PlayRight(dano.ToString());
         }
-        print(nome + " sofreu " + novoDano + " pontos de dano.");
+        print(nome + " sofreu " + dano + " pontos de dano.");
 
         //dar 20 exp base se morrer, e variando de 0 a 30 linearmente conforme o dano proporcional causado pelo inimigo
-        int expDada = Mathf.Min(30 * vidaInicial/MPV(), 30 * novoDano/MPV()) + (pv == 0 ? 20 : 0);
+        int expDada = Mathf.Min(30 * vidaInicial/MPV(), 30 * dano/MPV()) + (pv == 0 ? 20 : 0);
         expDada = EscalaExp(expDada, nivel - atacante.nivel);
         atacante.ReceberExperiencia(Mathf.Max(1, expDada));
 
