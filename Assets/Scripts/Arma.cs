@@ -21,10 +21,10 @@ public class Arma
     public Action<Personagem, Personagem> efeitoAtaque;
     public Action<Personagem, Personagem> efeitoCritico;
 
-    public static Action<Personagem, Personagem> efeitoAtaquePadrao = (dono, alvo) => alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
+    public static Action<Personagem, Personagem> efeitoAtaquePadrao = (dono, alvo) => alvo.ReceberAtaque(dono.Ataque(), dono);
     public static Action<Personagem, Personagem> efeitoCriticoPadrao = (dono, alvo) => 
         {
-            alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
+            alvo.ReceberAtaque(dono.Ataque(), dono);
             alvo.ReceberDano(dono.arma.poder, dono);
         };
 
