@@ -34,6 +34,10 @@ public class GerenciadorScript : MonoBehaviour
     public bool canvasBatalhaAberto;
 
     public int estadoBatalha; //diz se estamos antes, durante ou depois da batalha
+    public AudioSource srcMenu;
+    public AudioClip clipMenuSelect;
+    public AudioClip clipMenuCancel;
+    public AudioClip clipMenuChange;
 
     public void AdicionarPersonagem(GameObject obj) {
         personagens.Add(obj.GetComponent<Personagem>());
@@ -77,19 +81,23 @@ public class GerenciadorScript : MonoBehaviour
     {
         if(entrada == Teclas.CANCEL) {
             entrada = 0;
+            PlaySoundMenuCancel();
             SairMenuBatalha();
             cursor.GetComponent<ControleCursor>().LimparOverlays();
             cursor.GetComponent<ControleCursor>().DesfazerAcaoAtual();
         }
         else if(entrada == Teclas.ACTION) {
             entrada = 0;
+            PlaySoundMenuSelect();
             //atacar 
             if(opcaoMenuBatalha == 0){
+                // PlaySoundMenuSelect();
                 Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
                 if(!unid.ExistemPersonagensAlvos(unid.arma.alcanceMin, unid.arma.alcanceMax, false)) {
                     //som de erro
                     //print("não pode atacar");
                 } else {
+                    // PlaySoundMenuSelect();
                     gerenciadorInput.cursorAtivo = 0;
                     canvasAlvo.GetComponent<Canvas>().enabled = true;
                     //o jogo ficará circulando entre os alvos permitidos, então começaremos
@@ -99,18 +107,21 @@ public class GerenciadorScript : MonoBehaviour
             }
             //habilidades
             else if(opcaoMenuBatalha == 1){
+                // PlaySoundMenuSelect();
                 Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
                 gerenciadorInput.cursorAtivo = 4;
                 canvasHabilidades.GetComponent<GerenciadorTelaHab>().AbrirMenu(unid);
             }
             //itens
             else if(opcaoMenuBatalha == 2){
+                // PlaySoundMenuSelect();
                 Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
                 gerenciadorInput.cursorAtivo = 2;
                 canvasInventario.GetComponent<GerenciadorInventario>().AbrirMenu(unid);
             }
             //esperar
             else {
+                // PlaySoundMenuSelect();
                 SairMenuBatalha();
                 cursor.GetComponent<ControleCursor>().Liberar();
                 ProximoSeEmBatalha();
@@ -118,6 +129,7 @@ public class GerenciadorScript : MonoBehaviour
             }
         } else if(entrada == Teclas.DPAD) {
             entrada = 0;
+            PlaySoundMenuChange();
             opcaoMenuBatalha = opcaoMenuBatalha - (int) direcao.y;
             opcaoMenuBatalha = (menuBatalha.Length + opcaoMenuBatalha) % menuBatalha.Length;
             for (int i = 0; i < menuBatalha.Length; i++)
@@ -201,6 +213,7 @@ public class GerenciadorScript : MonoBehaviour
         menuBatalha[opcaoMenuBatalha].text = "> " + menuBatalha[opcaoMenuBatalha].text + " <";
 
         if(opcaoMenuBatalha == 0) {
+            srcMenu.PlayOneShot(clipMenuSelect);
             cursor.GetComponent<ControleCursor>().LimparOverlays();
             cursor.GetComponent<ControleCursor>().MostrarOverlaysAtaque();
         }
@@ -251,5 +264,17 @@ public class GerenciadorScript : MonoBehaviour
         canvasAlvo.GetComponent<Canvas>().enabled = false;
         alvoLabels[0].text = "";
         alvoLabels[1].text = "";
+    }
+
+    public void PlaySoundMenuChange() {
+        srcMenu.PlayOneShot(clipMenuChange);
+    }
+
+    public void PlaySoundMenuCancel() {
+        srcMenu.PlayOneShot(clipMenuCancel);
+    }
+
+    public void PlaySoundMenuSelect() {
+        srcMenu.PlayOneShot(clipMenuSelect);
     }
 }

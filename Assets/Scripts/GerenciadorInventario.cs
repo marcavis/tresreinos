@@ -51,6 +51,7 @@ public class GerenciadorInventario : MonoBehaviour
     {
         if(entrada == Teclas.CANCEL) {
             entrada = 0;
+            gs.PlaySoundMenuCancel();
             if(estado == SELECAO_ITEM) {
                 VoltarAoMenuDeBatalha();
             } else if (estado == SELECAO_ACAO) {
@@ -59,6 +60,7 @@ public class GerenciadorInventario : MonoBehaviour
             }
         } else if(entrada == Teclas.ACTION) {
             entrada = 0;
+            gs.PlaySoundMenuSelect();
             if(estado == SELECAO_ITEM) {
                 Item itemAtual = unid.inventario[posItemSelecionado];
                 if(itemAtual != null) {
@@ -69,7 +71,6 @@ public class GerenciadorInventario : MonoBehaviour
                     //TODO: som de erro, seleção inválida
                 }
             } else if(estado == SELECAO_ACAO) {
-                
                 if(posAcaoSelecionada == 0) {
                     if(acoes[0].text == "> Desequipar <") {
                         unid.arma = DefinesArmas.armas["Punho"];
@@ -119,6 +120,7 @@ public class GerenciadorInventario : MonoBehaviour
         }
         else if(entrada == Teclas.DPAD) {
             entrada = 0;
+            gs.PlaySoundMenuChange();
             if(estado == SELECAO_ITEM) {
                 posItemSelecionado = posItemSelecionado - (int) direcao.y;
                 posItemSelecionado = (slots.Length + posItemSelecionado) % slots.Length;

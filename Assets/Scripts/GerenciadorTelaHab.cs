@@ -8,6 +8,7 @@ public class GerenciadorTelaHab : MonoBehaviour
     public GameObject cursor;
     public GameObject canvasAlvo;
     public GerenciadorInput gerenciadorInput;
+    private GerenciadorScript gs;
     public int entrada;
     public Vector3 direcao;
 
@@ -28,6 +29,7 @@ public class GerenciadorTelaHab : MonoBehaviour
         cursor = GameObject.Find("Cursor");
         canvasAlvo = GameObject.Find("CanvasAlvo");
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
+        gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
         slots = new Text[8];
         for (int i = 0; i < 8; i++)
         {
@@ -43,11 +45,12 @@ public class GerenciadorTelaHab : MonoBehaviour
     {
         if(entrada == Teclas.CANCEL) {
             entrada = 0;
+            gs.PlaySoundMenuCancel();
             VoltarAoMenuDeBatalha();
         }
         else if(entrada == Teclas.ACTION) {
             entrada = 0;
-
+            gs.PlaySoundMenuSelect();
             Habilidade aEscolher = unid.habilidades[posHabSelecionada];    
             
             if(!unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, false)) {
@@ -66,6 +69,7 @@ public class GerenciadorTelaHab : MonoBehaviour
         }
         else if(entrada == Teclas.DPAD) {
             entrada = 0;
+            gs.PlaySoundMenuChange();
             posHabSelecionada = posHabSelecionada - (int) direcao.y;
             posHabSelecionada = (slots.Length + posHabSelecionada) % slots.Length;
             MostrarHabilidades();

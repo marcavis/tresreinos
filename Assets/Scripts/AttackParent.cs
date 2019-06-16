@@ -8,6 +8,7 @@ public class AttackParent : MonoBehaviour
     private Animator l, r;
     private Image lImage, RImage;
     private GameObject canvas;
+    private AudioSource src;
 
     public void Init() {
         if (!canvas) {
@@ -32,6 +33,7 @@ public class AttackParent : MonoBehaviour
         l.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
         lImage = Instantiate(anim.GetComponent<Image>());
         lImage.transform.SetParent(canvas.transform, false);
+        src = l.GetComponent<AudioSource>();
     }
 
     public void SetRightAnimator(Animator anim) {
@@ -56,6 +58,7 @@ public class AttackParent : MonoBehaviour
     public void PlayLeft(string dano) {
         if (l) {
             l.Play("Atk");
+            src.Play();
             ControladorDano.criaTextoDano(dano, RImage.transform, 1f);
         }
     }
