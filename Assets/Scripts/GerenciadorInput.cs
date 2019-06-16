@@ -24,7 +24,7 @@ public class GerenciadorInput : MonoBehaviour
         telaInv = GameObject.Find("CanvasInventario");
         telaInvTroca = GameObject.Find("CanvasInventarioTroca");
         telaHab = GameObject.Find("CanvasHabilidades");
-        dialogo = GameObject.Find("GerenciadorDialogo");
+        dialogo = GameObject.Find("CanvasDialogo");
         cursores = new GameObject[] { cursor, gs, telaInv, telaInvTroca, telaHab, null, dialogo };
         cursorAtivo = 0; //cursor de seleção de unidade no campo
     }
@@ -52,10 +52,12 @@ public class GerenciadorInput : MonoBehaviour
                 {
                     travaDPAD = 0;
                 }
-                if (cursorAtivo != 0 && framesDPADSegurado > 14) 
+                if (cursorAtivo != 0) 
                 {
-                    travaDPAD = 0;
-                    framesDPADSegurado = 10;
+                    if(framesDPADSegurado > 14 || cursorAtivo == 6) {
+                        travaDPAD = 0;
+                        framesDPADSegurado = 10;
+                    }
                 }
             }
             if(travaDPAD == 0) {
@@ -80,6 +82,7 @@ public class GerenciadorInput : MonoBehaviour
         if(c == telaInvTroca) {telaInvTroca.GetComponent<GerenciadorInventarioTroca>().entrada = entrada;}
         if(c == telaHab) {telaHab.GetComponent<GerenciadorTelaHab>().entrada = entrada;}
         if(c == null) {} //cursor nulo, sendo controlado pelo jogo/inimigo
+        if(c == dialogo) {dialogo.GetComponent<GerenciadorDialogo>().entrada = entrada;}
     }
 
     void SetDirecao(GameObject c, Vector3 direcao) {
@@ -89,5 +92,6 @@ public class GerenciadorInput : MonoBehaviour
         if(c == telaInvTroca) {telaInvTroca.GetComponent<GerenciadorInventarioTroca>().direcao = direcao;}
         if(c == telaHab) {telaHab.GetComponent<GerenciadorTelaHab>().direcao = direcao;}
         if(c == null) {} //cursor nulo, sendo controlado pelo jogo/inimigo
+        if(c == dialogo) {dialogo.GetComponent<GerenciadorDialogo>().direcao = direcao;}
     }
 }
