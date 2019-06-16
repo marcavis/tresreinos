@@ -49,6 +49,7 @@ public class Personagem : MonoBehaviour
     
     private GerenciadorScript gs;
     private Animator anim;
+    private AttackParent ap;
     private int direcao;
 
     // Start is called before the first frame update
@@ -70,6 +71,7 @@ public class Personagem : MonoBehaviour
         gs.AdicionarPersonagem(gameObject);
         anim = GetComponent<Animator>();
         ControladorDano.Init();
+        ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
     }
 
     // Update is called once per frame
@@ -345,6 +347,7 @@ public class Personagem : MonoBehaviour
         pv = Mathf.Max(0, pv - novoDano);
         //debug
         //ControladorDano.criaTextoDano(novoDano.ToString(), transform);
+        ap.PlayLeft(novoDano);
         print(nome + " sofreu " + novoDano + " pontos de dano.");
 
         //dar 20 exp base se morrer, e variando de 0 a 30 linearmente conforme o dano proporcional causado pelo inimigo

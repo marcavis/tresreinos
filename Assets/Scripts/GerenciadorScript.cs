@@ -29,6 +29,7 @@ public class GerenciadorScript : MonoBehaviour
 
     public int entrada;
     public Vector3 direcao;
+    public bool canvasBatalhaAberto;
 
     public void AdicionarPersonagem(GameObject obj) {
         personagens.Add(obj.GetComponent<Personagem>());

@@ -113,6 +113,16 @@ public class Defines
         {herois[5], new string[] {"Tiro de dispersão", "Cura"}},
     };
 
+    public static Dictionary<string, Animator> animacoesAtk = new Dictionary<string, Animator>() {
+        {herois[0], Resources.Load<Animator>("Battle/Anims/ZhengXiulan")},
+        {herois[1], Resources.Load<Animator>("Battle/Anims/MiaoLin")},
+        {herois[2], Resources.Load<Animator>("Battle/Anims/TaoJiang")},
+        {herois[3], Resources.Load<Animator>("Battle/Anims/LiuJingsheng")},
+        {herois[4], Resources.Load<Animator>("Battle/Anims/JiangXun")},
+        {herois[5], Resources.Load<Animator>("Battle/Anims/GuanLong")},
+        {"Jueyuan", Resources.Load<Animator>("Battle/Anims/Orc")}
+    };
+
     public static void Inicializacao(string nome, GameObject objeto) {
         //mudar tudo isso se forem carregados dados na segunda fase - usar PlayerPrefs?
         Personagem unid = objeto.GetComponent<Personagem>();

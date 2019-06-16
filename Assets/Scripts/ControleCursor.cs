@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System;
 
 public class ControleCursor : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class ControleCursor : MonoBehaviour
     public GerenciadorInventario menuInventario;
     public GerenciadorInventarioTroca menuInventarioTroca;
     public GerenciadorTelaHab menuHabilidades;
+    private AttackParent ap;
     private List<Vector3> acessiveisUltimaUnidade;
     private List<Vector3> acessiveisAtaqueUltimaUnidade;
 
@@ -55,11 +57,14 @@ public class ControleCursor : MonoBehaviour
         menuInventario = GameObject.Find("CanvasInventario").GetComponent<GerenciadorInventario>();
         menuInventarioTroca = GameObject.Find("CanvasInventarioTroca").GetComponent<GerenciadorInventarioTroca>();
         menuHabilidades = GameObject.Find("CanvasHabilidades").GetComponent<GerenciadorTelaHab>();
+        ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+        ap.Init();
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        if (gs.canvasBatalhaAberto) return;
         if(entrada == Teclas.CANCEL) {
             //todo objeto, ao tratar um input, o consome para que não o trate novamente no próximo frame
             entrada = 0;
@@ -138,14 +143,25 @@ public class ControleCursor : MonoBehaviour
             } else if(acaoDoCursor == PROCURA_ALVO_ATAQUE) {
                 //se o cursor ainda não tiver chegado num tile válido, aguardar até isso acontecer
                 if(transform.position == novaPosicao) {
-                    ultimaUnidade.Atacar(gs.ObjetoNoTile(transform.position));
-                    Liberar();
-                    LimparOverlays();
-                    gs.SairMenuBatalha();
-                    gs.ReiniciarLabelsAlvo();
-                    //TODO: botar um delay
-                    gs.Proximo();
-                    finalizado = true;
+                    ap.Abrir();
+                    Personagem alvo = gs.ObjetoNoTile(transform.position);
+                    ap.SetLeftAnimator(Defines.animacoesAtk[ultimaUnidade.nome]);
+                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.nome]);
+                    StartCoroutine(SetTimeout(1f, () => {
+                        ultimaUnidade.Atacar(alvo);
+                        // ap.PlayLeft(10);
+                        Liberar();
+                        LimparOverlays();
+                        print("atacou");
+                    }, () => {
+                        ap.Fechar();
+                        gs.canvasBatalhaAberto = false;
+                        gs.SairMenuBatalha();
+                        gs.ReiniciarLabelsAlvo();
+                        //TODO: botar um delay
+                        gs.Proximo();
+                        finalizado = true;
+                    }));
                 }
             } else if(acaoDoCursor == PROCURA_ALVO_TROCA) {
                 //se o cursor ainda não tiver chegado num tile válido, aguardar até isso acontecer
@@ -411,6 +427,13 @@ public class ControleCursor : MonoBehaviour
             if(personagem != ultimaUnidade) {
                 tiles.Remove(personagem.transform.position);
             }
+        }
+    }
+
+    IEnumerator SetTimeout(float time, params Action[] actions) {
+        for (int i = 0; i < actions.Length; i++) {
+            yield return new WaitForSeconds(time);
+            actions[i]();
         }
     }
 }
