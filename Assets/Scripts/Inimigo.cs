@@ -20,7 +20,7 @@ public class Inimigo : MonoBehaviour
     private Personagem meuUltimoAlvo;
     
     //TODO: implementar
-    private List<Personagem> acabaramDeMeAtacar; //grava quem atacou a unidade na última rodada
+    public List<Personagem> acabaramDeMeAtacar; //grava quem atacou a unidade na última rodada
 
     private Tilemap tilemap;
     
@@ -36,6 +36,7 @@ public class Inimigo : MonoBehaviour
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         personagem = gameObject.GetComponent<Personagem>();
         ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+        acabaramDeMeAtacar = new List<Personagem>();
     }
 
     // Update is called once per frame
@@ -78,6 +79,7 @@ public class Inimigo : MonoBehaviour
                 StartCoroutine(SetTimeout(1f, () => personagem.Atacar(alvoEscolhidoParaAtacar), () => {
                     ap.Fechar();
                     gs.canvasBatalhaAberto = false;
+                    acabaramDeMeAtacar = new List<Personagem>();
                     FinalizarTurno();
                 }));
             } 
@@ -86,7 +88,6 @@ public class Inimigo : MonoBehaviour
     }
 
     public void Iniciar() {
-        acabaramDeMeAtacar = new List<Personagem>();
         inimigosAcessiveis = new List<Personagem>();
         List<Personagem> meusInimigos = gs.personagens.Where(x => x.time == 0).ToList();
         terrenoAcessivel = personagem.TilesAcessiveis(tilemap);

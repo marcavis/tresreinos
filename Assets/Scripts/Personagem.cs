@@ -345,6 +345,10 @@ public class Personagem : MonoBehaviour
         int novoDano = Mathf.FloorToInt(danoCalculado);
         if(novoDano < 1) {novoDano = 1;}
         pv = Mathf.Max(0, pv - novoDano);
+        if(time == 1) {
+            GetComponent<Inimigo>().acabaramDeMeAtacar.Add(atacante);
+        }
+
         //debug
         //ControladorDano.criaTextoDano(novoDano.ToString(), transform);
         if (time == 1) {
