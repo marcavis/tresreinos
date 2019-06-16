@@ -144,15 +144,14 @@ public class ControleCursor : MonoBehaviour
                 //se o cursor ainda não tiver chegado num tile válido, aguardar até isso acontecer
                 if(transform.position == novaPosicao) {
                     ap.Abrir();
+                    gs.canvasBatalhaAberto = true;
                     Personagem alvo = gs.ObjetoNoTile(transform.position);
                     ap.SetLeftAnimator(Defines.animacoesAtk[ultimaUnidade.nome]);
-                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.nome]);
+                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.name]);
                     StartCoroutine(SetTimeout(1f, () => {
                         ultimaUnidade.Atacar(alvo);
-                        // ap.PlayLeft(10);
                         Liberar();
                         LimparOverlays();
-                        print("atacou");
                     }, () => {
                         ap.Fechar();
                         gs.canvasBatalhaAberto = false;

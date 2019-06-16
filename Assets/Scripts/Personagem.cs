@@ -347,7 +347,11 @@ public class Personagem : MonoBehaviour
         pv = Mathf.Max(0, pv - novoDano);
         //debug
         //ControladorDano.criaTextoDano(novoDano.ToString(), transform);
-        ap.PlayLeft(novoDano);
+        if (time == 1) {
+            ap.PlayLeft(novoDano.ToString());
+        } else {
+            ap.PlayRight(novoDano.ToString());
+        }
         print(nome + " sofreu " + novoDano + " pontos de dano.");
 
         //dar 20 exp base se morrer, e variando de 0 a 30 linearmente conforme o dano proporcional causado pelo inimigo

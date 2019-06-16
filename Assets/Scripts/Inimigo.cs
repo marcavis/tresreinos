@@ -12,6 +12,7 @@ public class Inimigo : MonoBehaviour
     private GerenciadorScript gs;
     private GerenciadorInput input;
     private ControleCursor cursor;
+    private AttackParent ap;
     private Personagem personagem;
     private List<Personagem> inimigosAcessiveis;
     private List<Vector3> terrenoAcessivel;
@@ -34,11 +35,13 @@ public class Inimigo : MonoBehaviour
         cursor = GameObject.Find("Cursor").GetComponent<ControleCursor>();
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         personagem = gameObject.GetComponent<Personagem>();
+        ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gs.canvasBatalhaAberto) return;
         if(cooldown > 0) {
             cooldown--;
         } else {
@@ -68,8 +71,15 @@ public class Inimigo : MonoBehaviour
                     estado = 4;
                 }
             } else if(estado == 4) {
-                personagem.Atacar(alvoEscolhidoParaAtacar);
-                FinalizarTurno();
+                ap.Abrir();
+                ap.SetLeftAnimator(Defines.animacoesAtk[alvoEscolhidoParaAtacar.nome]);
+                ap.SetRightAnimator(Defines.animacoesAtk[personagem.name]);
+                gs.canvasBatalhaAberto = true;
+                StartCoroutine(SetTimeout(1f, () => personagem.Atacar(alvoEscolhidoParaAtacar), () => {
+                    ap.Fechar();
+                    gs.canvasBatalhaAberto = false;
+                    FinalizarTurno();
+                }));
             } 
         }
         
@@ -229,5 +239,12 @@ public class Inimigo : MonoBehaviour
             }
         }
         return inimigos;
+    }
+
+    IEnumerator SetTimeout(float time, params System.Action[] actions) {
+        for (int i = 0; i < actions.Length; i++) {
+            yield return new WaitForSeconds(time);
+            actions[i]();
+        }
     }
 }

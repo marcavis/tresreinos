@@ -120,7 +120,9 @@ public class Defines
         {herois[3], Resources.Load<Animator>("Battle/Anims/LiuJingsheng")},
         {herois[4], Resources.Load<Animator>("Battle/Anims/JiangXun")},
         {herois[5], Resources.Load<Animator>("Battle/Anims/GuanLong")},
-        {"Jueyuan", Resources.Load<Animator>("Battle/Anims/Orc")}
+        {"Jueyuan", Resources.Load<Animator>("Battle/Anims/Jueyuan")},
+        {"Jueyuan (1)", Resources.Load<Animator>("Battle/Anims/Jueyuan (1)")},
+        {"Jueyuan (2)", Resources.Load<Animator>("Battle/Anims/Jueyuan (2)")}
     };
 
     public static void Inicializacao(string nome, GameObject objeto) {

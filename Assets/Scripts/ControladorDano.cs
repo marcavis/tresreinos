@@ -25,9 +25,9 @@ public class ControladorDano : MonoBehaviour
         
     }
 
-    public static void criaTextoDano(string texto, Transform t) {
+    public static void criaTextoDano(string texto, Transform t, float xOffset) {
         ControladorTxtDano txtDano = Instantiate(popupText);
-        Vector2 txtPosition = new Vector2(t.position.x, t.position.y);
+        Vector2 txtPosition = new Vector2(t.position.x + xOffset, t.position.y);
         txtDano.transform.SetParent(canvas.transform, false);
         txtDano.transform.position = txtPosition;
         txtDano.setText(texto);

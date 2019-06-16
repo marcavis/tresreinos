@@ -53,15 +53,18 @@ public class AttackParent : MonoBehaviour
         Destroy(lImage);
     }
 
-    public void PlayLeft(int dano) {
+    public void PlayLeft(string dano) {
         if (l) {
             l.Play("Atk");
-            ControladorDano.criaTextoDano(dano.ToString(), RImage.transform);
+            ControladorDano.criaTextoDano(dano, RImage.transform, 1f);
         }
     }
 
-    public void PlayRight() {
-        if (r) r.Play("Atk");
+    public void PlayRight(string dano) {
+        if (r) {
+            r.Play("Atk");
+            ControladorDano.criaTextoDano(dano, lImage.transform, -1f);
+        }
     }
 
 }

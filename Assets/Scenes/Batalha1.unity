@@ -19181,8 +19181,8 @@ MonoBehaviour:
   - {fileID: 277898657}
   entrada: 0
   direcao: {x: 0, y: 0, z: 0}
-  estadoBatalha: 0
   canvasBatalhaAberto: 0
+  estadoBatalha: 0
 --- !u!4 &1745620421
 Transform:
   m_ObjectHideFlags: 0
