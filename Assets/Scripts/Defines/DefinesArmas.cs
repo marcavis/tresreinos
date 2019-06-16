@@ -22,32 +22,32 @@ public class DefinesArmas
         //ataca duas vezes normalmente, ou três em criticals
         {"Chu-Ko-Nu", new Arma("Chu-Ko-Nu", "000100", 1, 25f, 1, 2, 0, 0, 
                     (dono, alvo) => {
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
                     }, 
                     (dono, alvo) => {
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
                     })},
         
         //talvez dar um efeito crítico de redução de defesa?
         {"Machado", new Arma("Machado", "001000", 5, 35f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao, Arma.efeitoCriticoPadrao)},
         {"Espadas-Borboleta", new Arma("Espadas-Borboleta", "010000", 3, 15f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
                     })},
 
         {"Bastão", new Arma("Bastão", "100000", 2, 20f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
                         //talvez fazer tropeçar e perder progresso até a próxima rodada?
                         alvo.iniciativa -= 400;
                     })},
         {"Jueyuan", new Arma("Jueyuan", "000000", 0, 20f, 2, 3, 0, 0, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
-                        alvo.ReceberAtaque(dono.Ataque() + dono.arma.poder, dono);
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
                         //causar efeito especial, como confusão no critical hit?
                     })}
 
