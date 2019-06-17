@@ -6398,24 +6398,6 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 2
       m_ColliderType: 0
-  - first: {x: -6, y: -2, z: 0}
-    second:
-      m_TileIndex: 4
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 2
-      m_ColliderType: 0
-  - first: {x: -5, y: -2, z: 0}
-    second:
-      m_TileIndex: 4
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 2
-      m_ColliderType: 0
   - first: {x: -4, y: -2, z: 0}
     second:
       m_TileIndex: 12
@@ -6762,24 +6744,6 @@ Tilemap:
     second:
       m_TileIndex: 12
       m_TileSpriteIndex: 35
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 2
-      m_ColliderType: 0
-  - first: {x: 4, y: -1, z: 0}
-    second:
-      m_TileIndex: 5
-      m_TileSpriteIndex: 78
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 2
-      m_ColliderType: 0
-  - first: {x: 5, y: -1, z: 0}
-    second:
-      m_TileIndex: 5
-      m_TileSpriteIndex: 78
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -13032,9 +12996,9 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 1e258ed7d3b494178bebe8428ca52474, type: 2}
   - m_RefCount: 1014
     m_Data: {fileID: 11400000, guid: 25ede9dd701fe7944bf321b1b4318973, type: 2}
-  - m_RefCount: 30
+  - m_RefCount: 28
     m_Data: {fileID: 11400000, guid: c68842a672a71cc008097666aa959024, type: 2}
-  - m_RefCount: 27
+  - m_RefCount: 25
     m_Data: {fileID: 11400000, guid: ca941117e1d9265f9a534aa1f643e6a0, type: 2}
   - m_RefCount: 27
     m_Data: {fileID: 11400000, guid: 0b755832a17a922adb2bf333bb19ab86, type: 2}
@@ -13053,7 +13017,7 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 73a28f15be76a5778adbb172e832b0d2, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 4
+  - m_RefCount: 2
     m_Data: {fileID: 21300022, guid: b337f4ddac1175cad91ef3150bc3d758, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300040, guid: b337f4ddac1175cad91ef3150bc3d758, type: 3}
@@ -13209,8 +13173,8 @@ Tilemap:
     m_Data: {fileID: 21300070, guid: b337f4ddac1175cad91ef3150bc3d758, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300010, guid: da27a00996d54a80bb11edaebe79edfc, type: 3}
-  - m_RefCount: 2
-    m_Data: {fileID: 21300000, guid: 37f15959bf62736f5b6a9d7ab34c8c6a, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 21300010, guid: 459ded2ad6dc2730c8707422db1bb591, type: 3}
   - m_RefCount: 1
@@ -13222,7 +13186,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 21300030, guid: da27a00996d54a80bb11edaebe79edfc, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 1186
+  - m_RefCount: 1182
     m_Data:
       e00: 1
       e01: 0
@@ -13277,7 +13241,7 @@ Tilemap:
       e32: 0
       e33: 9.1835e-41
   m_TileColorArray:
-  - m_RefCount: 1184
+  - m_RefCount: 1180
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 0
     m_Data: {r: 0, g: 0, b: 0, a: 0}
@@ -19137,12 +19101,12 @@ PrefabInstance:
     - target: {fileID: 3101546853217239819, guid: f07a0568b2f89aabdb056f1154ef931e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3101546853217239819, guid: f07a0568b2f89aabdb056f1154ef931e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3101546853217239819, guid: f07a0568b2f89aabdb056f1154ef931e,
         type: 3}
@@ -23086,7 +23050,7 @@ PrefabInstance:
     - target: {fileID: 3101546853217239819, guid: 42dcc1ce6c265a3de8f8f62f3c50d700,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3101546853217239819, guid: 42dcc1ce6c265a3de8f8f62f3c50d700,
         type: 3}
