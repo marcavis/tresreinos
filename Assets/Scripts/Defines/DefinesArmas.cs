@@ -50,7 +50,7 @@ public class DefinesArmas
                         alvo.ReceberAtaque(dono.Ataque(), dono);
                         //causar efeito especial, como confusão no critical hit?
                     })},
-        {"Capitão Ogro", new Arma("Capitão Ogro", "000000", 0, 20f, 2, 3, 0, 0, Arma.efeitoAtaquePadrao,
+        {"Chefe Ogro", new Arma("Chefe Ogro", "000000", 0, 20f, 2, 3, 0, 0, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
                         alvo.ReceberAtaque(dono.Ataque(), dono);
                         //causar efeito especial, como confusão no critical hit?

@@ -25,7 +25,7 @@ public class Defines
         {herois[5], ANDAR_NORMAL},
 
         {"Ogro", ANDAR_TRILHA},
-        {"Capitão Ogro", ANDAR_TRILHA},
+        {"Chefe Ogro", ANDAR_TRILHA},
         {"Esqueleto", ANDAR_NORMAL},
     };
     public static Dictionary<string, int> Andar(int tipo) {
@@ -69,7 +69,7 @@ public class Defines
         {herois[5], new int[] {24,  8, 15, 14, 17, 50, 1}},
 
         {"Ogro",         new int[] {16,  0, 16, 10, 16, 60, 1}},
-        {"Capitão Ogro", new int[] {24,  0, 18, 12, 20, 60, 3}},
+        {"Chefe Ogro", new int[] {24,  0, 18, 12, 20, 60, 3}},
         {"Esqueleto",    new int[] {12,  0, 19, 10, 18, 50, 2}},
     };
 
@@ -82,7 +82,7 @@ public class Defines
         {herois[5], new float[] {2.4f, 0.8f, 1.5f, 1.4f, 1.7f}},
 
         {"Ogro",         new float[] {1.6f, 0.0f, 1.6f, 1.0f, 1.6f}},
-        {"Capitão Ogro", new float[] {2.4f, 0.0f, 1.8f, 1.2f, 2.0f}},
+        {"Chefe Ogro", new float[] {2.4f, 0.0f, 1.8f, 1.2f, 2.0f}},
         {"Esqueleto",    new float[] {1.2f, 0.0f, 1.9f, 1.0f, 1.8f}},
     };
     public static Dictionary<string, string> armasIniciais = new Dictionary<string, string>() {
@@ -124,7 +124,7 @@ public class Defines
         {herois[4], Resources.Load<Animator>("Battle/Anims/JiangXun")},
         {herois[5], Resources.Load<Animator>("Battle/Anims/GuanLong")},
         {"Ogro", Resources.Load<Animator>("Battle/Anims/Ogro")},
-        {"Capitão Ogro", Resources.Load<Animator>("Battle/Anims/CapOgro")},
+        {"Chefe Ogro", Resources.Load<Animator>("Battle/Anims/CapOgro")},
         {"Esqueleto", Resources.Load<Animator>("Battle/Anims/Esqueleto")}
     };
 
