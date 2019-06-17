@@ -33,7 +33,7 @@ public class DefinesHabilidades
             Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
             foreach (var p in alvos) {
                 if(p.time == 1) {
-                    p.ReceberDano(5, dono);
+                    p.ReceberAtaqueHabilidade(50, dono);
                 }
             }
         }, 
@@ -41,7 +41,7 @@ public class DefinesHabilidades
             Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
             foreach (var p in alvos) {
                 if(p.time == 1) {
-                    p.ReceberDano(5, dono);
+                    p.ReceberAtaqueHabilidade(50, dono);
                 }
             }
         }, false)}

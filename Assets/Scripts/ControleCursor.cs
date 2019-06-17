@@ -157,7 +157,6 @@ public class ControleCursor : MonoBehaviour
                         gs.canvasBatalhaAberto = false;
                         gs.SairMenuBatalha();
                         gs.ReiniciarLabelsAlvo();
-                        //TODO: botar um delay
                         gs.ProximoSeEmBatalha();
                         finalizado = true;
                     }));
@@ -175,11 +174,9 @@ public class ControleCursor : MonoBehaviour
                         gs.SairMenuBatalha();
                         menuInventario.FecharMenu();
                         gs.ReiniciarLabelsAlvo();
-                        //TODO: botar um delay
                         gs.ProximoSeEmBatalha();
                         finalizado = true;
                     } else {
-                        //TODO:implementar troca pedindo um item do recebedor
                         LimparOverlays();
                         gerenciadorInput.cursorAtivo = 3;
                         menuInventarioTroca.AbrirMenu(ultimaUnidade, recebedor, indiceItemSelecionado);
@@ -190,14 +187,25 @@ public class ControleCursor : MonoBehaviour
                 if(transform.position == novaPosicao) {
                     //informar onde o cursor está para o personagem - este vai definir quais alvos serão afetados
                     //acessando a variável areaDeEfeito da habilidadeAtual
-                    ultimaUnidade.UsarHabilidade(transform.position);
-                    Liberar();
-                    LimparOverlays();
-                    gs.SairMenuBatalha();
-                    gs.ReiniciarLabelsAlvo();
-                    //TODO: botar um delay
-                    gs.ProximoSeEmBatalha();
-                    finalizado = true;
+
+                    ap.Abrir();
+                    gs.canvasBatalhaAberto = true;
+                    Personagem alvo = gs.ObjetoNoTile(transform.position);
+                    ap.SetLeftAnimator(Defines.animacoesAtk[ultimaUnidade.nome]);
+                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.name]);
+                    
+                    StartCoroutine(SetTimeout(1f, () => {
+                        ultimaUnidade.UsarHabilidade(transform.position);
+                        Liberar();
+                        LimparOverlays();
+                    }, () => {
+                        ap.Fechar();
+                        gs.canvasBatalhaAberto = false;
+                        gs.SairMenuBatalha();
+                        gs.ReiniciarLabelsAlvo();
+                        gs.ProximoSeEmBatalha();
+                        finalizado = true;
+                    }));
                 }
             }
             //se o cursor foi acionado quando o cursor ainda não havia chegado à posição para qual foi movido,
