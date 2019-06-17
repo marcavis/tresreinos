@@ -74,7 +74,7 @@ public class Inimigo : MonoBehaviour
             } else if(estado == 4) {
                 ap.Abrir();
                 ap.SetLeftAnimator(Defines.animacoesAtk[alvoEscolhidoParaAtacar.nome]);
-                ap.SetRightAnimator(Defines.animacoesAtk[personagem.name]);
+                ap.SetRightAnimator(Defines.animacoesAtk[personagem.nome]);
                 gs.canvasBatalhaAberto = true;
                 StartCoroutine(SetTimeout(1f, () => personagem.Atacar(alvoEscolhidoParaAtacar), () => {
                     ap.Fechar();

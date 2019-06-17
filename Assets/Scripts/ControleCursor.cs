@@ -147,7 +147,7 @@ public class ControleCursor : MonoBehaviour
                     gs.canvasBatalhaAberto = true;
                     Personagem alvo = gs.ObjetoNoTile(transform.position);
                     ap.SetLeftAnimator(Defines.animacoesAtk[ultimaUnidade.nome]);
-                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.name]);
+                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.nome]);
                     StartCoroutine(SetTimeout(1f, () => {
                         ultimaUnidade.Atacar(alvo);
                         Liberar();
@@ -192,7 +192,7 @@ public class ControleCursor : MonoBehaviour
                     gs.canvasBatalhaAberto = true;
                     Personagem alvo = gs.ObjetoNoTile(transform.position);
                     ap.SetLeftAnimator(Defines.animacoesAtk[ultimaUnidade.nome]);
-                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.name]);
+                    ap.SetRightAnimator(Defines.animacoesAtk[alvo.nome]);
                     
                     StartCoroutine(SetTimeout(1f, () => {
                         ultimaUnidade.UsarHabilidade(transform.position);

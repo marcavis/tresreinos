@@ -24,7 +24,9 @@ public class Defines
         {herois[4], ANDAR_NORMAL},
         {herois[5], ANDAR_NORMAL},
 
-        {"Jueyuan", ANDAR_TRILHA},
+        {"Ogro", ANDAR_TRILHA},
+        {"Capitão Ogro", ANDAR_TRILHA},
+        {"Esqueleto", ANDAR_NORMAL},
     };
     public static Dictionary<string, int> Andar(int tipo) {
         
@@ -66,7 +68,9 @@ public class Defines
         {herois[4], new int[] {24,  7, 14, 12, 22, 60, 1}},
         {herois[5], new int[] {24,  8, 15, 14, 17, 50, 1}},
 
-        {"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 50}},
+        {"Ogro",         new int[] {16,  0, 16, 10, 16, 60, 1}},
+        {"Capitão Ogro", new int[] {24,  0, 18, 12, 20, 60, 3}},
+        {"Esqueleto",    new int[] {12,  0, 19, 10, 18, 50, 2}},
     };
 
     public static Dictionary<string, float[]> crescimentoPorNivel = new Dictionary<string, float[]>() {
@@ -77,7 +81,9 @@ public class Defines
         {herois[4], new float[] {2.4f, 0.7f, 1.4f, 1.2f, 2.2f}},
         {herois[5], new float[] {2.4f, 0.8f, 1.5f, 1.4f, 1.7f}},
 
-        {"Jueyuan", new float[] {1.5f, 0.0f, 1.8f, 1.0f, 2.2f}},
+        {"Ogro",         new float[] {1.6f, 0.0f, 1.6f, 1.0f, 1.6f}},
+        {"Capitão Ogro", new float[] {2.4f, 0.0f, 1.8f, 1.2f, 2.0f}},
+        {"Esqueleto",    new float[] {1.2f, 0.0f, 1.9f, 1.0f, 1.8f}},
     };
     public static Dictionary<string, string> armasIniciais = new Dictionary<string, string>() {
         
@@ -87,8 +93,6 @@ public class Defines
         {herois[3], "Chu-Ko-Nu"},
         {herois[4], "Lança"},
         {herois[5], "Espada"},
-
-        //{"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 2}},
     };
 
     //não é necessário adicionar a arma inicial neste ponto
@@ -101,7 +105,6 @@ public class Defines
         {herois[4], new string[] {"Chá Verde"}},
         {herois[5], new string[] {"Chá Verde"}},
 
-        //{"Jueyuan", new int[] {15,  0, 18, 10, 22, 60, 2}},
     };
 
     public static Dictionary<string, string[]> habilidadesIniciais = new Dictionary<string, string[]>() {
@@ -120,9 +123,9 @@ public class Defines
         {herois[3], Resources.Load<Animator>("Battle/Anims/LiuJingsheng")},
         {herois[4], Resources.Load<Animator>("Battle/Anims/JiangXun")},
         {herois[5], Resources.Load<Animator>("Battle/Anims/GuanLong")},
-        {"Jueyuan", Resources.Load<Animator>("Battle/Anims/Jueyuan")},
-        {"Jueyuan (1)", Resources.Load<Animator>("Battle/Anims/Jueyuan (1)")},
-        {"Jueyuan (2)", Resources.Load<Animator>("Battle/Anims/Jueyuan (2)")}
+        {"Ogro", Resources.Load<Animator>("Battle/Anims/Ogro")},
+        {"Capitão Ogro", Resources.Load<Animator>("Battle/Anims/CapOgro")},
+        {"Esqueleto", Resources.Load<Animator>("Battle/Anims/Esqueleto")}
     };
 
     public static void Inicializacao(string nome, GameObject objeto) {

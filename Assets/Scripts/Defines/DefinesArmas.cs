@@ -45,11 +45,21 @@ public class DefinesArmas
                         //talvez fazer tropeçar e perder progresso até a próxima rodada?
                         alvo.iniciativa -= 400;
                     })},
-        {"Jueyuan", new Arma("Jueyuan", "000000", 0, 20f, 2, 3, 0, 0, Arma.efeitoAtaquePadrao,
+        {"Ogro", new Arma("Ogro", "000000", 0, 20f, 2, 3, 0, 0, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
                         alvo.ReceberAtaque(dono.Ataque(), dono);
                         //causar efeito especial, como confusão no critical hit?
-                    })}
+                    })},
+        {"Capitão Ogro", new Arma("Capitão Ogro", "000000", 0, 20f, 2, 3, 0, 0, Arma.efeitoAtaquePadrao,
+                    (dono, alvo) => {
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        //causar efeito especial, como confusão no critical hit?
+                    })},
+        {"Esqueleto", new Arma("Esqueleto", "000000", 0, 20f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao,
+                    (dono, alvo) => {
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        //causar efeito especial, como sangramento?
+                    })},
 
     };
 }
