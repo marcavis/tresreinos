@@ -33,7 +33,7 @@ public class AttackParent : MonoBehaviour
         // l.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
         lImage = Instantiate(anim.GetComponent<Image>());
         lImage.transform.SetParent(canvas.transform, false);
-        lSrc = l.GetComponent<AudioSource>();
+        lSrc = Instantiate(l.GetComponent<AudioSource>());
     }
 
     public void SetRightAnimator(Animator anim) {
@@ -41,7 +41,11 @@ public class AttackParent : MonoBehaviour
         // r.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
         RImage = Instantiate(anim.GetComponent<Image>());
         RImage.transform.SetParent(canvas.transform, false);
-        rSrc = r.GetComponent<AudioSource>();
+        if (RImage.rectTransform.localPosition.x < 0) {
+            RImage.rectTransform.localPosition = new Vector3(-RImage.rectTransform.localPosition.x, RImage.rectTransform.localPosition.y, RImage.rectTransform.localPosition.z);
+            RImage.rectTransform.localRotation = new Quaternion(RImage.rectTransform.localRotation.x, 180, RImage.rectTransform.localRotation.z, RImage.rectTransform.localRotation.w); 
+        }
+        rSrc = Instantiate(r.GetComponent<AudioSource>());
     }
 
     public void Abrir() {
@@ -50,28 +54,36 @@ public class AttackParent : MonoBehaviour
 
     public void Fechar() {
         canvas.GetComponent<Canvas>().enabled = false;
+        Destroy(l.gameObject);
         Destroy(l);
+        Destroy(r.gameObject);
         Destroy(r);
+        Destroy(RImage.gameObject);
         Destroy(RImage);
+        Destroy(lImage.gameObject);
         Destroy(lImage);
+        Destroy(rSrc.gameObject);
+        Destroy(rSrc);
+        Destroy(lSrc.gameObject);
+        Destroy(lSrc);
     }
 
-    public void PlayLeft(string dano) {
+    public void PlayLeft(string dano, bool isDano, float xOffset = 1f, float yOffset = 0f) {
         if (l) {
             l.SetBool("atacando", true);
             lSrc.Play();
             StartCoroutine(EndAnim(l));
         }
-        ControladorDano.criaTextoDano(dano, RImage.transform, 1f);
+        ControladorDano.criaTexto(dano, RImage.transform, xOffset, yOffset, isDano);
     }
 
-    public void PlayRight(string dano) {
+    public void PlayRight(string dano, float xOffset = -1f, float yOffset = 0f) {
         if (r) {
             r.SetBool("atacando", true);
             rSrc.Play();
             StartCoroutine(EndAnim(r));
         }
-        ControladorDano.criaTextoDano(dano, lImage.transform, -1f);
+        ControladorDano.criaTexto(dano, lImage.transform, xOffset, yOffset, true);
     }
 
     IEnumerator EndAnim(Animator anim) {

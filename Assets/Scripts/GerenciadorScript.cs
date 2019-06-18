@@ -38,6 +38,7 @@ public class GerenciadorScript : MonoBehaviour
     public AudioClip clipMenuSelect;
     public AudioClip clipMenuCancel;
     public AudioClip clipMenuChange;
+    public AudioClip clipMenuErro;
 
     public void AdicionarPersonagem(GameObject obj) {
         personagens.Add(obj.GetComponent<Personagem>());
@@ -88,16 +89,14 @@ public class GerenciadorScript : MonoBehaviour
         }
         else if(entrada == Teclas.ACTION) {
             entrada = 0;
-            PlaySoundMenuSelect();
+            bool somErro = false;
             //atacar 
             if(opcaoMenuBatalha == 0){
-                // PlaySoundMenuSelect();
                 Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
                 if(!unid.ExistemPersonagensAlvos(unid.arma.alcanceMin, unid.arma.alcanceMax, false)) {
-                    //som de erro
+                    somErro = true;
                     //print("não pode atacar");
                 } else {
-                    // PlaySoundMenuSelect();
                     gerenciadorInput.cursorAtivo = 0;
                     canvasAlvo.GetComponent<Canvas>().enabled = true;
                     //o jogo ficará circulando entre os alvos permitidos, então começaremos
@@ -127,6 +126,7 @@ public class GerenciadorScript : MonoBehaviour
                 ProximoSeEmBatalha();
                 //print(cursor.GetComponent<ControleCursor>().acaoDoCursor);
             }
+            PlaySoundMenuSelect(somErro);
         } else if(entrada == Teclas.DPAD) {
             entrada = 0;
             PlaySoundMenuChange();
@@ -274,7 +274,7 @@ public class GerenciadorScript : MonoBehaviour
         srcMenu.PlayOneShot(clipMenuCancel);
     }
 
-    public void PlaySoundMenuSelect() {
-        srcMenu.PlayOneShot(clipMenuSelect);
+    public void PlaySoundMenuSelect(bool erro = false) {
+        srcMenu.PlayOneShot(erro ? clipMenuErro : clipMenuSelect);
     }
 }

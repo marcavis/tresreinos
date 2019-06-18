@@ -18913,6 +18913,7 @@ MonoBehaviour:
   clipMenuSelect: {fileID: 8300000, guid: db78cb5bbb591d94399e5fd4fe3f0c60, type: 3}
   clipMenuCancel: {fileID: 8300000, guid: b8b4d3688d7c2b24384a8b6afe0ff6af, type: 3}
   clipMenuChange: {fileID: 8300000, guid: df43dfeae3751444686395e28380f69a, type: 3}
+  clipMenuErro: {fileID: 8300000, guid: 4101a456c168ce84bbb2c2f906499300, type: 3}
 --- !u!4 &1745620421
 Transform:
   m_ObjectHideFlags: 0

@@ -60,7 +60,7 @@ public class GerenciadorInventario : MonoBehaviour
             }
         } else if(entrada == Teclas.ACTION) {
             entrada = 0;
-            gs.PlaySoundMenuSelect();
+            bool somErro = false;
             if(estado == SELECAO_ITEM) {
                 Item itemAtual = unid.inventario[posItemSelecionado];
                 if(itemAtual != null) {
@@ -68,7 +68,7 @@ public class GerenciadorInventario : MonoBehaviour
                     estado = SELECAO_ACAO;
                     MostrarAcoes();
                 } else {
-                    //TODO: som de erro, seleção inválida
+                    somErro = true;
                 }
             } else if(estado == SELECAO_ACAO) {
                 if(posAcaoSelecionada == 0) {
@@ -81,7 +81,7 @@ public class GerenciadorInventario : MonoBehaviour
                         gs.AtualizarMenuBatalha();
                     } else {
                         if(itemSelecionado.efeitoUso == null) {
-                            //TODO: som de erro, não usar item, não terminar rodada
+                            somErro = true;
                         }
                         //usar o item
                         //TODO: deve ir para o cursor para achar um alvo
@@ -89,7 +89,7 @@ public class GerenciadorInventario : MonoBehaviour
                     }
                 } else if(posAcaoSelecionada == 1) { 
                     if(!unid.ExistemPersonagensAlvos(1, 1, true)) {
-                        //som de erro
+                        somErro = true;
                         //print("não pode trocar item");
                     } else {
                         gerenciadorInput.cursorAtivo = 0;
@@ -117,6 +117,7 @@ public class GerenciadorInventario : MonoBehaviour
                 }
                 MostrarArmaEquipada();
             }
+            gs.PlaySoundMenuSelect(somErro);
         }
         else if(entrada == Teclas.DPAD) {
             entrada = 0;
