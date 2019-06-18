@@ -51,17 +51,21 @@ public class GerenciadorDialogo : MonoBehaviour
             }
             if(ultimoTipoDeAcao == MENSAGEM) {
                 progressoMsg += 0.25f;
-                if(entrada == Teclas.CANCEL | entrada == Teclas.ACTION) {
-                    entrada = 0;
-                    if(progressoMsg > mensagem.Length) {
-                        cooldown = 0;
-                    } else {
-                        progressoMsg = mensagem.Length;
+                if(caixaTexto.text.Length > 0) {
+                    if(entrada == Teclas.CANCEL | entrada == Teclas.ACTION) {
+                        entrada = 0;
+                        if(progressoMsg > mensagem.Length) {
+                            cooldown = 0;
+                        } else {
+                            progressoMsg = mensagem.Length;
+                        }
                     }
-                }
-                if(entrada == Teclas.DPAD) {
+                    if(entrada == Teclas.DPAD) {
+                        entrada = 0;
+                        progressoMsg += 0.75f;
+                    }
+                } else {
                     entrada = 0;
-                    progressoMsg += 0.75f;
                 }
                 progressoMsg = Mathf.Min(progressoMsg, mensagem.Length);
                 caixaTexto.text = mensagem.Substring(0, Mathf.FloorToInt(progressoMsg));
