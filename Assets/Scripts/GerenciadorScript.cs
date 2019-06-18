@@ -221,22 +221,27 @@ public class GerenciadorScript : MonoBehaviour
         canvas.GetComponent<Canvas>().enabled = true;
     }
 
-    //versão usada por inimigos
-    public void MostrarMenuBatalhaDoInimigo() {
+    //versão usada por inimigos e unidades não selecionadas
+    public void MostrarMenuBatalhaInativo(Personagem unid) {
         for (int i = 0; i < menuBatalha.Length; i++)
         {
             menuBatalha[i].text = "";
         }
-        AtualizarMenuBatalha();
+        AtualizarMenuBatalha(unid);
         canvas.GetComponent<Canvas>().enabled = true;
     }
 
-    public void AtualizarMenuBatalha() {
-        Personagem unid = cursor.GetComponent<ControleCursor>().ultimaUnidade;
+    
+
+    public void AtualizarMenuBatalha(Personagem unid) {
         labels[0].text = unid.nome + " Nv. " + unid.nivel;
         labels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.MPV());
         labels[2].text = string.Format("PT: {0,3:D3}/{1,3:D3}", unid.pt, unid.MPT());
         labels[3].text = string.Format("ATQ: {0,2:D2} DEF: {1,2:D2} AGI: {2,2:D2} MOV: {3,2:D2}", unid.Ataque(), unid.Defesa(), unid.Agilidade(), unid.Movimento()/10);
+    }
+
+    public void AtualizarMenuBatalha() {
+        AtualizarMenuBatalha(cursor.GetComponent<ControleCursor>().ultimaUnidade);
     }
 
     public void SairMenuBatalha() {

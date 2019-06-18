@@ -93,7 +93,7 @@ public class Inimigo : MonoBehaviour
         terrenoAcessivel = personagem.TilesAcessiveis(tilemap);
         cursor.MostrarOverlaysMovimento(terrenoAcessivel);
         cursor.ultimaUnidade = personagem;
-        gs.MostrarMenuBatalhaDoInimigo();
+        gs.MostrarMenuBatalhaInativo(personagem);
         porOndeAtacar = new Dictionary<Personagem, List<Vector3>>();
         foreach (Personagem p in meusInimigos)
         {

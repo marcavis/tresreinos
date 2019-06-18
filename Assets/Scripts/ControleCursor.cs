@@ -72,6 +72,7 @@ public class ControleCursor : MonoBehaviour
                 //outro cancelar ("ESC") retorna o cursor anteriormente selecionada
                 novaPosicao = posicaoInicialDaUnidade;
                 podeMover = false;
+                gs.SairMenuBatalha();
             } else if(acaoDoCursor == SELECIONADO) {
                 LimparOverlays();
                 if(ultimaUnidade != null) {
@@ -258,7 +259,6 @@ public class ControleCursor : MonoBehaviour
                 //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
                 gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(alvos[indiceAlvoSelecionado]));
             } else {
-                
                 novoX = transform.position.x + direcao.x;
                 novoY = transform.position.y + direcao.y;
                 Vector3Int talvezNovaPosicao1 = new Vector3Int((int) novoX, (int) novoY, 0);
@@ -270,6 +270,12 @@ public class ControleCursor : MonoBehaviour
                         novaPosicao = pos;
                         break;
                     }
+                }
+                Personagem talvezSobCursor = gs.ObjetoNoTile(novaPosicao);
+                if(talvezSobCursor) {
+                    gs.MostrarMenuBatalhaInativo(talvezSobCursor);
+                } else {
+                    gs.SairMenuBatalha();
                 }
             }
             podeMover = false;
