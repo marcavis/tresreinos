@@ -62,6 +62,12 @@ public class GerenciadorScript : MonoBehaviour
         GameObject.Find("CanvasDialogo").GetComponent<Canvas>().enabled = false;
         dialogo = GameObject.Find("CanvasDialogo").GetComponent<GerenciadorDialogo>();
 
+        menuBatalha = new Text[] {
+            GameObject.Find("AttackBtn").GetComponent<Text>(),
+            GameObject.Find("SkillBtn").GetComponent<Text>(),
+            GameObject.Find("ItemBtn").GetComponent<Text>(),
+            GameObject.Find("WaitBtn").GetComponent<Text>()
+        };
 
         labels = new Text[4];
         labels[0] = GameObject.Find("NomeLabel").GetComponent<Text>();
@@ -167,6 +173,7 @@ public class GerenciadorScript : MonoBehaviour
             Proximo();
         }
     }
+    
     public void Proximo() {
         
         if(personagens.Where((a) => a.time == 0).ToList().Count == 0) {

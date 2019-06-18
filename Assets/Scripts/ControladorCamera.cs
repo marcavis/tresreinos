@@ -17,6 +17,7 @@ public class ControladorCamera : MonoBehaviour
         // offset = transform.position - cursor.GetComponent<ControleCursor>().novaPosicao;
         transform.position = new Vector3(transform.position.x, transform.position.y, -10);
         novaPosicao = transform.position;
+        cursor = GameObject.Find("Cursor");
     }
 
     // Update is called once per frame

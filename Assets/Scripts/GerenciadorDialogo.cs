@@ -82,7 +82,11 @@ public class GerenciadorDialogo : MonoBehaviour
 
     public void Executar(string cena) {
         finalizado = false;
-        acoes = DefinesDialogos.dialogos[cena];
+        if(DefinesDialogos.dialogos.ContainsKey(cena)) {
+            acoes = DefinesDialogos.dialogos[cena];
+        } else {
+            acoes = new List<Action<GerenciadorDialogo>> {};
+        }
         progressoMsg = 0f;
         progressoAcoes = 0;
         cooldown = cooldownPadrao / 4;

@@ -14,6 +14,9 @@ public class DefinesDialogos
 
     //se mover uma unidade, é bom mover o cursor também para a nova posição da unidade, depois de completa a movimentação
     public static Dictionary<string, List<Action<GerenciadorDialogo>>> dialogos = new Dictionary<string, List<Action<GerenciadorDialogo>>> {
+        {"Levelup", new List<Action<GerenciadorDialogo>> {
+            gd => {gd.Dialogo("Subida de nível!", "{} agora está mais forte!");},
+        }},
         {"Batalha1_inic", new List<Action<GerenciadorDialogo>> {
             gd => {gd.IrPara(objHerois[0]);},
             gd => {gd.Dialogo(objHerois[0], "O que são esses vultos?");},
@@ -25,5 +28,6 @@ public class DefinesDialogos
         {"Batalha1_fim", new List<Action<GerenciadorDialogo>> {
             gd => {gd.IrPara(new Vector3(0, 0, 0));}
         }}
+
     };
 }
