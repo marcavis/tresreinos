@@ -29,4 +29,8 @@ public class ControladorTxtDano : MonoBehaviour
     public void setText(string text) {
         txt.text = text;
     }
+
+    public void setColor(Color color) {
+        txt.color = color;
+    }
 }

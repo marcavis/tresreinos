@@ -51,6 +51,7 @@ public class Personagem : MonoBehaviour
     private Animator anim;
     private AttackParent ap;
     private int direcao;
+    private Arma ultimaArma;
 
     // Start is called before the first frame update
     void Start()
@@ -363,10 +364,13 @@ public class Personagem : MonoBehaviour
         //debug
         //ControladorDano.criaTextoDano(novoDano.ToString(), transform);
         if (time == 1) {
-            ap.PlayLeft(dano.ToString());
+            if (ultimaArma == atacante.arma) ap.PlayLeft(dano.ToString(), true, 1.35f, 1);
+            else ap.PlayLeft(dano.ToString(), true);
         } else {
-            ap.PlayRight(dano.ToString());
+            if (ultimaArma == atacante.arma) ap.PlayRight(dano.ToString(), -1.35f, 1);
+            else ap.PlayRight(dano.ToString());
         }
+        ultimaArma = atacante.arma;
         print(nome + " sofreu " + dano + " pontos de dano.");
 
         //dar 20 exp base se morrer, e variando de 0 a 30 linearmente conforme o dano proporcional causado pelo inimigo
@@ -394,6 +398,7 @@ public class Personagem : MonoBehaviour
         int vidaInicial = pv;
         pv += valor;
         if(pv > MPV()) {pv = MPV();}
+        ap.PlayLeft((pv - vidaInicial).ToString(), false);
         print(nome + " ganhou " + (pv - vidaInicial) + " pontos de vida.");
     }
 

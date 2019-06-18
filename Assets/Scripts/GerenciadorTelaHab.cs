@@ -50,11 +50,11 @@ public class GerenciadorTelaHab : MonoBehaviour
         }
         else if(entrada == Teclas.ACTION) {
             entrada = 0;
-            gs.PlaySoundMenuSelect();
+            bool somErro = false;
             Habilidade aEscolher = unid.habilidades[posHabSelecionada];    
             
             if(!unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, aEscolher.seMesmoTime)) {
-                //TODO: som de erro
+                somErro = true;
                 //print("não pode usar habilidade");
             } else {
                 unid.habilidadeAtual = aEscolher;
@@ -66,6 +66,7 @@ public class GerenciadorTelaHab : MonoBehaviour
                 cursor.GetComponent<ControleCursor>().MostrarOverlaysHabilidades(unid.habilidadeAtual.seMesmoTime);
                 gameObject.GetComponent<Canvas>().enabled = false;
             }
+            gs.PlaySoundMenuSelect(somErro);
         }
         else if(entrada == Teclas.DPAD) {
             entrada = 0;

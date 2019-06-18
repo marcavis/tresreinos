@@ -25,11 +25,12 @@ public class ControladorDano : MonoBehaviour
         
     }
 
-    public static void criaTextoDano(string texto, Transform t, float xOffset) {
+    public static void criaTexto(string texto, Transform t, float xOffset, float yOffset, bool isDano) {
         ControladorTxtDano txtDano = Instantiate(popupText);
-        Vector2 txtPosition = new Vector2(t.position.x + xOffset, t.position.y);
+        Vector2 txtPosition = new Vector2(t.position.x + xOffset, t.position.y + yOffset);
         txtDano.transform.SetParent(canvas.transform, false);
         txtDano.transform.position = txtPosition;
+        if (!isDano) txtDano.setColor(Color.green);
         txtDano.setText(texto);
     }
 }
