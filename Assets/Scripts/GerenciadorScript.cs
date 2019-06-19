@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class GerenciadorScript : MonoBehaviour
     public GameObject canvasInventarioTroca;
     public GameObject canvasHabilidades;
     public GerenciadorDialogo dialogo;
+
+    public List<List<Action<GerenciadorDialogo>>> mensagensPendentes;
     public int opcaoMenuBatalha;
     
     public Text[] menuBatalha;
@@ -61,6 +64,7 @@ public class GerenciadorScript : MonoBehaviour
 
         GameObject.Find("CanvasDialogo").GetComponent<Canvas>().enabled = false;
         dialogo = GameObject.Find("CanvasDialogo").GetComponent<GerenciadorDialogo>();
+        mensagensPendentes = new List<List<Action<GerenciadorDialogo>>>();
 
         menuBatalha = new Text[] {
             GameObject.Find("AttackBtn").GetComponent<Text>(),
@@ -156,7 +160,7 @@ public class GerenciadorScript : MonoBehaviour
             dialogo.Executar(SceneManager.GetActiveScene().name + "_inic");
         } else if(estadoBatalha == 1) {
             gerenciadorInput.cursorAtivo = 0;
-            Proximo();
+            ProximoSeEmBatalha();
         } else if(estadoBatalha == 2) {
             print("cena pos fase");
             gerenciadorInput.cursorAtivo = 6;
@@ -170,7 +174,13 @@ public class GerenciadorScript : MonoBehaviour
 
     public void ProximoSeEmBatalha() {
         if(estadoBatalha == 1) {
-            Proximo();
+            if(mensagensPendentes.Count > 0) {
+                gerenciadorInput.cursorAtivo = 6;
+                dialogo.Executar(mensagensPendentes[0]);
+                mensagensPendentes.RemoveAt(0);
+            } else {
+                Proximo();
+            }
         }
     }
     
@@ -200,6 +210,18 @@ public class GerenciadorScript : MonoBehaviour
         cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
         //_camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
         personagens[0].iniciativa -= 1000;
+    }
+
+    public void AdicionarMsgNivel(Personagem unid, int niveis, int[] atributosAntigos) {
+        List<Action<GerenciadorDialogo>> novaMsg = new List<Action<GerenciadorDialogo>>();
+        string titulo = unid.nome + " ganhou " + niveis.ToString() + ((niveis > 1) ? " níveis!" : " nível!");
+        string texto = String.Format("Pontos de vida máximos subiram de {0} para {1}! ", atributosAntigos[0], unid.MPV());
+        texto += String.Format("Pontos de técnica máximos subiram de {0} para {1}! ", atributosAntigos[1], unid.MPT());
+        texto += String.Format("Poder de ataque subiu de {0} para {1}! ", atributosAntigos[2], unid.Ataque());
+        texto += String.Format("Defesa subiu de {0} para {1}! ", atributosAntigos[3], unid.Defesa());
+        texto += String.Format("Agilidade subiu de {0} para {1}! ", atributosAntigos[4], unid.Agilidade());
+        novaMsg.Add(gd => {gd.Dialogo(titulo, texto);});
+        mensagensPendentes.Add(novaMsg);
     }
 
     //retorna positivo se é a unidade que deve agir agora

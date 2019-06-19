@@ -93,9 +93,21 @@ public class GerenciadorDialogo : MonoBehaviour
         ultimoTipoDeAcao = NADA;
     }
 
+    public void Executar(List<Action<GerenciadorDialogo>> acoes) {
+        finalizado = false;
+        this.acoes = acoes;
+        progressoMsg = 0f;
+        progressoAcoes = 0;
+        cooldown = cooldownPadrao / 4;
+        ultimoTipoDeAcao = NADA;
+    }
+
     public void Finalizar() {
         finalizado = true;
-        gs.estadoBatalha++;
+        //se estiver na batalha, então o gerenciador de script é que cuida 
+        if(gs.estadoBatalha != 1) {
+            gs.estadoBatalha++;
+        }
         gs.AvancarCena();
     }
 
@@ -112,9 +124,8 @@ public class GerenciadorDialogo : MonoBehaviour
     }
 
     //movimenta o cursor conforme pede a cena
-    public void IrPara(string nomePersonagem) {
+    public void IrPara(Personagem unid) {
         ultimoTipoDeAcao = MOVECURSOR;
-        Personagem unid = GameObject.Find(nomePersonagem).GetComponent<Personagem>();
         cursor.IrParaPosicao(unid.transform.position);
     }
 
@@ -124,17 +135,26 @@ public class GerenciadorDialogo : MonoBehaviour
         cursor.IrParaPosicao(pos);
     }
 
-    public void Mover(string nomePersonagem, Vector3 pos) {
+    public void Mover(Personagem unid, Vector3 pos) {
         ultimoTipoDeAcao = MOVEUNIDADE;
-        Personagem unid = GameObject.Find(nomePersonagem).GetComponent<Personagem>();
         unid.destinoFinal = unid.transform.position + pos;
         unid.TilesAcessiveis(cursor._tilemap);
         unid.PrepararCaminho();
     }
 
-    public void Dialogo(string nomePersonagem, string mensagem) {
+    //quando é personagem falando, usar o objeto personagem
+    public void Dialogo(Personagem unid, string mensagem) {
         ultimoTipoDeAcao = MENSAGEM;
-        this.caixaPersonagem.text = GameObject.Find(nomePersonagem).GetComponent<Personagem>().nome;
+        this.caixaPersonagem.text = unid.nome;
+        this.mensagem = mensagem;
+        progressoMsg = 0f;
+        gameObject.GetComponent<Canvas>().enabled = true;
+    }
+
+    //quando não é uma fala, o texto de título da caixa de mensagem pode ser outra coisa
+    public void Dialogo(string titulo, string mensagem) {
+        ultimoTipoDeAcao = MENSAGEM;
+        this.caixaPersonagem.text = titulo;
         this.mensagem = mensagem;
         progressoMsg = 0f;
         gameObject.GetComponent<Canvas>().enabled = true;

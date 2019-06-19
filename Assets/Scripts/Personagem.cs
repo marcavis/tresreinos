@@ -408,7 +408,9 @@ public class Personagem : MonoBehaviour
         if(exp > 100) {
             niveisAGanhar = exp/100;
             exp = exp % 100;
+            int [] atributosAntigos = new int[] {MPV(), MPT(), Ataque(), Defesa(), Agilidade()};
             nivel += niveisAGanhar;
+            gs.AdicionarMsgNivel(this, niveisAGanhar, atributosAntigos);
         }
     }
 

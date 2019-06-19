@@ -5,18 +5,15 @@ using UnityEngine;
 
 public class DefinesDialogos
 {   
-    public static string[] objHerois = new string[]  {"ZhengXiulan", 
-                                                    "MiaoLin", 
-                                                    "TaoJiang", 
-                                                    "LiuJingsheng", 
-                                                    "JiangXun", 
-                                                    "GuanLong"};                               
+    public static Personagem[] objHerois = new Personagem[]  {GameObject.Find("ZhengXiulan").GetComponent<Personagem>(), 
+                                                    GameObject.Find("MiaoLin").GetComponent<Personagem>(), 
+                                                    GameObject.Find("TaoJiang").GetComponent<Personagem>(), 
+                                                    GameObject.Find("LiuJingsheng").GetComponent<Personagem>(), 
+                                                    GameObject.Find("JiangXun").GetComponent<Personagem>(), 
+                                                    GameObject.Find("GuanLong").GetComponent<Personagem>()};                               
 
     //se mover uma unidade, é bom mover o cursor também para a nova posição da unidade, depois de completa a movimentação
     public static Dictionary<string, List<Action<GerenciadorDialogo>>> dialogos = new Dictionary<string, List<Action<GerenciadorDialogo>>> {
-        {"Levelup", new List<Action<GerenciadorDialogo>> {
-            gd => {gd.Dialogo("Subida de nível!", "{} agora está mais forte!");},
-        }},
         {"Batalha1_inic", new List<Action<GerenciadorDialogo>> {
             gd => {gd.IrPara(objHerois[0]);},
             gd => {gd.Dialogo(objHerois[0], "O que são esses vultos?");},
