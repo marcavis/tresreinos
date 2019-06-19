@@ -32,7 +32,12 @@ public class DefinesArmas
                     })},
         
         //talvez dar um efeito crítico de redução de defesa?
-        {"Machado", new Arma("Machado", "001000", 5, 35f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao, Arma.efeitoCriticoPadrao)},
+        {"Machado", new Arma("Machado", "001000", 5, 35f, 1, 1, 0, 90, Arma.efeitoAtaquePadrao,
+                    (dono, alvo) => {
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        alvo.AdicionarEfeito("Sangramento");
+                    }
+                    )},
         {"Espadas-Borboleta", new Arma("Espadas-Borboleta", "010000", 3, 15f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
                         alvo.ReceberAtaque(dono.Ataque(), dono);

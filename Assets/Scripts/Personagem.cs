@@ -33,6 +33,8 @@ public class Personagem : MonoBehaviour
     public int iniciativa;
 
     public Arma arma;
+
+    public List<Efeito> efeitos;
     
     public Item[] inventario;
     public Habilidade[] habilidades;
@@ -57,6 +59,7 @@ public class Personagem : MonoBehaviour
     void Start()
     {
         //andar = Defines.Andar("normal");
+        efeitos = new List<Efeito>();
         
         //valores auxiliares para movimentação no campo de batalha
         rota = new List<Vector3>();
@@ -340,6 +343,7 @@ public class Personagem : MonoBehaviour
         int dano = poder - Defesa();
         float danoCalculado = dano * (100 + UnityEngine.Random.Range(-arma.variacao, arma.variacao)) / 100;
         int novoDano = Mathf.FloorToInt(danoCalculado);
+        novoDano = AplicarEfeitosNoDano(novoDano);
         ReceberDano(novoDano, atacante);
     }
 
@@ -527,6 +531,79 @@ public class Personagem : MonoBehaviour
 
     public void SetMovimentoBase(int valor) {
         movimento = valor;
+    }
+
+    //reduzir contagem de efeitos pendentes, e excluir inativos/expirados
+    public void DegradarEfeitos() {
+        List<Efeito> aApagar = new List<Efeito>();
+        foreach (Efeito e in efeitos)
+        {
+            if(e.duracao > 0) {
+                e.duracao--;
+            }
+            if(e.duracao == 0 || e.inativo) {
+                aApagar.Add(e);
+            }
+        }
+        foreach (Efeito e in aApagar)
+        {
+            efeitos.Remove(e);          
+        }
+    }
+
+    public void PreTurno() {
+        DegradarEfeitos();
+        foreach (var e in efeitos)
+        {
+            //TODO: mostrar uma janela de batalha, com a unidade sozinha, se houver dano?
+            pv += e.deltaPV;
+            if(pv < 0) {
+                pv = 0;
+            }
+            //pt += e.deltaPT;
+            if(e.deltaPV != 0 || e.deltaPT != 0) {
+                print(String.Format("{0} perdeu {1} PV e {2} PT!", nome, e.deltaPV, e.deltaPT));
+            }
+        }
+        gs.AtualizarMenuBatalha();
+        gs.ReiniciarLabelsAlvo();
+    }
+
+    public void AdicionarEfeito(string nome) {
+        bool jaExiste = false;
+        Efeito novo = DefinesEfeitos.efeitos[nome];
+        foreach (var e in efeitos)
+        {
+            if(e.nome == nome) {
+                //se efeito já existe, reiniciar a contagem da duração
+                //melhoria possível - efeito pode ter uma função informando o que fazer (nada, resetar, stack)
+                e.duracao = novo.duracao;
+            }
+        }
+        if(!jaExiste) {
+            efeitos.Add(novo);
+        }
+    }
+
+    public int AplicarEfeitosNoDano(int valor) {
+        foreach (Efeito e in efeitos)
+        {
+            //a prioridade de aplicação de efeitos é aleatória, nesse ponto
+            if (e.efeitoNoDano != null) {
+                valor = e.efeitoNoDano(this, valor);
+            }
+        }
+        return valor;
+    }
+
+    public int AplicarEfeitosNoDanoMagico(int valor) {
+        foreach (Efeito e in efeitos)
+        {
+            if (e.efeitoNoDanoMagico != null) {
+                valor = e.efeitoNoDanoMagico(this, valor);
+            }
+        }
+        return valor;
     }
 
     private void setDirecao(float x, float y) {

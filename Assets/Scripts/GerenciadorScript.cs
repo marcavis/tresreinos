@@ -201,15 +201,18 @@ public class GerenciadorScript : MonoBehaviour
             }
             personagens.Sort( (a, b) => (TurnosAteAgir(a).CompareTo(TurnosAteAgir(b))));
         }
-        if (personagens[0].time == 1) {
-            gerenciadorInput.cursorAtivo = 5;
-            personagens[0].gameObject.GetComponent<Inimigo>().Iniciar();
-        } else {
-            gerenciadorInput.cursorAtivo = 0;
+        personagens[0].PreTurno();
+        if(personagens[0].pv > 0) {
+            if (personagens[0].time == 1) {
+                gerenciadorInput.cursorAtivo = 5;
+                personagens[0].gameObject.GetComponent<Inimigo>().Iniciar();
+            } else {
+                gerenciadorInput.cursorAtivo = 0;
+            }
+            cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
+            //_camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
+            personagens[0].iniciativa -= 1000;
         }
-        cursor.GetComponent<ControleCursor>().IrParaUnidade(personagens[0]);
-        //_camera.GetComponent<ControladorCamera>().IrParaPosicao(personagens[0].transform);
-        personagens[0].iniciativa -= 1000;
     }
 
     public void AdicionarMsgNivel(Personagem unid, int niveis, int[] atributosAntigos) {
