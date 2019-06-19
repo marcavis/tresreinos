@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DefinesHabilidades
 {   
@@ -30,20 +31,54 @@ public class DefinesHabilidades
         }, true)},
         {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoe0, 0, 0, 
         (dono, alvo) => {
-            Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
+            GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+            AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+            Personagem[] alvos = gs.personagens.ToArray();
+            List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
             foreach (var p in alvos) {
                 if(p.time == 1) {
-                    p.ReceberAtaqueHabilidade(50, dono);
+                    list.Add(gd => {
+                        gd.IrPara(p);
+                    });
+                    list.Add(gd => {
+                        ap.Abrir();
+                        ap.SetLeftAnimator(Defines.animacoesAtk[dono.nome]);
+                        ap.SetRightAnimator(Defines.animacoesAtk[p.nome]);
+                    });
+                    list.Add(gd => {
+                        p.ReceberAtaqueHabilidade(50, dono);
+                    });
+                    list.Add(gd => {
+                        ap.Fechar();
+                    });
                 }
             }
+            gs.mensagensPendentes.Add(list);
         }, 
         (dono, alvo) => {
-            Personagem[] alvos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().personagens.ToArray();
+            GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+            AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+            Personagem[] alvos = gs.personagens.ToArray();
+            List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
             foreach (var p in alvos) {
                 if(p.time == 1) {
-                    p.ReceberAtaqueHabilidade(50, dono);
+                    list.Add(gd => {
+                        gd.IrPara(p);
+                    });
+                    list.Add(gd => {
+                        ap.Abrir();
+                        ap.SetLeftAnimator(Defines.animacoesAtk[dono.nome]);
+                        ap.SetRightAnimator(Defines.animacoesAtk[p.nome]);
+                    });
+                    list.Add(gd => {
+                        p.ReceberAtaqueHabilidade(50, dono);
+                    });
+                    list.Add(gd => {
+                        ap.Fechar();
+                    });
                 }
             }
+            gs.mensagensPendentes.Add(list);
         }, false)}
     };
 }

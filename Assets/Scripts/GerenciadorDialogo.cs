@@ -159,4 +159,8 @@ public class GerenciadorDialogo : MonoBehaviour
         progressoMsg = 0f;
         gameObject.GetComponent<Canvas>().enabled = true;
     }
+
+    public void FecharCanvasBatallha() {
+        GameObject.Find("Placeholder").GetComponent<AttackParent>().Fechar();
+    }
 }
