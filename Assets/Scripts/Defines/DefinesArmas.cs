@@ -65,6 +65,11 @@ public class DefinesArmas
                         alvo.ReceberAtaque(dono.Ataque(), dono);
                         //causar efeito especial, como sangramento?
                     })},
+        {"Xingba", new Arma("Xingba", "000000", 0, 20f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao,
+                    (dono, alvo) => {
+                        alvo.ReceberAtaque(dono.Ataque(), dono);
+                        //causar efeito especial, como sangramento?
+                    })},
 
     };
 }

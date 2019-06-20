@@ -16,6 +16,7 @@ public class Defines
     const int ANDAR_NORMAL = 0;
     const int ANDAR_TRILHA = 1;
     const int ANDAR_RUSTICO = 2;
+    const int ANDAR_AQUATICO = 3;
     static Dictionary<string, int> tiposDeAndar = new Dictionary<string, int>() {
         {herois[0], ANDAR_NORMAL},
         {herois[1], ANDAR_TRILHA},
@@ -27,6 +28,7 @@ public class Defines
         {"Ogro", ANDAR_TRILHA},
         {"Chefe Ogro", ANDAR_TRILHA},
         {"Esqueleto", ANDAR_NORMAL},
+        {"Xingba", ANDAR_AQUATICO},
     };
     public static Dictionary<string, int> Andar(int tipo) {
         
@@ -39,6 +41,16 @@ public class Defines
                     {"caverock", 15},
                     {"cavewater", 20},
                     {"blackpool", 20},
+                    {"stalagmite", 999},
+                    {"hole", 999}
+                };
+            case ANDAR_AQUATICO:
+                return new Dictionary<string, int>() {
+                    {"grass", 20},
+                    {"carpet", 20},
+                    {"caverock", 25},
+                    {"cavewater", 10},
+                    {"blackpool", 15},
                     {"stalagmite", 999},
                     {"hole", 999}
                 };
@@ -68,9 +80,10 @@ public class Defines
         {herois[4], new int[] {24,  7, 14, 12, 22, 60, 1}},
         {herois[5], new int[] {24,  8, 15, 14, 17, 50, 1}},
 
-        {"Ogro",         new int[] {16,  0, 16, 10, 16, 60, 1}},
+        {"Ogro",       new int[] {16,  0, 16, 10, 16, 60, 1}},
         {"Chefe Ogro", new int[] {24,  0, 18, 12, 20, 60, 3}},
-        {"Esqueleto",    new int[] {12,  0, 19, 10, 18, 50, 2}},
+        {"Esqueleto",  new int[] {12,  0, 19, 10, 18, 50, 2}},
+        {"Xingba",     new int[] {20,  0, 20, 14, 22, 60, 5}},
     };
 
     public static Dictionary<string, float[]> crescimentoPorNivel = new Dictionary<string, float[]>() {
@@ -81,9 +94,10 @@ public class Defines
         {herois[4], new float[] {2.4f, 0.7f, 1.4f, 1.2f, 2.2f}},
         {herois[5], new float[] {2.4f, 0.8f, 1.5f, 1.4f, 1.7f}},
 
-        {"Ogro",         new float[] {1.6f, 0.0f, 1.6f, 1.0f, 1.6f}},
+        {"Ogro",       new float[] {1.6f, 0.0f, 1.6f, 1.0f, 1.6f}},
         {"Chefe Ogro", new float[] {2.4f, 0.0f, 1.8f, 1.2f, 2.0f}},
-        {"Esqueleto",    new float[] {1.2f, 0.0f, 1.9f, 1.0f, 1.8f}},
+        {"Esqueleto",  new float[] {1.2f, 0.0f, 1.9f, 1.0f, 1.8f}},
+        {"Xingba",     new float[] {2.0f,  0.0f, 2.0f, 1.4f, 2.2f}},
     };
     public static Dictionary<string, string> armasIniciais = new Dictionary<string, string>() {
         
@@ -125,7 +139,8 @@ public class Defines
         {herois[5], Resources.Load<Animator>("Battle/Anims/GuanLong")},
         {"Ogro", Resources.Load<Animator>("Battle/Anims/Ogro")},
         {"Chefe Ogro", Resources.Load<Animator>("Battle/Anims/CapOgro")},
-        {"Esqueleto", Resources.Load<Animator>("Battle/Anims/Esqueleto")}
+        {"Esqueleto", Resources.Load<Animator>("Battle/Anims/Esqueleto")},
+        {"Xingba", Resources.Load<Animator>("Battle/Anims/Esqueleto")}
     };
 
     public static void Inicializacao(string nome, GameObject objeto) {
