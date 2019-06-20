@@ -185,7 +185,7 @@ public class GerenciadorScript : MonoBehaviour
     }
     
     public void Proximo() {
-        
+        personagens[0].PosTurno();
         if(personagens.Where((a) => a.time == 0).ToList().Count == 0) {
             print("Game over");
         } else if (personagens.Where((a) => a.time == 1).ToList().Count == 0) {
@@ -269,7 +269,35 @@ public class GerenciadorScript : MonoBehaviour
         labels[0].text = unid.nome + " Nv. " + unid.nivel + "." + string.Format("{0,2:D2}", unid.exp);
         labels[1].text = string.Format("PV: {0,3:D3}/{1,3:D3}", unid.pv, unid.MPV());
         labels[2].text = string.Format("PT: {0,3:D3}/{1,3:D3}", unid.pt, unid.MPT());
-        labels[3].text = string.Format("ATQ: {0,2:D2} DEF: {1,2:D2} AGI: {2,2:D2} MOV: {3,2:D2}", unid.Ataque(), unid.Defesa(), unid.Agilidade(), unid.Movimento()/10);
+        string at, df, ag, mv;
+
+        if(unid.Ataque() == unid.Ataque(true)) {
+            at = string.Format("ATQ: {0,2:D2}", unid.Ataque().ToString());
+        } else {
+            at = unid.Ataque() > unid.Ataque(true) ? string.Format("ATQ: <color=#0000ffff>{0,2:D2}</color>", unid.Ataque().ToString()) :
+                                                        string.Format("ATQ: <color=#ff0000ff>{0,2:D2}</color>", unid.Ataque().ToString());
+        }
+        if(unid.Defesa() == unid.Defesa(true)) {
+            df = string.Format("DEF: {0,2:D2}", unid.Defesa().ToString());
+        } else {
+            df = unid.Defesa() > unid.Defesa(true) ? string.Format("DEF: <color=#0000ffff>{0,2:D2}</color>", unid.Defesa().ToString()) :
+                                                        string.Format("DEF: <color=#ff0000ff>{0,2:D2}</color>", unid.Defesa().ToString());
+        }
+        if(unid.Agilidade() == unid.Agilidade(true)) {
+            ag = string.Format("AGI: {0,2:D2}", unid.Agilidade().ToString());
+        } else {
+            ag = unid.Agilidade() > unid.Agilidade(true) ? string.Format("AGI: <color=#0000ffff>{0,2:D2}</color>", unid.Agilidade().ToString()) :
+                                                        string.Format("AGI: <color=#ff0000ff>{0,2:D2}</color>", unid.Agilidade().ToString());
+        }
+        if(unid.Movimento() == unid.Movimento(true)) {
+            mv = string.Format("MOV: {0,2:D2}", unid.Movimento().ToString());
+        } else {
+            mv = unid.Movimento() > unid.Movimento(true) ? string.Format("MOV: <color=#0000ffff>{0,2:D2}</color>", (unid.Movimento()/10).ToString()) :
+                                                        string.Format("MOV: <color=#ff0000ff>{0,2:D2}</color>", (unid.Movimento()/10).ToString());
+        }
+
+        labels[3].text = at + " " + df + " " + ag + " " + mv;
+        //labels[3].text = string.Format("DEF: {1,2:D2} AGI: {2,2:D2} MOV: {3,2:D2}", unid.Ataque(), unid.Defesa(), unid.Agilidade(), unid.Movimento()/10);
     }
 
     public void AtualizarMenuBatalha() {

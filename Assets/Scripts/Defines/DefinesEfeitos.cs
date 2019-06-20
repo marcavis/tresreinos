@@ -15,18 +15,20 @@ public class DefinesEfeitos
     //até inimigos desarmados têm uma definição de arma pra poder atacar
     public static Dictionary<string, Efeito> efeitos = new Dictionary<string, Efeito> {
         //public Efeito(string nome, 
-        //int deltaPV, int deltaPT, int deltaAtaque, int deltaDefesa, int deltaAgilidade, int deltaMovimento, 
         //int duracao, Func efeitoNoAtaque, 
-        //Func efeitoNoDano, Func efeitoNoDanoMagico, Func efeitoNaDefesa)
+        //Func efeitoNoDano, Func efeitoNoDanoMagico, Func efeitoNaDefesa, Func efeitoNaAgilidade, Func efeitoNoMovimento, Action efeitoFimTurno)
         {"Maldição", new Efeito("Maldição",
-                                0, 0, 0, 0, 0, 0, 
-                                1, null,
+                                3, null,
                                 //efeitoNoDano
                                 (unid, x) => {
-                                    return Mathf.FloorToInt(x * 2.25f);
-                                }, null, null)},
-        {"Sangramento", new Efeito("Sangramento",
-                                -100, 0, 0, 0, 0, 0,
-                                -1, null, null, null, null)}
+                                    return Mathf.FloorToInt(x * 1.25f);
+                                }, null, null, null, null, null)},
+        {"Quebra Armadura", new Efeito("Quebra Armadura",
+                                -1, null,
+                                null, null, 
+                                (unid, x) => {
+                                    //efeitoNaDefesa
+                                    return Mathf.FloorToInt(x * 0.85f);
+                                }, null, null, null)},
     };
 }

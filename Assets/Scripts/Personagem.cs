@@ -490,24 +490,76 @@ public class Personagem : MonoBehaviour
         int valorBase = Mathf.FloorToInt(mpt + (nivel - nivelBase) * crescimento[1]);
         return valorBase;
     }
-    public int Ataque() {
+    public int Ataque(bool seBase) {
         int valorBase = Mathf.FloorToInt(ataque + (nivel - nivelBase) * crescimento[2]);
-        return valorBase + arma.poder;
+        int valor = valorBase;
+        if(!seBase) {
+            foreach (Efeito e in efeitos)
+            {
+                if(e.efeitoNoAtaque != null) {
+                    valor = e.efeitoNoAtaque(this, valor);
+                }
+            }
+        }
+        return valor + arma.poder;
+    }
+
+    public int Ataque() {
+        return Ataque(false);
+    }
+
+    public int Defesa(bool seBase) {
+        int valorBase = Mathf.FloorToInt(defesa + (nivel - nivelBase) * crescimento[3]);
+        int valor = valorBase;
+        if(!seBase) {
+            foreach (Efeito e in efeitos)
+            {
+                if(e.efeitoNaDefesa != null) {
+                    valor = e.efeitoNaDefesa(this, valor);
+                }
+            }
+        }
+        return valor;
     }
 
     public int Defesa() {
-        int valorBase = Mathf.FloorToInt(defesa + (nivel - nivelBase) * crescimento[3]);
-        return valorBase;
+        return Defesa(false);
+    }
+
+    public int Agilidade(bool seBase) {
+        int valorBase = Mathf.FloorToInt(agilidade + (nivel - nivelBase) * crescimento[4]);
+        int valor = valorBase;
+        if(!seBase) {
+            foreach (Efeito e in efeitos)
+            {
+                if(e.efeitoNaAgilidade != null) {
+                    valor = e.efeitoNaAgilidade(this, valor);
+                }
+            }
+        }
+        return valor;
     }
 
     public int Agilidade() {
-        int valorBase = Mathf.FloorToInt(agilidade + (nivel - nivelBase) * crescimento[4]);
-        return valorBase;
+        return Agilidade(false);
+    }
+
+    public int Movimento(bool seBase) {
+        int valorBase = movimento;
+        int valor = valorBase;
+        if(!seBase) {
+            foreach (Efeito e in efeitos)
+            {
+                if(e.efeitoNoMovimento != null) {
+                    valor = e.efeitoNoMovimento(this, valor);
+                }
+            }
+        }
+        return valor;
     }
 
     public int Movimento() {
-        int valorBase = movimento;
-        return valorBase;
+        return Movimento(false);
     }
 
     public void SetMPVBase(int valor) {
@@ -553,20 +605,10 @@ public class Personagem : MonoBehaviour
 
     public void PreTurno() {
         DegradarEfeitos();
-        foreach (var e in efeitos)
-        {
-            //TODO: mostrar uma janela de batalha, com a unidade sozinha, se houver dano?
-            pv += e.deltaPV;
-            if(pv < 0) {
-                pv = 0;
-            }
-            //pt += e.deltaPT;
-            if(e.deltaPV != 0 || e.deltaPT != 0) {
-                print(String.Format("{0} perdeu {1} PV e {2} PT!", nome, e.deltaPV, e.deltaPT));
-            }
-        }
-        gs.AtualizarMenuBatalha();
-        gs.ReiniciarLabelsAlvo();
+    }
+
+    public void PosTurno() {
+        //não implementado neste momento
     }
 
     public void AdicionarEfeito(string nome) {
@@ -578,10 +620,12 @@ public class Personagem : MonoBehaviour
                 //se efeito já existe, reiniciar a contagem da duração
                 //melhoria possível - efeito pode ter uma função informando o que fazer (nada, resetar, stack)
                 e.duracao = novo.duracao;
+                jaExiste = true;
             }
         }
         if(!jaExiste) {
             efeitos.Add(novo);
+            print(nome);
         }
     }
 

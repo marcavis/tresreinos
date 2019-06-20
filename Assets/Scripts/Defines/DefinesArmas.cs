@@ -35,7 +35,7 @@ public class DefinesArmas
         {"Machado", new Arma("Machado", "001000", 5, 35f, 1, 1, 0, 90, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
                         alvo.ReceberAtaque(dono.Ataque(), dono);
-                        alvo.AdicionarEfeito("Sangramento");
+                        alvo.AdicionarEfeito("Quebra Armadura"); //diminui defesa em 15%
                     }
                     )},
         {"Espadas-Borboleta", new Arma("Espadas-Borboleta", "010000", 3, 15f, 1, 1, 0, 0, Arma.efeitoAtaquePadrao,
