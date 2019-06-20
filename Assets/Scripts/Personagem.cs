@@ -468,13 +468,7 @@ public class Personagem : MonoBehaviour
                 continue;
             }
             if(alvoPossivel.time == timeAlvo) {
-                //print("afetarei " + alvoPossivel.nome);
-                int dado = UnityEngine.Random.Range(0, 100);
-                if (dado + habilidadeAtual.chanceCritica > 95) {
-                    habilidadeAtual.efeitoCritico(this, alvoPossivel);
-                } else {
-                    habilidadeAtual.efeitoAtaque(this, alvoPossivel);
-                }
+                habilidadeAtual.efeitoAtaque(this, alvoPossivel);
             }
         }
     }
