@@ -32,7 +32,7 @@ public class DefinesArmas
                     })},
         
         //talvez dar um efeito crítico de redução de defesa?
-        {"Machado", new Arma("Machado", "001000", 5, 35f, 1, 1, 0, 90, Arma.efeitoAtaquePadrao,
+        {"Machado", new Arma("Machado", "001000", 5, 35f, 1, 1, 0, 5, Arma.efeitoAtaquePadrao,
                     (dono, alvo) => {
                         alvo.ReceberAtaque(dono.Ataque(), dono);
                         alvo.AdicionarEfeito("Quebra Armadura"); //diminui defesa em 15%

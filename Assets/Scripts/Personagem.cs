@@ -489,30 +489,6 @@ public class Personagem : MonoBehaviour
         gs.mensagensPendentes.Add(list);
     }
 
-    // GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
-    //         AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
-    //         Personagem[] alvos = gs.personagens.ToArray();
-    //         List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
-    //         foreach (var p in alvos) {
-    //             if(p.time == 1) {
-    //                 list.Add(gd => {
-    //                     gd.IrPara(p);
-    //                 });
-    //                 list.Add(gd => {
-    //                     ap.Abrir();
-    //                     ap.SetLeftAnimator(Defines.animacoesAtk[dono.nome]);
-    //                     ap.SetRightAnimator(Defines.animacoesAtk[p.nome]);
-    //                 });
-    //                 list.Add(gd => {
-    //                     p.ReceberAtaqueHabilidade(50, dono);
-    //                 });
-    //                 list.Add(gd => {
-    //                     ap.Fechar();
-    //                 });
-    //             }
-    //         }
-    //         gs.mensagensPendentes.Add(list);
-
     //métodos necessários pois personagens podem ter diversos modificadores agindo nos status
     //stats atualizados são calculados aqui, conforme vetor de crescimentos de stat por nível
     public int MPV() {
@@ -660,6 +636,12 @@ public class Personagem : MonoBehaviour
         if(!jaExiste) {
             efeitos.Add(novo);
             print(nome);
+            GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+            string texto = this.nome + " agora está sob efeito de " + novo.nome + "!";
+            List<Action<GerenciadorDialogo>> mensagem =  new List<Action<GerenciadorDialogo>> {
+                gd => {gd.Dialogo("Efeito", texto);}
+            };
+            gs.mensagensPendentes.Add(mensagem);
         }
     }
 
