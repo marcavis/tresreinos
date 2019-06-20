@@ -57,6 +57,7 @@ public class GerenciadorTelaHab : MonoBehaviour
                 somErro = true;
                 //print("não pode usar habilidade");
             } else {
+                cursor.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(aEscolher.cursorSprite);
                 unid.habilidadeAtual = aEscolher;
                 gerenciadorInput.cursorAtivo = 0;
                 canvasAlvo.GetComponent<Canvas>().enabled = true;

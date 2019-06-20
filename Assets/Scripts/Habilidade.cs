@@ -11,6 +11,7 @@ public class Habilidade
     public float variacao;
     public int alcanceMin, alcanceMax; 
     public List<Vector3> areaDeEfeito;
+    public string cursorSprite; //deve ser sempre o mesmo formato da areaDeEfeito
     public int precisao; //usualmente 0
 
 
@@ -20,7 +21,7 @@ public class Habilidade
     public bool seMesmoTime;
 
     public Habilidade(string nome, string descricao, int custo, float variacao, int alcanceMin, int alcanceMax,
-                List<Vector3> areaDeEfeito, int precisao,
+                List<Vector3> areaDeEfeito, string cursorSprite, int precisao,
                 Action<Personagem, Personagem> efeitoUso,
                 bool seMesmoTime) {
         this.nome = nome;
@@ -30,6 +31,7 @@ public class Habilidade
         this.alcanceMin = alcanceMin;
         this.alcanceMax = alcanceMax;
         this.areaDeEfeito = areaDeEfeito;
+        this.cursorSprite = cursorSprite;
         this.precisao = precisao;
 
         this.efeitoUso = efeitoUso;
@@ -46,4 +48,19 @@ public class Habilidade
         new Vector3(1, 0, 0),
         new Vector3(0, 1, 0)
     };
+
+    public static List<Vector3> aoeCruz2 = gerarAOE(2);
+    public static List<Vector3> aoeCruz3 = gerarAOE(3);
+
+    public static List<Vector3> gerarAOE(int tamanho) {
+        List<Vector3> result = new List<Vector3>();
+        for(int i = -tamanho; i <= tamanho; i++) {
+            for(int j = -tamanho; j <= tamanho; j++) {
+                if(Mathf.Abs(i) + Mathf.Abs(j) <= tamanho) {
+                    result.Add(new Vector3(i, j, 0));
+                }
+            }
+        }
+        return result;
+    }
 }

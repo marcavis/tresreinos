@@ -63,7 +63,7 @@ public class Defines
         
         {herois[0], new int[] {18, 12, 12, 11, 19, 50, 1}},
         {herois[1], new int[] {21,  6, 14, 12, 20, 50, 1}},
-        {herois[2], new int[] {25,  4, 15, 14, 56, 50, 1}},
+        {herois[2], new int[] {25,  4, 15, 14, 16, 50, 1}},
         {herois[3], new int[] {20,  6, 12, 10, 15, 50, 1}},
         {herois[4], new int[] {24,  7, 14, 12, 22, 60, 1}},
         {herois[5], new int[] {24,  8, 15, 14, 17, 50, 1}},

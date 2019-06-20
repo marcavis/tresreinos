@@ -95,6 +95,7 @@ public class ControleCursor : MonoBehaviour
                 LimparOverlays();
                 menuInventario.Reabrir();
             } else if (acaoDoCursor == PROCURA_ALVO_HAB) {
+                gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("GUI/cursor0");
                 novaPosicao = ultimaUnidade.transform.position;
                 acaoDoCursor = MOVIDO;
                 gerenciadorInput.cursorAtivo = 4;
@@ -188,35 +189,16 @@ public class ControleCursor : MonoBehaviour
                 if(transform.position == novaPosicao) {
                     //informar onde o cursor está para o personagem - este vai definir quais alvos serão afetados
                     //acessando a variável areaDeEfeito da habilidadeAtual
-                    if (ultimaUnidade.habilidadeAtual.nome == "1Armageddon") {
-                        ap.Abrir();
-                        gs.canvasBatalhaAberto = true;
-                        Personagem alvo = gs.ObjetoNoTile(transform.position);
-                        ap.SetLeftAnimator(Defines.animacoesAtk[ultimaUnidade.nome]);
-                        ap.SetRightAnimator(Defines.animacoesAtk[alvo.nome]);
-                        
-                        StartCoroutine(SetTimeout(1f, () => {
-                            ultimaUnidade.UsarHabilidade(transform.position);
-                            Liberar();
-                            LimparOverlays();
-                        }, () => {
-                            ap.Fechar();
-                            gs.canvasBatalhaAberto = false;
-                            gs.SairMenuBatalha();
-                            gs.ReiniciarLabelsAlvo();
-                            gs.ProximoSeEmBatalha();
-                            finalizado = true;
-                        }));
-                    } else {
-                        Personagem alvo = gs.ObjetoNoTile(transform.position);
-                        ultimaUnidade.UsarHabilidade(transform.position);
-                        Liberar();
-                        LimparOverlays();
-                        gs.SairMenuBatalha();
-                        gs.ReiniciarLabelsAlvo();
-                        gs.ProximoSeEmBatalha();
-                        finalizado = true;
-                    }
+                
+                    gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("GUI/cursor0");
+                    ultimaUnidade.UsarHabilidade(transform.position);
+                    Liberar();
+                    LimparOverlays();
+                    gs.SairMenuBatalha();
+                    gs.ReiniciarLabelsAlvo();
+                    gs.ProximoSeEmBatalha();
+                    finalizado = true;
+                    
                 }
             }
             //se o cursor foi acionado quando o cursor ainda não havia chegado à posição para qual foi movido,

@@ -468,8 +468,8 @@ public class Personagem : MonoBehaviour
             Personagem alvoPossivel = gs.ObjetoNoTile(posCentral + offset);
             if(alvoPossivel == null) {
                 continue;
-            }
-            if(alvoPossivel.time == timeAlvo) {
+            } else if(alvoPossivel.time == timeAlvo) {
+
                 list.Add(gd => {
                     gd.IrPara(posCentral + offset);
                 });
@@ -485,8 +485,8 @@ public class Personagem : MonoBehaviour
                     ap.Fechar();
                 });
             }
-            gs.mensagensPendentes.Add(list);
         }
+        gs.mensagensPendentes.Add(list);
     }
 
     // GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
