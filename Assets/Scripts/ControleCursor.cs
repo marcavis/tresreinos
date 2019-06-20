@@ -188,7 +188,7 @@ public class ControleCursor : MonoBehaviour
                 if(transform.position == novaPosicao) {
                     //informar onde o cursor está para o personagem - este vai definir quais alvos serão afetados
                     //acessando a variável areaDeEfeito da habilidadeAtual
-                    if (ultimaUnidade.habilidadeAtual.nome != "Armageddon") {
+                    if (ultimaUnidade.habilidadeAtual.nome == "1Armageddon") {
                         ap.Abrir();
                         gs.canvasBatalhaAberto = true;
                         Personagem alvo = gs.ObjetoNoTile(transform.position);

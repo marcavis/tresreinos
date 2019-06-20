@@ -31,29 +31,46 @@ public class DefinesHabilidades
         }, true)},
         {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoe0, 0,
         (dono, alvo) => {
-            GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
-            AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
-            Personagem[] alvos = gs.personagens.ToArray();
-            List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
-            foreach (var p in alvos) {
-                if(p.time == 1) {
-                    list.Add(gd => {
-                        gd.IrPara(p);
-                    });
-                    list.Add(gd => {
-                        ap.Abrir();
-                        ap.SetLeftAnimator(Defines.animacoesAtk[dono.nome]);
-                        ap.SetRightAnimator(Defines.animacoesAtk[p.nome]);
-                    });
-                    list.Add(gd => {
-                        p.ReceberAtaqueHabilidade(50, dono);
-                    });
-                    list.Add(gd => {
-                        ap.Fechar();
-                    });
-                }
-            }
-            gs.mensagensPendentes.Add(list);
+            alvo.ReceberAtaqueHabilidade(50, dono);
+            // GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+            // AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+            // Personagem[] alvos = gs.personagens.ToArray();
+            // List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
+            // foreach (var p in alvos) {
+            //     if(p.time == 1) {
+            //         list.Add(gd => {
+            //             gd.IrPara(p);
+            //         });
+            //         list.Add(gd => {
+            //             ap.Abrir();
+            //             ap.SetLeftAnimator(Defines.animacoesAtk[dono.nome]);
+            //             ap.SetRightAnimator(Defines.animacoesAtk[p.nome]);
+            //         });
+            //         list.Add(gd => {
+            //             p.ReceberAtaqueHabilidade(50, dono);
+            //         });
+            //         list.Add(gd => {
+            //             ap.Fechar();
+            //         });
+            //     }
+            // }
+            // gs.mensagensPendentes.Add(list);
         }, false)}
     };
+
+    // public void Wrapper(Habilidade hab) {
+    //     GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+    //     AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+    //     List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
+    //     list.Add(gd => {
+    //                     gd.IrPara(p);
+    //     });
+    //     list.Add(gd => {
+    //         ap.Abrir();
+    //         ap.SetLeftAnimator(Defines.animacoesAtk[dono.nome]);
+    //         ap.SetRightAnimator(Defines.animacoesAtk[p.nome]);
+    //     });
+    //     gs.mensagensPendentes.Add(list);
+    // }
 }
+

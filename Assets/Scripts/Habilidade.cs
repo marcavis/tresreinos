@@ -16,12 +16,12 @@ public class Habilidade
 
     public Personagem dono;
     public Personagem alvo;
-    public Action<Personagem, Personagem> efeitoAtaque;
+    public Action<Personagem, Personagem> efeitoUso;
     public bool seMesmoTime;
 
     public Habilidade(string nome, string descricao, int custo, float variacao, int alcanceMin, int alcanceMax,
                 List<Vector3> areaDeEfeito, int precisao,
-                Action<Personagem, Personagem> efeitoAtaque,
+                Action<Personagem, Personagem> efeitoUso,
                 bool seMesmoTime) {
         this.nome = nome;
         this.descricao = descricao;
@@ -32,7 +32,7 @@ public class Habilidade
         this.areaDeEfeito = areaDeEfeito;
         this.precisao = precisao;
 
-        this.efeitoAtaque = efeitoAtaque;
+        this.efeitoUso = efeitoUso;
         this.seMesmoTime = seMesmoTime;
     }
 

@@ -458,7 +458,9 @@ public class Personagem : MonoBehaviour
         int timeAlvo = habilidadeAtual.seMesmoTime ? this.time : (this.time + 1) % 2;
         List<Vector3> tilesAlcancados = habilidadeAtual.areaDeEfeito;
         List<Personagem> alvos = new List<Personagem>();
-        
+        GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+        AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+        List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
         foreach (Vector3 offset in tilesAlcancados)
         {
             //considerando posCentral como centro, tenta ver se encontra um alvo possível em todos os offsets
@@ -468,10 +470,48 @@ public class Personagem : MonoBehaviour
                 continue;
             }
             if(alvoPossivel.time == timeAlvo) {
-                habilidadeAtual.efeitoAtaque(this, alvoPossivel);
+                list.Add(gd => {
+                    gd.IrPara(posCentral + offset);
+                });
+                list.Add(gd => {
+                    ap.Abrir();
+                    ap.SetLeftAnimator(Defines.animacoesAtk[this.nome]);
+                    ap.SetRightAnimator(Defines.animacoesAtk[alvoPossivel.nome]);
+                });
+                list.Add(gd => {
+                    habilidadeAtual.efeitoUso(this, alvoPossivel);
+                });
+                list.Add(gd => {
+                    ap.Fechar();
+                });
             }
+            gs.mensagensPendentes.Add(list);
         }
     }
+
+    // GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+    //         AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+    //         Personagem[] alvos = gs.personagens.ToArray();
+    //         List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
+    //         foreach (var p in alvos) {
+    //             if(p.time == 1) {
+    //                 list.Add(gd => {
+    //                     gd.IrPara(p);
+    //                 });
+    //                 list.Add(gd => {
+    //                     ap.Abrir();
+    //                     ap.SetLeftAnimator(Defines.animacoesAtk[dono.nome]);
+    //                     ap.SetRightAnimator(Defines.animacoesAtk[p.nome]);
+    //                 });
+    //                 list.Add(gd => {
+    //                     p.ReceberAtaqueHabilidade(50, dono);
+    //                 });
+    //                 list.Add(gd => {
+    //                     ap.Fechar();
+    //                 });
+    //             }
+    //         }
+    //         gs.mensagensPendentes.Add(list);
 
     //métodos necessários pois personagens podem ter diversos modificadores agindo nos status
     //stats atualizados são calculados aqui, conforme vetor de crescimentos de stat por nível
