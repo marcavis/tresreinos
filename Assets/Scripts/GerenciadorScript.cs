@@ -299,7 +299,7 @@ public class GerenciadorScript : MonoBehaviour
                                                         string.Format("AGI: <color=#ff0000ff>{0,2:D2}</color>", unid.Agilidade().ToString());
         }
         if(unid.Movimento() == unid.Movimento(true)) {
-            mv = string.Format("MOV: {0,2:D2}", unid.Movimento().ToString());
+            mv = string.Format("MOV: {0,2:D2}", (unid.Movimento()/10).ToString());
         } else {
             mv = unid.Movimento() > unid.Movimento(true) ? string.Format("MOV: <color=#0000ffff>{0,2:D2}</color>", (unid.Movimento()/10).ToString()) :
                                                         string.Format("MOV: <color=#ff0000ff>{0,2:D2}</color>", (unid.Movimento()/10).ToString());
