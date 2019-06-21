@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Defines 
+public class Defines
 {   
     public const int TAMANHO_INVENTARIO = 8;
     //                                          
@@ -13,6 +13,13 @@ public class Defines
                                                     "Liu Jingsheng", 
                                                     "Jiang Xun", 
                                                     "Guan Long"};
+
+    public static Personagem[] objHerois = new Personagem[]  {GameObject.Find("ZhengXiulan").GetComponent<Personagem>(), 
+                                                    GameObject.Find("MiaoLin").GetComponent<Personagem>(), 
+                                                    GameObject.Find("TaoJiang").GetComponent<Personagem>(), 
+                                                    GameObject.Find("LiuJingsheng").GetComponent<Personagem>(), 
+                                                    GameObject.Find("JiangXun").GetComponent<Personagem>(), 
+                                                    GameObject.Find("GuanLong").GetComponent<Personagem>()};       
     const int ANDAR_NORMAL = 0;
     const int ANDAR_TRILHA = 1;
     const int ANDAR_RUSTICO = 2;
@@ -184,6 +191,23 @@ public class Defines
             }
         } else {
             unid.inventario = new Item[TAMANHO_INVENTARIO];
+        }
+    }
+
+    public static void SalvarAtributos() {
+        for (int i = 0; i < herois.Length; i++)
+        {
+            PlayerPrefs.SetInt("nivel_" + herois[i], objHerois[i].nivel);
+            PlayerPrefs.SetInt("exp_" + herois[i], objHerois[i].exp);
+        }
+        PlayerPrefs.Save();
+    }
+
+    public static void CarregarAtributosSalvos() {
+        for (int i = 0; i < herois.Length; i++)
+        {
+            objHerois[i].nivel = PlayerPrefs.GetInt("nivel_" + herois[i]);
+            objHerois[i].exp = PlayerPrefs.GetInt("exp_" + herois[i]);
         }
     }
 }

@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 
 public class GerenciadorScript : MonoBehaviour
 {
+    public bool temProxFase;
     public List<Personagem> personagens = new List<Personagem>();
     public Personagem prefabPersonagem;
 
@@ -83,6 +84,11 @@ public class GerenciadorScript : MonoBehaviour
         alvoLabels[0] = GameObject.Find("AlvoLabel").GetComponent<Text>();
         alvoLabels[1] = GameObject.Find("AlvoPVLabel").GetComponent<Text>();
         
+        if(SceneManager.GetActiveScene().buildIndex > 0) {
+            Defines.CarregarAtributosSalvos();
+            //itens são recuperados na nova fase
+        }
+
         AvancarCena();
         
     }
@@ -168,7 +174,10 @@ public class GerenciadorScript : MonoBehaviour
             //ações pós batalha
         } else {
             print("mudar de fase");
-            //mudar de fase?
+            if(temProxFase) {
+                Defines.SalvarAtributos();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
         }
     }
 
