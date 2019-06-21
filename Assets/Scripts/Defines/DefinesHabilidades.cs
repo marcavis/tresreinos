@@ -22,16 +22,37 @@ public class DefinesHabilidades
         {"Tiro de dispersão", new Habilidade("Tiro de dispersão", "Dispara setas contra um alvo e alvos adjacentes.", 3, 20f,
         1, 2, Habilidade.aoeCruz1, "GUI/cursor1", 0, 
         (dono, alvo) => {
-            
+            alvo.ReceberAtaque(dono.Ataque(), dono);
         }
         , false)},
         {"Cura", new Habilidade("Cura", "Cura, no mínimo, 5 PV da unidade alvo.", 3, 20f, 0, 2, Habilidade.aoeCruz1, "GUI/cursor1", 0,
         (dono, alvo) => {
             alvo.ReceberCura(5 + Mathf.RoundToInt(dono.nivel/4));
         }, true)},
+        {"Empurrão de Escudo", new Habilidade("Empurrão de Escudo", "Afasta um inimigo usando sua força e escudo; outra unidade pode ser ferida se estiver em rota de colisão.", 2, 20f,
+        1, 1, Habilidade.aoe0, "GUI/cursor0", 0, 
+        (dono, alvo) => {
+            alvo.ReceberAtaque(1, dono);
+            Vector3 deltaPos = alvo.transform.position - dono.transform.position;
+            Vector3 novaPos = alvo.transform.position + deltaPos;
+            Personagem naNovaPos = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>().ObjetoNoTile(novaPos);
+            //alvo.TerrenoOcupavel(new Vector3Int((int) novaPos.x, (int) novaPos.y, 0))
+            if(naNovaPos != null) {
+                alvo.ReceberDano(alvo.mpv/10, dono);
+                naNovaPos.ReceberDano(naNovaPos.mpv/10, dono);
+            } else {
+                if(alvo.TerrenoOcupavel(new Vector3Int((int) novaPos.x, (int) novaPos.y, 0))) {
+                    alvo.transform.position += deltaPos;
+                } else {
+                    alvo.ReceberDano(alvo.mpv/10, dono);
+                }
+            }
+        }
+        , false)},
         {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoeCruz3, "GUI/cursor3", 0,
         (dono, alvo) => {
-            alvo.ReceberAtaqueHabilidade(50, dono);
+            alvo.ReceberAtaqueMagico(50, dono);
+            alvo.AdicionarEfeito("Maldição");
         }, false)}
     };
 }

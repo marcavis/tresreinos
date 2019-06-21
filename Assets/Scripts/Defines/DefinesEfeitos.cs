@@ -18,11 +18,11 @@ public class DefinesEfeitos
         //int duracao, Func efeitoNoAtaque, 
         //Func efeitoNoDano, Func efeitoNoDanoMagico, Func efeitoNaDefesa, Func efeitoNaAgilidade, Func efeitoNoMovimento, Action efeitoFimTurno)
         {"Maldição", new Efeito("Maldição",
-                                3, null,
-                                //efeitoNoDano
+                                3, null, null,
+                                //efeitoNoDanoMagico
                                 (unid, x) => {
-                                    return Mathf.FloorToInt(x * 1.25f);
-                                }, null, null, null, null, null)},
+                                    return Mathf.FloorToInt(x * 1.50f);
+                                }, null, null, null, null)},
         {"Quebra Armadura", new Efeito("Quebra Armadura",
                                 -1, null,
                                 null, null, 

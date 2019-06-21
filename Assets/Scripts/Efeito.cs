@@ -21,22 +21,6 @@ public class Efeito
     public Func<Personagem, int, int> efeitoNoMovimento;
     public Action<Personagem> efeitoFimTurno;
 
-    // public Arma(string nome, string podeEquipar, int poder, float variacao,
-    //             int alcanceMin, int alcanceMax, int precisao, int chanceCritica,
-    //             Action<Personagem, Personagem> efeitoAtaque,
-    //             Action<Personagem, Personagem> efeitoCritico) {
-    //     this.nome = nome;
-    //     this.podeEquipar = podeEquipar;
-    //     this.poder = poder;
-    //     this.variacao = variacao;
-    //     this.alcanceMin = alcanceMin;
-    //     this.alcanceMax = alcanceMax;
-    //     this.precisao = precisao;
-    //     this.chanceCritica = chanceCritica;
-
-    //     this.efeitoAtaque = efeitoAtaque;
-    //     this.efeitoCritico = efeitoCritico;
-    // }
     public Efeito(string nome, int duracao, 
         Func<Personagem, int, int> efeitoNoAtaque, 
         Func<Personagem, int, int> efeitoNoDano, 

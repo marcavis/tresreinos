@@ -112,7 +112,7 @@ public class Defines
     //não é necessário adicionar a arma inicial neste ponto
     public static Dictionary<string, string[]> itensIniciais = new Dictionary<string, string[]>() {
         
-        {herois[0], new string[] {"Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde", "Chá Verde"}},
+        {herois[0], new string[] {"Chá Verde", "Chá Verde"}},
         {herois[1], new string[] {"Chá Verde"}},
         {herois[2], new string[] {"Chá Verde"}},
         {herois[3], new string[] {"Chá Verde"}},
@@ -122,12 +122,12 @@ public class Defines
     };
 
     public static Dictionary<string, string[]> habilidadesIniciais = new Dictionary<string, string[]>() {
-        {herois[0], new string[] {"Tiro de dispersão", "Cura"}},
-        {herois[1], new string[] {"Tiro de dispersão", "Cura"}},
-        {herois[2], new string[] {"Tiro de dispersão", "Cura"}},
-        {herois[3], new string[] {"Tiro de dispersão", "Cura"}},
-        {herois[4], new string[] {"Tiro de dispersão", "Cura", "Armageddon"}},
-        {herois[5], new string[] {"Tiro de dispersão", "Cura"}},
+        {herois[0], new string[] {"Cura"}},
+        {herois[1], new string[] {}},
+        {herois[2], new string[] {}},
+        {herois[3], new string[] {"Tiro de dispersão",}},
+        {herois[4], new string[] {"Armageddon"}},
+        {herois[5], new string[] {"Empurrão de Escudo"}},
     };
 
     public static Dictionary<string, Animator> animacoesAtk = new Dictionary<string, Animator>() {

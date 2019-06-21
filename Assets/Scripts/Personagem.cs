@@ -272,6 +272,12 @@ public class Personagem : MonoBehaviour
         return custo;
     }
 
+    //verifica se o tile é de tipo que pode ser ocupado pela unidade
+    public bool TerrenoOcupavel(Vector3Int pos) {
+        Tilemap tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+        return CustoParaAndar(pos, tilemap) < 999;
+    }
+
     public bool ExistemPersonagensAlvos(int alcanceMin, int alcanceMax, bool seMesmoTime) {
         return AlvosAcessiveisFiltrados(alcanceMin, alcanceMax, seMesmoTime).Count > 0;
     }
@@ -347,10 +353,11 @@ public class Personagem : MonoBehaviour
         ReceberDano(novoDano, atacante);
     }
 
-    public void ReceberAtaqueHabilidade(int poder, Personagem atacante) {
+    public void ReceberAtaqueMagico(int poder, Personagem atacante) {
         Habilidade hab = atacante.habilidadeAtual;
         float danoCalculado = poder * (100 + UnityEngine.Random.Range(-hab.variacao, hab.variacao)) / 100;
         int novoDano = Mathf.FloorToInt(danoCalculado);
+        novoDano = AplicarEfeitosNoDanoMagico(novoDano);
         ReceberDano(novoDano, atacante);
     }
 
@@ -609,7 +616,13 @@ public class Personagem : MonoBehaviour
         }
         foreach (Efeito e in aApagar)
         {
-            efeitos.Remove(e);          
+            efeitos.Remove(e);
+            GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+            string texto = this.nome + " não está mais sob efeito de " + e.nome + "!";
+            List<Action<GerenciadorDialogo>> mensagem =  new List<Action<GerenciadorDialogo>> {
+                gd => {gd.Dialogo("Efeito", texto);}
+            };
+            gs.mensagensPendentes.Add(mensagem);    
         }
     }
 
@@ -622,6 +635,9 @@ public class Personagem : MonoBehaviour
     }
 
     public void AdicionarEfeito(string nome) {
+        if(this.pv == 0) {
+            return;
+        }
         bool jaExiste = false;
         Efeito novo = DefinesEfeitos.efeitos[nome];
         foreach (var e in efeitos)
