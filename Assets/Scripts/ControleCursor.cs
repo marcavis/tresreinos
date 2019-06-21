@@ -41,6 +41,7 @@ public class ControleCursor : MonoBehaviour
     const int ATACOU = 4;
     const int PROCURA_ALVO_TROCA = 13;
     const int PROCURA_ALVO_HAB = 23;
+    const int PROCURA_ALVO_ITEM = 33;
 
     public GerenciadorInput gerenciadorInput;
 
@@ -88,6 +89,13 @@ public class ControleCursor : MonoBehaviour
                 gerenciadorInput.cursorAtivo = 1;
                 gs.ReiniciarLabelsAlvo();
             } else if (acaoDoCursor == PROCURA_ALVO_TROCA) {
+                novaPosicao = ultimaUnidade.transform.position;
+                acaoDoCursor = MOVIDO;
+                gerenciadorInput.cursorAtivo = 2;
+                gs.ReiniciarLabelsAlvo();
+                LimparOverlays();
+                menuInventario.Reabrir();
+            } else if (acaoDoCursor == PROCURA_ALVO_ITEM) {
                 novaPosicao = ultimaUnidade.transform.position;
                 acaoDoCursor = MOVIDO;
                 gerenciadorInput.cursorAtivo = 2;
@@ -185,6 +193,20 @@ public class ControleCursor : MonoBehaviour
                         //gerenciadorInput.GetComponent<GerenciadorInput>().cursorAtivo = 3;
                     }
                 }
+            } else if(acaoDoCursor == PROCURA_ALVO_ITEM) {
+                if(transform.position == novaPosicao) {
+                    //informar onde o cursor está para o personagem - este vai definir quais alvos serão afetados
+                    //acessando a variável areaDeEfeito da habilidadeAtual
+                    ultimaUnidade.UsarItem(gs.ObjetoNoTile(transform.position));
+                    menuInventario.FecharMenu();
+                    Liberar();
+                    LimparOverlays();
+                    gs.SairMenuBatalha();
+                    gs.ReiniciarLabelsAlvo();
+                    gs.ProximoSeEmBatalha();
+                    finalizado = true;
+                    
+                }
             } else if(acaoDoCursor == PROCURA_ALVO_HAB) {
                 if(transform.position == novaPosicao) {
                     //informar onde o cursor está para o personagem - este vai definir quais alvos serão afetados
@@ -232,6 +254,18 @@ public class ControleCursor : MonoBehaviour
                     indiceAlvoSelecionado--;
                 }
                 List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(1, 1, true);
+                indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
+                novaPosicao = alvos[indiceAlvoSelecionado];
+                //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
+                gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(alvos[indiceAlvoSelecionado]));
+            } else if(acaoDoCursor == PROCURA_ALVO_ITEM) {
+                //fazer o cursor circular pelos alvos permitidos
+                if(direcao.x < 0 || direcao.y > 0) {
+                    indiceAlvoSelecionado++;
+                } else if(direcao.x > 0 || direcao.y < 0) {
+                    indiceAlvoSelecionado--;
+                }
+                List<Vector3> alvos = ultimaUnidade.AlvosAcessiveisFiltrados(0, 1, true);
                 indiceAlvoSelecionado = (alvos.Count + indiceAlvoSelecionado) % alvos.Count;
                 novaPosicao = alvos[indiceAlvoSelecionado];
                 //obtém o alvo apontado pelo cursor, e mostra seus dados no canvas do alvo
@@ -321,8 +355,8 @@ public class ControleCursor : MonoBehaviour
         }
     }
 
-    public void MostrarOverlaysTroca() {
-        List<Vector3> acessiveisTroca = ultimaUnidade.TilesAlvosAcessiveis(1, 1);
+    public void MostrarOverlaysItem() {
+        List<Vector3> acessiveisTroca = ultimaUnidade.TilesAlvosAcessiveis(0, 1);
         foreach (Vector3 t in acessiveisTroca)
         {
             Instantiate(greenSquare, t, Quaternion.identity);
@@ -418,6 +452,13 @@ public class ControleCursor : MonoBehaviour
         acaoDoCursor = PROCURA_ALVO_HAB;
         novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(ultimaUnidade.habilidadeAtual.alcanceMin, 
                         ultimaUnidade.habilidadeAtual.alcanceMax, seMesmoTime)[0];
+        podeMover = false;
+        gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
+    }
+
+    public void IrParaPrimeiroAlvoItem() {
+        acaoDoCursor = PROCURA_ALVO_ITEM;
+        novaPosicao = ultimaUnidade.AlvosAcessiveisFiltrados(0, 1, true)[0];
         podeMover = false;
         gs.MostrarDadosDoAlvo(gs.ObjetoNoTile(novaPosicao));
     }

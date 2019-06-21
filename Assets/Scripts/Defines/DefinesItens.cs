@@ -18,7 +18,10 @@ public class DefinesItens
     public static Dictionary<string, Item> itens = new Dictionary<string, Item> {
         //nome, descrição, efeito quando usado
         //TODO: criar descrições para itens
-        {"Chá Verde", new Item("Chá Verde", "Recupera pontos de vida", CURA, Item.efeitoNulo)},
+        {"Chá Verde", new Item("Chá Verde", "Recupera pontos de vida", CURA,
+            (dono, alvo) => {
+                alvo.ReceberCura(alvo.mpv/3);
+            })},
         {"Bastão", new Item("Bastão", "pou", ARMA, Item.efeitoNulo)},
         {"Espadas-Borboleta", new Item("Espadas-Borboleta", "cha-ching", ARMA, Item.efeitoNulo)},
         {"Machado", new Item("Machado", "chop", ARMA, Item.efeitoNulo)},

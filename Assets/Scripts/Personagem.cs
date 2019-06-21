@@ -37,6 +37,8 @@ public class Personagem : MonoBehaviour
     public List<Efeito> efeitos;
     
     public Item[] inventario;
+    public int posItemAtual;
+    public Item itemAtual;
     public Habilidade[] habilidades;
     public Habilidade habilidadeAtual;
 
@@ -457,6 +459,29 @@ public class Personagem : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void UsarItem(Personagem unid) {
+        
+        GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
+        AttackParent ap = GameObject.Find("Placeholder").GetComponent<AttackParent>();
+        List<Action<GerenciadorDialogo>> list = new List<Action<GerenciadorDialogo>>();
+        list.Add(gd => {
+            gd.IrPara(unid.transform.position);
+        });
+        list.Add(gd => {
+            ap.Abrir();
+            ap.SetLeftAnimator(Defines.animacoesAtk[this.nome]);
+            ap.SetRightAnimator(Defines.animacoesAtk[unid.nome]);
+        });
+        list.Add(gd => {
+            itemAtual.efeitoUso(this, unid);
+        });
+        list.Add(gd => {
+            ap.Fechar();
+        });
+        inventario[posItemAtual] = null;
+        gs.mensagensPendentes.Add(list);
     }
 
     public void UsarHabilidade(Vector3 posCentral) {

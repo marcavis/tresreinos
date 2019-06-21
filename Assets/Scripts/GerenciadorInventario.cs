@@ -80,12 +80,25 @@ public class GerenciadorInventario : MonoBehaviour
                         unid.arma = DefinesArmas.armas[itemSelecionado.nome];
                         gs.AtualizarMenuBatalha();
                     } else {
-                        if(itemSelecionado.efeitoUso == null) {
+                        if(itemSelecionado == null || itemSelecionado.efeitoUso == null) {
                             somErro = true;
+                            //print("não pode usar habilidade");
+                        } else {
+                            unid.itemAtual = itemSelecionado;
+                            unid.posItemAtual = posItemSelecionado;
+                            gerenciadorInput.cursorAtivo = 0;
+                            canvasAlvo.GetComponent<Canvas>().enabled = true;
+                            //o jogo ficará circulando entre os alvos permitidos, então começaremos
+                            //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
+                            cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvoItem();
+                            cursor.GetComponent<ControleCursor>().MostrarOverlaysItem();
+                            gameObject.GetComponent<Canvas>().enabled = false;
                         }
+                        gs.PlaySoundMenuSelect(somErro);
                         //usar o item
                         //TODO: deve ir para o cursor para achar um alvo
                         //itemSelecionado.efeitoUso(unid);
+                        
                     }
                 } else if(posAcaoSelecionada == 1) { 
                     if(!unid.ExistemPersonagensAlvos(1, 1, true)) {
@@ -97,7 +110,7 @@ public class GerenciadorInventario : MonoBehaviour
                         //o jogo ficará circulando entre os alvos permitidos, então começaremos
                         //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
                         cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvoTroca();
-                        cursor.GetComponent<ControleCursor>().MostrarOverlaysTroca();
+                        cursor.GetComponent<ControleCursor>().MostrarOverlaysItem();
                         cursor.GetComponent<ControleCursor>().indiceItemSelecionado = posItemSelecionado;
                         gameObject.GetComponent<Canvas>().enabled = false;
                     }

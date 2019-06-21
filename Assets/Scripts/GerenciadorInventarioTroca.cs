@@ -43,7 +43,7 @@ public class GerenciadorInventarioTroca : MonoBehaviour
             //o jogo ficará circulando entre os alvos permitidos, então começaremos
             //movendo para o primeiro alvo encontrado (viés para o canto inferior esquerdo)
             cursor.GetComponent<ControleCursor>().IrParaPrimeiroAlvoTroca();
-            cursor.GetComponent<ControleCursor>().MostrarOverlaysTroca();
+            cursor.GetComponent<ControleCursor>().MostrarOverlaysItem();
             //cursor.GetComponent<ControleCursor>().indiceItemSelecionado = posItemSelecionado;
             gameObject.GetComponent<Canvas>().enabled = false;
         } 
