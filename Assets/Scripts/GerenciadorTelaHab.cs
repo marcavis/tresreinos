@@ -53,7 +53,7 @@ public class GerenciadorTelaHab : MonoBehaviour
             bool somErro = false;
             Habilidade aEscolher = unid.habilidades[posHabSelecionada];    
             
-            if(!unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, aEscolher.seMesmoTime)) {
+            if(aEscolher == null || !unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, aEscolher.seMesmoTime)) {
                 somErro = true;
                 //print("não pode usar habilidade");
             } else {
