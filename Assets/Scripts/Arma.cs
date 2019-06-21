@@ -24,8 +24,7 @@ public class Arma
     public static Action<Personagem, Personagem> efeitoAtaquePadrao = (dono, alvo) => alvo.ReceberAtaque(dono.Ataque(), dono);
     public static Action<Personagem, Personagem> efeitoCriticoPadrao = (dono, alvo) => 
         {
-            alvo.ReceberAtaque(dono.Ataque(), dono);
-            alvo.ReceberDano(dono.arma.poder, dono);
+            alvo.ReceberAtaque(dono.Ataque() + ((dono.Ataque() - alvo.Defesa())/2), dono);
         };
 
     public Arma(string nome, string podeEquipar, int poder, float variacao,
