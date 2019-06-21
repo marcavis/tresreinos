@@ -140,7 +140,7 @@ public class Inimigo : MonoBehaviour
         Vector3 posAlvo = alvo.transform.position;
         int distParaEncurtar = Random.Range(2, 2 + 1); //alterar depois, conforme agressividade
         float distanciaAtual = Personagem.Manhattan(posAlvo, transform.position);
-        List<Vector3> tilesParaAproximacao = terrenoAcessivel.Where(x => Personagem.Manhattan(transform.position, x) == distParaEncurtar).ToList();
+        List<Vector3> tilesParaAproximacao = terrenoAcessivel.Where(x => Personagem.Manhattan(transform.position, x) == distParaEncurtar && gs.ObjetoNoTile(x) == null).ToList();
         tilesParaAproximacao.Sort((x, y) => Personagem.Manhattan(x, posAlvo).CompareTo(Personagem.Manhattan(y, posAlvo)));
         // foreach (var o in terrenoAcessivel)
         // {
