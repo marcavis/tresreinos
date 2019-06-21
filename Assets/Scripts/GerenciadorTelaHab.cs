@@ -53,7 +53,7 @@ public class GerenciadorTelaHab : MonoBehaviour
             bool somErro = false;
             Habilidade aEscolher = unid.habilidades[posHabSelecionada];    
             
-            if(aEscolher == null || !unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, aEscolher.seMesmoTime)) {
+            if(aEscolher == null || unid.pt < aEscolher.custo || !unid.ExistemPersonagensAlvos(aEscolher.alcanceMin, aEscolher.alcanceMax, aEscolher.seMesmoTime)) {
                 somErro = true;
                 //print("não pode usar habilidade");
             } else {
@@ -90,7 +90,8 @@ public class GerenciadorTelaHab : MonoBehaviour
         slots[posHabSelecionada].text = "> " + slots[posHabSelecionada].text + " <";
         Habilidade atual = unid.habilidades[posHabSelecionada];
         campoDesc.text = atual != null ? atual.descricao : "-";
-        custo.text = atual != null ? "Custo: " + atual.custo + " PT" : "-";
+        custo.text = atual != null ? "Custo: " + (unid.pt >= atual.custo ?
+                                     "<color=#ffffffff>"+atual.custo + "</color>" : "<color=#ff0000ff>" + atual.custo + "</color>") + " PT" : "-";
         alcance.text = atual != null ? "Alcance: " + atual.alcanceMin + " a " + atual.alcanceMax + " células": "-";
     }
 

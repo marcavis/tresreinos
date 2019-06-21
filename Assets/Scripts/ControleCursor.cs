@@ -189,7 +189,7 @@ public class ControleCursor : MonoBehaviour
                 if(transform.position == novaPosicao) {
                     //informar onde o cursor está para o personagem - este vai definir quais alvos serão afetados
                     //acessando a variável areaDeEfeito da habilidadeAtual
-                
+                    ultimaUnidade.pt -= ultimaUnidade.habilidadeAtual.custo;
                     gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("GUI/cursor0");
                     ultimaUnidade.UsarHabilidade(transform.position);
                     Liberar();

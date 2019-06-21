@@ -202,7 +202,6 @@ public class GerenciadorScript : MonoBehaviour
 
         for (int i = 0; i < Defines.herois.Length; i++)
         {
-            Debug.Log(objHerois[i].nome + PlayerPrefs.GetInt("exp_" + i));
             objHerois[i].nivel = PlayerPrefs.GetInt("nivel_" + i);
             objHerois[i].exp = PlayerPrefs.GetInt("exp_" + i);
         }
