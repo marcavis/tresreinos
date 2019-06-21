@@ -113,6 +113,7 @@ public class GerenciadorDialogo : MonoBehaviour
 
     public int ProximaAcao() {
         progressoMsg = 0f;
+        caixaTexto.text = "";
         gameObject.GetComponent<Canvas>().enabled = false;
         if(progressoAcoes >= acoes.Count) {
             return -1;

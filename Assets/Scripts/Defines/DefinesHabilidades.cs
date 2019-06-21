@@ -25,6 +25,12 @@ public class DefinesHabilidades
             alvo.ReceberAtaque(dono.Ataque(), dono);
         }
         , false)},
+        {"Reversão", new Habilidade("Reversão", "Usa o poder de ataque do inimigo contra ele próprio.", 3, 20f,
+        1, 1, Habilidade.aoe0, "GUI/cursor0", 0, 
+        (dono, alvo) => {
+            alvo.ReceberAtaque(alvo.Ataque(), dono);
+        }
+        , false)},
         {"Cura", new Habilidade("Cura", "Cura, no mínimo, 5 PV da unidade alvo.", 3, 20f, 0, 2, Habilidade.aoeCruz1, "GUI/cursor1", 0,
         (dono, alvo) => {
             alvo.ReceberCura(5 + Mathf.RoundToInt(dono.nivel/4));
@@ -49,7 +55,7 @@ public class DefinesHabilidades
             }
         }
         , false)},
-        {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoeCruz3, "GUI/cursor3", 0,
+        {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoeCruz7, "GUI/cursor3", 0,
         (dono, alvo) => {
             alvo.ReceberAtaqueMagico(50, dono);
             alvo.AdicionarEfeito("Maldição");

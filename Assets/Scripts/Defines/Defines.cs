@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Defines
+public class Defines 
 {   
     public const int TAMANHO_INVENTARIO = 8;
     //                                          
@@ -14,7 +14,7 @@ public class Defines
                                                     "Jiang Xun", 
                                                     "Guan Long"};
 
-    public static Personagem[] objHerois = new Personagem[]  {GameObject.Find("ZhengXiulan").GetComponent<Personagem>(), 
+    public Personagem[] objHerois = new Personagem[]  {GameObject.Find("ZhengXiulan").GetComponent<Personagem>(), 
                                                     GameObject.Find("MiaoLin").GetComponent<Personagem>(), 
                                                     GameObject.Find("TaoJiang").GetComponent<Personagem>(), 
                                                     GameObject.Find("LiuJingsheng").GetComponent<Personagem>(), 
@@ -129,10 +129,10 @@ public class Defines
     };
 
     public static Dictionary<string, string[]> habilidadesIniciais = new Dictionary<string, string[]>() {
-        {herois[0], new string[] {"Cura"}},
+        {herois[0], new string[] {"Cura", "Reversão"}},
         {herois[1], new string[] {}},
         {herois[2], new string[] {}},
-        {herois[3], new string[] {"Tiro de dispersão",}},
+        {herois[3], new string[] {"Tiro de dispersão"}},
         {herois[4], new string[] {"Armageddon"}},
         {herois[5], new string[] {"Empurrão de Escudo"}},
     };
@@ -194,20 +194,4 @@ public class Defines
         }
     }
 
-    public static void SalvarAtributos() {
-        for (int i = 0; i < herois.Length; i++)
-        {
-            PlayerPrefs.SetInt("nivel_" + herois[i], objHerois[i].nivel);
-            PlayerPrefs.SetInt("exp_" + herois[i], objHerois[i].exp);
-        }
-        PlayerPrefs.Save();
-    }
-
-    public static void CarregarAtributosSalvos() {
-        for (int i = 0; i < herois.Length; i++)
-        {
-            objHerois[i].nivel = PlayerPrefs.GetInt("nivel_" + herois[i]);
-            objHerois[i].exp = PlayerPrefs.GetInt("exp_" + herois[i]);
-        }
-    }
 }

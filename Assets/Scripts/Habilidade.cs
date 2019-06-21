@@ -51,6 +51,7 @@ public class Habilidade
 
     public static List<Vector3> aoeCruz2 = gerarAOE(2);
     public static List<Vector3> aoeCruz3 = gerarAOE(3);
+    public static List<Vector3> aoeCruz7 = gerarAOE(7);
 
     public static List<Vector3> gerarAOE(int tamanho) {
         List<Vector3> result = new List<Vector3>();

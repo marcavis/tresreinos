@@ -84,13 +84,11 @@ public class GerenciadorScript : MonoBehaviour
         alvoLabels[0] = GameObject.Find("AlvoLabel").GetComponent<Text>();
         alvoLabels[1] = GameObject.Find("AlvoPVLabel").GetComponent<Text>();
         
-        if(SceneManager.GetActiveScene().buildIndex > 0) {
-            Defines.CarregarAtributosSalvos();
-            //itens são recuperados na nova fase
-        }
-
         AvancarCena();
-        
+        if(SceneManager.GetActiveScene().buildIndex == 0) {
+            SalvarAtributos(true);
+        }
+        CarregarAtributosSalvos();
     }
 
     // Update is called once per frame
@@ -160,6 +158,56 @@ public class GerenciadorScript : MonoBehaviour
         }
     }
 
+    public void SalvarAtributos() {
+        Personagem[] objHerois = new Personagem[]  {GameObject.Find("ZhengXiulan").GetComponent<Personagem>(), 
+                                                    GameObject.Find("MiaoLin").GetComponent<Personagem>(), 
+                                                    GameObject.Find("TaoJiang").GetComponent<Personagem>(), 
+                                                    GameObject.Find("LiuJingsheng").GetComponent<Personagem>(), 
+                                                    GameObject.Find("JiangXun").GetComponent<Personagem>(), 
+                                                    GameObject.Find("GuanLong").GetComponent<Personagem>()};
+
+        for (int i = 0; i < Defines.herois.Length; i++)
+        {
+            PlayerPrefs.SetInt("nivel_" + i, objHerois[i].nivel);
+            PlayerPrefs.SetInt("exp_" + i, objHerois[i].exp);
+        }
+        PlayerPrefs.Save();
+    }
+
+    public void SalvarAtributos(bool zerar) {
+        Personagem[] objHerois = new Personagem[]  {GameObject.Find("ZhengXiulan").GetComponent<Personagem>(), 
+                                                    GameObject.Find("MiaoLin").GetComponent<Personagem>(), 
+                                                    GameObject.Find("TaoJiang").GetComponent<Personagem>(), 
+                                                    GameObject.Find("LiuJingsheng").GetComponent<Personagem>(), 
+                                                    GameObject.Find("JiangXun").GetComponent<Personagem>(), 
+                                                    GameObject.Find("GuanLong").GetComponent<Personagem>()};
+
+        if(zerar) {
+            for (int i = 0; i < Defines.herois.Length; i++)
+            {
+                PlayerPrefs.SetInt("nivel_" + i, 1);
+                PlayerPrefs.SetInt("exp_" + i, 0);
+            }
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void CarregarAtributosSalvos() {
+        Personagem[] objHerois = new Personagem[]  {GameObject.Find("ZhengXiulan").GetComponent<Personagem>(), 
+                                                    GameObject.Find("MiaoLin").GetComponent<Personagem>(), 
+                                                    GameObject.Find("TaoJiang").GetComponent<Personagem>(), 
+                                                    GameObject.Find("LiuJingsheng").GetComponent<Personagem>(), 
+                                                    GameObject.Find("JiangXun").GetComponent<Personagem>(), 
+                                                    GameObject.Find("GuanLong").GetComponent<Personagem>()};
+
+        for (int i = 0; i < Defines.herois.Length; i++)
+        {
+            Debug.Log(objHerois[i].nome + PlayerPrefs.GetInt("exp_" + i));
+            objHerois[i].nivel = PlayerPrefs.GetInt("nivel_" + i);
+            objHerois[i].exp = PlayerPrefs.GetInt("exp_" + i);
+        }
+    }
+
     public void AvancarCena() {
         if(estadoBatalha == 0) {
             gerenciadorInput.cursorAtivo = 6;
@@ -175,7 +223,7 @@ public class GerenciadorScript : MonoBehaviour
         } else {
             print("mudar de fase");
             if(temProxFase) {
-                Defines.SalvarAtributos();
+                SalvarAtributos();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
         }
