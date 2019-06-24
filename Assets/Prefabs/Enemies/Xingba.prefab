@@ -105,6 +105,7 @@ MonoBehaviour:
   pt: 0
   mpt: 0
   iniciativa: 0
+  posItemAtual: 0
   destinoFinal: {x: 0, y: 0, z: 0}
 --- !u!114 &255941334503480872
 MonoBehaviour:
@@ -129,7 +130,7 @@ Animator:
   m_GameObject: {fileID: 2963695120880658533}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b3810f6dd80eb6942ada54836084d979, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6f73a82a0088f7f4fb6933df88333cf6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -333,6 +333,10 @@ public class Personagem : MonoBehaviour
             //erro
             //será que vai ser interessante implementar
             //arma.efeitoFalha() ?
+            if (time == 1)
+            ap.PlayLeft("MISS",true);
+            else 
+            ap.PlayRight("MISS");
             print(nome + " falhou ao atacar " + alvo.nome);
         } else {
             dado = UnityEngine.Random.Range(0, 100);

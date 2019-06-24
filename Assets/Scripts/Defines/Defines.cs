@@ -147,7 +147,7 @@ public class Defines
         {"Ogro", Resources.Load<Animator>("Battle/Anims/Ogro")},
         {"Chefe Ogro", Resources.Load<Animator>("Battle/Anims/CapOgro")},
         {"Esqueleto", Resources.Load<Animator>("Battle/Anims/Esqueleto")},
-        {"Xingba", Resources.Load<Animator>("Battle/Anims/Esqueleto")}
+        {"Xingba", Resources.Load<Animator>("Battle/Anims/Xingba")}
     };
 
     public static void Inicializacao(string nome, GameObject objeto) {
