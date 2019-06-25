@@ -168,10 +168,18 @@ public class Personagem : MonoBehaviour
         return new Vector3(-m + entrada.x + transform.position.x, -m + entrada.y + transform.position.y, 0);
     }
 
+    // public Dictionary<Vector3, int> DistanciasParaAtingir(int mov, Vector3 alvo) {
+    //     Tilemap tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
+    // }
+
     public List<Vector3> TilesAcessiveis(Tilemap tilemap) {
+        return TilesAcessiveis(Movimento(), tilemap);
+    }
+
+    public List<Vector3> TilesAcessiveis(int mov, Tilemap tilemap) {
         //System.Diagnostics.Stopwatch st = new System.Diagnostics.Stopwatch();
         //st.Start();
-        int dimensaoMat = (int) (Movimento() * 2 / 10 + 1);
+        int dimensaoMat = (int) (mov * 2 / 10 + 1);
 
         int meuX = dimensaoMat / 2; //centro do quadrado avaliado
         int meuY = dimensaoMat / 2;
@@ -189,7 +197,7 @@ public class Personagem : MonoBehaviour
             }
         }
         gScore[meuX, meuY] = 0;
-        fScore[meuX, meuY] = Movimento();
+        fScore[meuX, meuY] = mov;
 
         openSet.Add(new Vector3(meuX, meuY, 0));
 
@@ -206,8 +214,8 @@ public class Personagem : MonoBehaviour
                 }
                 //vizinho é um vetor com coordenadas relativas à posição atual, mas precisamos de
                 //dados da célula real 
-                float esteTileX = transform.position.x + vizinho.x - (Movimento()/10);
-                float esteTileY = transform.position.y + vizinho.y - (Movimento()/10);
+                float esteTileX = transform.position.x + vizinho.x - (mov/10);
+                float esteTileY = transform.position.y + vizinho.y - (mov/10);
                 Vector3Int posRealVizinho = new Vector3Int((int) esteTileX, (int) esteTileY, 0);
                 float possivel_gScore = gScore[(int) atual.x, (int) atual.y] + CustoParaAndar(posRealVizinho, tilemap);// + custo(vizinho)
                 if(!openSet.Contains(vizinho)) {
@@ -226,9 +234,9 @@ public class Personagem : MonoBehaviour
         }
         for(int i = 0; i < dimensaoMat; i++) {
             for (int j = 0; j < dimensaoMat; j++) {
-                if(Mathf.Floor(gScore[i,j]) <= Movimento()) {
-                    float esteTileX = transform.position.x + i - Movimento()/10;
-                    float esteTileY = transform.position.y + j - Movimento()/10;
+                if(Mathf.Floor(gScore[i,j]) <= mov) {
+                    float esteTileX = transform.position.x + i - mov/10;
+                    float esteTileY = transform.position.y + j - mov/10;
                     acessiveis.Add(new Vector3(esteTileX, esteTileY, 0));
                 }
             }
@@ -646,6 +654,7 @@ public class Personagem : MonoBehaviour
         foreach (Efeito e in aApagar)
         {
             efeitos.Remove(e);
+            e.efeitoExpirar(this); //executar o comando que ocorre quando expira o efeito
             GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
             string texto = this.nome + " não está mais sob efeito de " + e.nome + "!";
             List<Action<GerenciadorDialogo>> mensagem =  new List<Action<GerenciadorDialogo>> {
@@ -656,11 +665,12 @@ public class Personagem : MonoBehaviour
     }
 
     public void PreTurno() {
-        DegradarEfeitos();
+        
     }
 
     public void PosTurno() {
         //não implementado neste momento
+        DegradarEfeitos();
     }
 
     public void AdicionarEfeito(string nome) {

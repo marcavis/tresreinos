@@ -58,6 +58,7 @@ public class GerenciadorInventarioTroca : MonoBehaviour
             FecharMenu();
             cursor.GetComponent<ControleCursor>().Liberar();
             gs.SairMenuBatalha();
+            origem.PosTurno();
             gs.ProximoSeEmBatalha();
             GameObject.Find("CanvasInventario").GetComponent<GerenciadorInventario>().FecharMenu();
         }

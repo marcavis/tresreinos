@@ -20,11 +20,12 @@ public class Defines
                                                     GameObject.Find("LiuJingsheng").GetComponent<Personagem>(), 
                                                     GameObject.Find("JiangXun").GetComponent<Personagem>(), 
                                                     GameObject.Find("GuanLong").GetComponent<Personagem>()};       
-    const int ANDAR_NORMAL = 0;
-    const int ANDAR_TRILHA = 1;
-    const int ANDAR_RUSTICO = 2;
-    const int ANDAR_AQUATICO = 3;
-    static Dictionary<string, int> tiposDeAndar = new Dictionary<string, int>() {
+    public const int ANDAR_NORMAL = 0;
+    public const int ANDAR_TRILHA = 1;
+    public const int ANDAR_RUSTICO = 2;
+    public const int ANDAR_AQUATICO = 3;
+    public const int ANDAR_SUPER = 4;
+    public static Dictionary<string, int> tiposDeAndar = new Dictionary<string, int>() {
         {herois[0], ANDAR_NORMAL},
         {herois[1], ANDAR_TRILHA},
         {herois[2], ANDAR_RUSTICO},
@@ -51,6 +52,16 @@ public class Defines
                     {"stalagmite", 999},
                     {"hole", 999}
                 };
+            case ANDAR_RUSTICO:
+                return new Dictionary<string, int>() {
+                    {"grass", 10},
+                    {"carpet", 10},
+                    {"caverock", 20},
+                    {"cavewater", 25},
+                    {"blackpool", 20},
+                    {"stalagmite", 999},
+                    {"hole", 999}
+                };
             case ANDAR_AQUATICO:
                 return new Dictionary<string, int>() {
                     {"grass", 20},
@@ -58,6 +69,16 @@ public class Defines
                     {"caverock", 25},
                     {"cavewater", 10},
                     {"blackpool", 15},
+                    {"stalagmite", 999},
+                    {"hole", 999}
+                };
+            case ANDAR_SUPER:
+                return new Dictionary<string, int>() {
+                    {"grass", 10},
+                    {"carpet", 10},
+                    {"caverock", 10},
+                    {"cavewater", 10},
+                    {"blackpool", 10},
                     {"stalagmite", 999},
                     {"hole", 999}
                 };
@@ -130,7 +151,7 @@ public class Defines
 
     public static Dictionary<string, string[]> habilidadesIniciais = new Dictionary<string, string[]>() {
         {herois[0], new string[] {"Cura", "Reversão"}},
-        {herois[1], new string[] {}},
+        {herois[1], new string[] {"Estudo de Campo"}},
         {herois[2], new string[] {}},
         {herois[3], new string[] {"Tiro de dispersão"}},
         {herois[4], new string[] {"Armageddon"}},

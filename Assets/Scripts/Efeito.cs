@@ -20,6 +20,7 @@ public class Efeito
     public Func<Personagem, int, int> efeitoNaAgilidade;
     public Func<Personagem, int, int> efeitoNoMovimento;
     public Action<Personagem> efeitoFimTurno;
+    public Action<Personagem> efeitoExpirar; //ação executada quando o efeito é removido
 
     public Efeito(string nome, int duracao, 
         Func<Personagem, int, int> efeitoNoAtaque, 
@@ -28,7 +29,8 @@ public class Efeito
         Func<Personagem, int, int> efeitoNaDefesa,
         Func<Personagem, int, int> efeitoNaAgilidade,
         Func<Personagem, int, int> efeitoNoMovimento,
-        Action<Personagem> efeitoFimTurno)
+        Action<Personagem> efeitoFimTurno,
+        Action<Personagem> efeitoExpirar)
     {
         this.duracao = duracao;
         this.nome = nome;
@@ -39,5 +41,6 @@ public class Efeito
         this.efeitoNaAgilidade = efeitoNaAgilidade;
         this.efeitoNoMovimento = efeitoNoMovimento;
         this.efeitoFimTurno = efeitoFimTurno;
+        this.efeitoExpirar = efeitoExpirar;
     }
 }

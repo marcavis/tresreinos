@@ -206,6 +206,7 @@ public class Inimigo : MonoBehaviour
         gs.ReiniciarLabelsAlvo();
         gs.canvas.GetComponent<Canvas>().enabled = false;
         estado = 0;
+        personagem.PosTurno();
         gs.ProximoSeEmBatalha();
     }
 

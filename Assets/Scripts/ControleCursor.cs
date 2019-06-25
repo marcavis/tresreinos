@@ -167,6 +167,7 @@ public class ControleCursor : MonoBehaviour
                         gs.canvasBatalhaAberto = false;
                         gs.SairMenuBatalha();
                         gs.ReiniciarLabelsAlvo();
+                        ultimaUnidade.PosTurno();
                         gs.ProximoSeEmBatalha();
                         finalizado = true;
                     }));
@@ -184,6 +185,7 @@ public class ControleCursor : MonoBehaviour
                         gs.SairMenuBatalha();
                         menuInventario.FecharMenu();
                         gs.ReiniciarLabelsAlvo();
+                        ultimaUnidade.PosTurno();
                         gs.ProximoSeEmBatalha();
                         finalizado = true;
                     } else {
@@ -203,6 +205,7 @@ public class ControleCursor : MonoBehaviour
                     LimparOverlays();
                     gs.SairMenuBatalha();
                     gs.ReiniciarLabelsAlvo();
+                    ultimaUnidade.PosTurno();
                     gs.ProximoSeEmBatalha();
                     finalizado = true;
                     
@@ -218,6 +221,7 @@ public class ControleCursor : MonoBehaviour
                     LimparOverlays();
                     gs.SairMenuBatalha();
                     gs.ReiniciarLabelsAlvo();
+                    ultimaUnidade.PosTurno();
                     gs.ProximoSeEmBatalha();
                     finalizado = true;
                     

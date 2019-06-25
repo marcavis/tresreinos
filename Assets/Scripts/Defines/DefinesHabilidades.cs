@@ -35,6 +35,12 @@ public class DefinesHabilidades
         (dono, alvo) => {
             alvo.ReceberCura(5 + Mathf.RoundToInt(dono.nivel/4));
         }, true)},
+        {"Estudo de Campo", new Habilidade("Estudo de Campo", "Torna o alvo capaz de navegar qualquer terreno rapidamente.", 3, 0f, 0, 2, Habilidade.aoe0, "GUI/cursor0", 0,
+        (dono, alvo) => {
+            alvo.andar = Defines.Andar(Defines.ANDAR_SUPER);
+            Debug.Log(alvo.nome);
+            alvo.AdicionarEfeito("Ignora Terreno");
+        }, true)},
         {"Empurrão de Escudo", new Habilidade("Empurrão de Escudo", "Afasta um inimigo usando sua força e escudo; outra unidade pode ser ferida se estiver em rota de colisão.", 2, 20f,
         1, 1, Habilidade.aoe0, "GUI/cursor0", 0, 
         (dono, alvo) => {

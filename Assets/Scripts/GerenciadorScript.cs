@@ -137,6 +137,7 @@ public class GerenciadorScript : MonoBehaviour
                 // PlaySoundMenuSelect();
                 SairMenuBatalha();
                 cursor.GetComponent<ControleCursor>().Liberar();
+                cursor.GetComponent<ControleCursor>().ultimaUnidade.PosTurno();
                 ProximoSeEmBatalha();
                 //print(cursor.GetComponent<ControleCursor>().acaoDoCursor);
             }
@@ -241,7 +242,6 @@ public class GerenciadorScript : MonoBehaviour
     }
     
     public void Proximo() {
-        personagens[0].PosTurno();
         if(personagens.Where((a) => a.time == 0).ToList().Count == 0) {
             print("Game over");
         } else if (personagens.Where((a) => a.time == 1).ToList().Count == 0) {
