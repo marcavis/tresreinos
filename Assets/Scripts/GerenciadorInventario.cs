@@ -94,11 +94,7 @@ public class GerenciadorInventario : MonoBehaviour
                             cursor.GetComponent<ControleCursor>().MostrarOverlaysItem();
                             gameObject.GetComponent<Canvas>().enabled = false;
                         }
-                        gs.PlaySoundMenuSelect(somErro);
-                        //usar o item
-                        //TODO: deve ir para o cursor para achar um alvo
-                        //itemSelecionado.efeitoUso(unid);
-                        
+                        gs.PlaySoundMenuSelect(somErro);                        
                     }
                 } else if(posAcaoSelecionada == 1) { 
                     if(!unid.ExistemPersonagensAlvos(1, 1, true)) {
