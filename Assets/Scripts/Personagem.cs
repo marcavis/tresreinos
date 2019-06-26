@@ -654,7 +654,9 @@ public class Personagem : MonoBehaviour
         foreach (Efeito e in aApagar)
         {
             efeitos.Remove(e);
-            e.efeitoExpirar(this); //executar o comando que ocorre quando expira o efeito
+            if(e.efeitoExpirar != null) {
+                e.efeitoExpirar(this); //executar o comando que ocorre quando expira o efeito
+            }
             GerenciadorScript gs = GameObject.Find("Gerenciador").GetComponent<GerenciadorScript>();
             string texto = this.nome + " não está mais sob efeito de " + e.nome + "!";
             List<Action<GerenciadorDialogo>> mensagem =  new List<Action<GerenciadorDialogo>> {

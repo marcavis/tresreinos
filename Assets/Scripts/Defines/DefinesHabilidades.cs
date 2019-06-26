@@ -20,29 +20,46 @@ public class DefinesHabilidades
         //      Action<Personagem, Personagem> efeitoAtaque,
         //      bool seMesmoTime)
         {"Tiro de dispersão", new Habilidade("Tiro de dispersão", "Dispara setas contra um alvo e alvos adjacentes.", 3, 20f,
-        1, 2, Habilidade.aoeCruz1, "GUI/cursor1", 0, 
+        1, 2, Habilidade.aoeCruz1, "GUI/cursor1", 
         (dono, alvo) => {
             alvo.ReceberAtaque(dono.Ataque(), dono);
         }
         , false)},
         {"Reversão", new Habilidade("Reversão", "Usa o poder de ataque do inimigo contra ele próprio.", 3, 20f,
-        1, 1, Habilidade.aoe0, "GUI/cursor0", 0, 
+        1, 1, Habilidade.aoe0, "GUI/cursor0",
         (dono, alvo) => {
             alvo.ReceberAtaque(alvo.Ataque(), dono);
         }
         , false)},
-        {"Cura", new Habilidade("Cura", "Cura, no mínimo, 5 PV da unidade alvo.", 3, 20f, 0, 2, Habilidade.aoeCruz1, "GUI/cursor1", 0,
+        {"Corte Diagonal", new Habilidade("Corte Diagonal", "Um ataque que pode diminuir pela metade a vida do inimigo. Pode falhar!", 3, 0f,
+        1, 1, Habilidade.aoe0, "GUI/cursor0",
+        (dono, alvo) => {
+            if(UnityEngine.Random.Range(0, 5) == 0) {
+                alvo.ReceberDano(0, dono);
+            } else {
+                alvo.ReceberDano(alvo.pv/2, dono);
+            }
+        }
+        , false)},
+        {"Dardo Paralisante", new Habilidade("Dardo Paralisante", "Lança um dardo contra os pés do inimigo, afetando sua capacidade de movimento", 3, 20f,
+        1, 2, Habilidade.aoe0, "GUI/cursor0",
+        (dono, alvo) => {
+            alvo.ReceberAtaque(Mathf.RoundToInt(alvo.Ataque() * 0.8f), dono);
+            alvo.AdicionarEfeito("Fixado");
+        }
+        , false)},
+        {"Cura", new Habilidade("Cura", "Cura, no mínimo, 5 PV da unidade alvo.", 3, 20f, 0, 2, Habilidade.aoeCruz1, "GUI/cursor1",
         (dono, alvo) => {
             alvo.ReceberCura(5 + Mathf.RoundToInt(dono.nivel/4));
         }, true)},
-        {"Estudo de Campo", new Habilidade("Estudo de Campo", "Torna o alvo capaz de navegar qualquer terreno rapidamente.", 3, 0f, 0, 2, Habilidade.aoe0, "GUI/cursor0", 0,
+        {"Estudo de Campo", new Habilidade("Estudo de Campo", "Torna o alvo capaz de navegar qualquer terreno rapidamente.", 3, 0f, 0, 2, Habilidade.aoe0, "GUI/cursor0",
         (dono, alvo) => {
             alvo.andar = Defines.Andar(Defines.ANDAR_SUPER);
             Debug.Log(alvo.nome);
             alvo.AdicionarEfeito("Ignora Terreno");
         }, true)},
         {"Empurrão de Escudo", new Habilidade("Empurrão de Escudo", "Afasta um inimigo usando sua força e escudo; outra unidade pode ser ferida se estiver em rota de colisão.", 2, 20f,
-        1, 1, Habilidade.aoe0, "GUI/cursor0", 0, 
+        1, 1, Habilidade.aoe0, "GUI/cursor0",
         (dono, alvo) => {
             alvo.ReceberAtaque(1, dono);
             Vector3 deltaPos = alvo.transform.position - dono.transform.position;
@@ -61,7 +78,7 @@ public class DefinesHabilidades
             }
         }
         , false)},
-        {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoeCruz7, "GUI/cursor3", 0,
+        {"Armageddon", new Habilidade("Armageddon", "CHEAT", 1, 35f, 1, 10, Habilidade.aoeCruz7, "GUI/cursor3",
         (dono, alvo) => {
             alvo.ReceberAtaqueMagico(50, dono);
             alvo.AdicionarEfeito("Maldição");

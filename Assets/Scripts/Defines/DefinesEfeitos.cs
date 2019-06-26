@@ -34,5 +34,7 @@ public class DefinesEfeitos
                                 3, null,
                                 null, null, 
                                 null, null, null, null, unid => unid.andar = Defines.Andar(Defines.tiposDeAndar[unid.nome]))},
+        {"Fixado", new Efeito("Fixado",
+                                1, null, null, null, null, null, (unid, x) => {return x/2;}, null, null)}
     };
 }

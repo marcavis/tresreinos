@@ -152,9 +152,9 @@ public class Defines
     public static Dictionary<string, string[]> habilidadesIniciais = new Dictionary<string, string[]>() {
         {herois[0], new string[] {"Cura", "Reversão"}},
         {herois[1], new string[] {"Estudo de Campo"}},
-        {herois[2], new string[] {}},
+        {herois[2], new string[] {"Corte Diagonal"}},
         {herois[3], new string[] {"Tiro de dispersão"}},
-        {herois[4], new string[] {"Armageddon"}},
+        {herois[4], new string[] {"Dardo Paralisante", "Armageddon"}},
         {herois[5], new string[] {"Empurrão de Escudo"}},
     };
 

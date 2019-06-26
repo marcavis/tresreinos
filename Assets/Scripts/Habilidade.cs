@@ -12,7 +12,6 @@ public class Habilidade
     public int alcanceMin, alcanceMax; 
     public List<Vector3> areaDeEfeito;
     public string cursorSprite; //deve ser sempre o mesmo formato da areaDeEfeito
-    public int precisao; //usualmente 0
 
 
     public Personagem dono;
@@ -21,7 +20,7 @@ public class Habilidade
     public bool seMesmoTime;
 
     public Habilidade(string nome, string descricao, int custo, float variacao, int alcanceMin, int alcanceMax,
-                List<Vector3> areaDeEfeito, string cursorSprite, int precisao,
+                List<Vector3> areaDeEfeito, string cursorSprite,
                 Action<Personagem, Personagem> efeitoUso,
                 bool seMesmoTime) {
         this.nome = nome;
@@ -32,7 +31,6 @@ public class Habilidade
         this.alcanceMax = alcanceMax;
         this.areaDeEfeito = areaDeEfeito;
         this.cursorSprite = cursorSprite;
-        this.precisao = precisao;
 
         this.efeitoUso = efeitoUso;
         this.seMesmoTime = seMesmoTime;
