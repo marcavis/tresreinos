@@ -85,7 +85,7 @@ public class GerenciadorScript : MonoBehaviour
         alvoLabels[1] = GameObject.Find("AlvoPVLabel").GetComponent<Text>();
         
         AvancarCena();
-        if(SceneManager.GetActiveScene().buildIndex == 0) {
+        if(SceneManager.GetActiveScene().buildIndex == 1) {
             SalvarAtributos(true);
         }
         CarregarAtributosSalvos();
