@@ -82,8 +82,9 @@ public class GerenciadorDialogo : MonoBehaviour
 
     public void Executar(string cena) {
         finalizado = false;
-        if(DefinesDialogos.dialogos.ContainsKey(cena)) {
-            acoes = DefinesDialogos.dialogos[cena];
+        DefinesDialogos dd = new DefinesDialogos();
+        if(dd.dialogos.ContainsKey(cena)) {
+            acoes = dd.dialogos[cena];
         } else {
             acoes = new List<Action<GerenciadorDialogo>> {};
         }
@@ -130,6 +131,12 @@ public class GerenciadorDialogo : MonoBehaviour
         cursor.IrParaPosicao(unid.transform.position);
     }
 
+    public void IrPara(string nomeUnid) {
+        Personagem unid = GameObject.Find(nomeUnid).GetComponent<Personagem>();
+        ultimoTipoDeAcao = MOVECURSOR;
+        cursor.IrParaPosicao(unid.transform.position);
+    }
+
     //movimenta o cursor para uma posição fixa em vez de ir para uma unidade
     public void IrPara(Vector3 pos) {
         ultimoTipoDeAcao = MOVECURSOR;
@@ -137,6 +144,14 @@ public class GerenciadorDialogo : MonoBehaviour
     }
 
     public void Mover(Personagem unid, Vector3 pos) {
+        ultimoTipoDeAcao = MOVEUNIDADE;
+        unid.destinoFinal = unid.transform.position + pos;
+        unid.TilesAcessiveis(cursor._tilemap);
+        unid.PrepararCaminho();
+    }
+
+    public void Mover(string nomeUnid, Vector3 pos) {
+        Personagem unid = GameObject.Find(nomeUnid).GetComponent<Personagem>();
         ultimoTipoDeAcao = MOVEUNIDADE;
         unid.destinoFinal = unid.transform.position + pos;
         unid.TilesAcessiveis(cursor._tilemap);
