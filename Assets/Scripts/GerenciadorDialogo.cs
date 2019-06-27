@@ -132,6 +132,7 @@ public class GerenciadorDialogo : MonoBehaviour
     }
 
     public void IrPara(string nomeUnid) {
+        nomeUnid = nomeUnid.Replace(" ","");
         Personagem unid = GameObject.Find(nomeUnid).GetComponent<Personagem>();
         ultimoTipoDeAcao = MOVECURSOR;
         cursor.IrParaPosicao(unid.transform.position);
@@ -151,6 +152,7 @@ public class GerenciadorDialogo : MonoBehaviour
     }
 
     public void Mover(string nomeUnid, Vector3 pos) {
+        nomeUnid = nomeUnid.Replace(" ","");
         Personagem unid = GameObject.Find(nomeUnid).GetComponent<Personagem>();
         ultimoTipoDeAcao = MOVEUNIDADE;
         unid.destinoFinal = unid.transform.position + pos;
