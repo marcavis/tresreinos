@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2494969339052069580}
   m_Layer: 5
   m_Name: JiangXun
-  m_TagString: Untagged
+  m_TagString: JiangXun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

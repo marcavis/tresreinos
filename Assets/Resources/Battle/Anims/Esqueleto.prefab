@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 6068323165044450233}
   - component: {fileID: 1521361206965120132}
   m_Layer: 5
-  m_Name: Jueyuan
-  m_TagString: Untagged
+  m_Name: Esqueleto
+  m_TagString: Esqueleto
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

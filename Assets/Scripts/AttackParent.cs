@@ -37,7 +37,7 @@ public class AttackParent : MonoBehaviour
     }
 
     public void SetRightAnimator(Animator anim) {
-        if (anim.name == l.name.Replace("(Clone)", "")) return;
+        if (anim.tag == l.tag) return;
         r = Instantiate(anim);
         // r.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
         RImage = Instantiate(anim.GetComponent<Image>());

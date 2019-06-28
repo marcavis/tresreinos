@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 7233715196659166417}
   - component: {fileID: 4475182379119969554}
   m_Layer: 5
-  m_Name: Jueyuan (1)
-  m_TagString: Untagged
+  m_Name: Ogro
+  m_TagString: Ogro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

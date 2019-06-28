@@ -5,6 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - HelperOverlay
+  - CapOgro
+  - Esqueleto
+  - GuanLong
+  - JiangXun
+  - MiaoLin
+  - Ogro
+  - TaoJiang
+  - Xingba
+  - ZhengXiulan
+  - LiuJingsheng
   layers:
   - Default
   - TransparentFX
