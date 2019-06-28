@@ -37,6 +37,7 @@ public class AttackParent : MonoBehaviour
     }
 
     public void SetRightAnimator(Animator anim) {
+        if (anim.name == l.name.Replace("(Clone)", "")) return;
         r = Instantiate(anim);
         // r.runtimeAnimatorController.animationClips[0].wrapMode = WrapMode.Once;
         RImage = Instantiate(anim.GetComponent<Image>());
@@ -56,16 +57,18 @@ public class AttackParent : MonoBehaviour
         canvas.GetComponent<Canvas>().enabled = false;
         Destroy(l.gameObject);
         Destroy(l);
-        Destroy(r.gameObject);
-        Destroy(r);
-        Destroy(RImage.gameObject);
-        Destroy(RImage);
         Destroy(lImage.gameObject);
         Destroy(lImage);
-        Destroy(rSrc.gameObject);
-        Destroy(rSrc);
         Destroy(lSrc.gameObject);
         Destroy(lSrc);
+        if (r != null) {
+            Destroy(r);
+            Destroy(r.gameObject);
+            Destroy(RImage.gameObject);
+            Destroy(RImage);
+            Destroy(rSrc.gameObject);
+            Destroy(rSrc);
+        }
     }
 
     public void PlayLeft(string dano, bool isDano, float xOffset = 1f, float yOffset = 0f) {
@@ -74,7 +77,8 @@ public class AttackParent : MonoBehaviour
             lSrc.Play();
             StartCoroutine(EndAnim(l));
         }
-        ControladorDano.criaTexto(dano, RImage.transform, xOffset, yOffset, isDano);
+        Transform t = RImage == null ? lImage.transform : RImage.transform;
+        ControladorDano.criaTexto(dano, t, xOffset, yOffset, isDano);
     }
 
     public void PlayRight(string dano, float xOffset = -1f, float yOffset = 0f) {
