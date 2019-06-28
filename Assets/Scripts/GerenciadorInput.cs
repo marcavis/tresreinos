@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GerenciadorInput : MonoBehaviour
 {   
@@ -9,6 +10,7 @@ public class GerenciadorInput : MonoBehaviour
     public GameObject telaInv;
     public GameObject telaInvTroca;
     public GameObject telaHab;
+    public GameObject telaPause;
 
     public GameObject dialogo;
     public GameObject[] cursores;
@@ -25,6 +27,7 @@ public class GerenciadorInput : MonoBehaviour
         telaInvTroca = GameObject.Find("CanvasInventarioTroca");
         telaHab = GameObject.Find("CanvasHabilidades");
         dialogo = GameObject.Find("CanvasDialogo");
+        telaPause = GameObject.Find("CanvasPausa");
         cursores = new GameObject[] { cursor, gs, telaInv, telaInvTroca, telaHab, null, dialogo };
         cursorAtivo = 0; //cursor de seleção de unidade no campo
     }
@@ -37,6 +40,8 @@ public class GerenciadorInput : MonoBehaviour
             SetEntrada(cursores[cursorAtivo], Teclas.ACTION);
         } else if (Input.GetButtonDown("Cancel")) {
             SetEntrada(cursores[cursorAtivo], Teclas.CANCEL);
+        } else if (Input.GetKeyDown(KeyCode.P)) {
+            telaPause.GetComponent<Canvas>().enabled = true;
         } else {
             float hori = Input.GetAxisRaw("Horizontal");
             float vert = Input.GetAxisRaw("Vertical");
@@ -93,5 +98,9 @@ public class GerenciadorInput : MonoBehaviour
         if(c == telaHab) {telaHab.GetComponent<GerenciadorTelaHab>().direcao = direcao;}
         if(c == null) {} //cursor nulo, sendo controlado pelo jogo/inimigo
         if(c == dialogo) {dialogo.GetComponent<GerenciadorDialogo>().direcao = direcao;}
+    }
+
+    public void VoltarMainMenu() {
+        SceneManager.LoadScene(0);
     }
 }

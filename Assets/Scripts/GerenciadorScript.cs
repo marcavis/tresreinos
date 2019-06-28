@@ -51,6 +51,7 @@ public class GerenciadorScript : MonoBehaviour
     void Start()
     {
         estadoBatalha = 0;
+        Debug.Log("zerou estado");
         gerenciadorInput = GameObject.Find("Input").GetComponent<GerenciadorInput>();
         canvas = GameObject.Find("CanvasMenuBatalha");
         canvas.GetComponent<Canvas>().enabled = false;

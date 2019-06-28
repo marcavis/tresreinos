@@ -486,4 +486,5 @@ public class ControleCursor : MonoBehaviour
             actions[i]();
         }
     }
+
 }
